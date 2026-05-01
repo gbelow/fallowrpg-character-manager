@@ -34,7 +34,7 @@ export const SkillPenaltyTable = {
 
 export const SMArr = [-2,-1,0,1,2,3,4]
 export const dmgArr = [0.5, 0.75, 1, 1.5, 2, 3, 4]
-export const injuryMap = {t1: 1, t2: 5, t3: 10, t4: 20}
+export const injuryMap = {T1: 1, T2: 5, T3: 10, T4: 20, T5: 30, T6: 40, T7: 50}
 
 export const CONVICTIONS = {
   adaptation: {
@@ -112,7 +112,7 @@ export const AFFLICTIONS = {
   rage: { mental: 1, controlable: true},
   confused: { mental: 3, controlable: true},
   // seduced: { controlable: true},
-  distracted: { controlable: true},
+  // distracted: { controlable: true},
   dominated: { controlable: true},
   
   weakened: { health: 1, controlable: true},

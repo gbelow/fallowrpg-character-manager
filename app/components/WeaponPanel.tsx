@@ -5,25 +5,48 @@ import { makeFullRoll } from "./utils";
 import { dmgArr } from "../domain/tables";
 import { useSkillLens } from "../hooks/useSkillLens";
 import { useCharacteristicLens } from "../hooks/useCharacteristicLens";
-import { useActiveCharacter } from "../hooks/useActiveCharacter";
 import { useWeaponLens } from "../hooks/useWeaponLens";
+import { useResourceLens } from "../hooks/useResourceLens";
+import { WeaponAttack } from "../domain/types";
+import { useCharacterCommands } from "../hooks/useCharacterCommands";
+import { useActiveCharacter } from "../hooks/useActiveCharacter";
+import { isCampaignCharacter } from "../domain/utils";
+
+function getCharDataHook() {
+  const char = (useActiveCharacter().character)
+  if(!char) return { STA: 0, AP: 0, setAP: () => null, updateSTA: () => null }
+  const isCampaignChar = isCampaignCharacter(char)
+  if(!isCampaignChar) return { STA: 0, AP: 0, setAP: () => null, updateSTA: () => null }
+
+  const [STA] = useResourceLens('STA')
+  const { updateSTA } = useCharacterCommands()
+  const [AP, setAP] = useResourceLens('AP')
+
+  return { STA, AP, setAP, updateSTA }
+}
 
 export function WeaponPanel(){
-  const {weapons, equip, unequip} = useWeaponLens()
+  const {weapons, unequip} = useWeaponLens()
+  const { STA, AP, setAP, updateSTA } = getCharDataHook()
 
   const [lastAtk, setLastAtk] = useState({atk:0, properties: '', weapon: ''})
   const [strike] = useSkillLens('strike')
   const [accuracy] = useSkillLens('accuracy')
   const [STR] = useCharacteristicLens('STR') ?? 10
 
-  const pressAtk = (range: string, heavyMod:number, properties:string, weapon: string) => {
+  const pressAtk = (atk: WeaponAttack, modification: string, weapon: string,) => {
+    if(AP <= atk.AP) return
+    if(atk.heavyMod > 0 && STA < 1) return
+    setAP(AP - atk.AP - (modification !== 'heavy' ? 0 : atk.heavyMod === 0.5 ? 1 : atk.heavyMod === 1 ? 2 : atk.heavyMod === 1.5 ? 3 : 0 ))
+    if(atk.heavyMod > 0) updateSTA(STA - 1)
+
     const roll = makeFullRoll()
-    let atk = 0
-    if(heavyMod == 1) atk -= 2 
-    if(heavyMod >= 1.5) atk -= 3 
-    if(range=='ranged') atk += roll + accuracy
-    if(range=='melee') atk += roll + strike
-    setLastAtk({atk, properties, weapon})
+    let val = 0
+    if(atk.heavyMod == 1) val -= 2 
+    if(atk.heavyMod >= 1.5) val -= 3 
+    if(atk.range=='ranged') val += roll + accuracy
+    if(atk.range=='melee') val += roll + strike
+    setLastAtk({atk: val, properties: modification, weapon})
   }
 
   return(
@@ -53,8 +76,8 @@ export function WeaponPanel(){
                     <td>reach</td>
                     <td>DEF</td>
                     <td>properties</td>
-                    <td>atk</td>
-                    <td>heav atk</td>
+                    <td>basic atk</td>
+                    <td>moded atk</td>
                   </tr>
                 </thead>
                 <tbody>
@@ -63,13 +86,13 @@ export function WeaponPanel(){
                       <tr key={el+index.toString()}>
                         <td>{atk.RES}</td>
                         <td>{atk.TGH}</td>
-                        <td>{atk.impact+(atk.heavyMod ? '+' + (atk.type == 'melee' ? Math.floor(atk.heavyMod*STR*dmgArr[el.scale-1])  : atk.heavyMod*dmgArr[el.scale-1]) : '' ) + '/' +Math.floor(atk.impact*atk.penMod)+(atk.heavyMod ? '+'+(atk.type == 'melee' ? Math.floor(atk.heavyMod*atk.penMod*STR*dmgArr[el.scale-1]) : atk.heavyMod*atk.penMod*dmgArr[el.scale-1]) : '')}</td>
-                        <td>{atk.AP}</td>
+                        <td>{parseAtkDamage(atk, el.scale, STR)}</td>
+                        <td>{atk.AP + '+' + (atk.heavyMod === 0.5 ? 1 : atk.heavyMod === 1 ? 2 : atk.heavyMod === 1.5 ? 3 : 0)}</td>
                         <td>{atk.range}</td>
                         <td>{atk.deflection}</td>
                         <td>{atk.props}</td>
-                        <td><input className="bg-gray-500 border rounded px-1" type='button' value={'atk'} onClick={() => pressAtk(atk.type, 0, atk.props, el.name)} /></td>
-                        <td>{atk.heavyMod > 0 ? <input className="bg-gray-500 border rounded px-1" type='button' value={'atk'} onClick={() => pressAtk(atk.type, atk.heavyMod, atk.props, el.name)}  /> : null}</td>
+                        <td><input className="bg-gray-500 border rounded px-1" type='button' value={'basic'} onClick={() => pressAtk(atk, 'basic', el.name)} /></td>
+                        <td>{atk.heavyMod > 0 ? <input className="bg-gray-500 border rounded px-1" type='button' value={'heavy'} onClick={() => pressAtk(atk, 'heavy', el.name)}  /> : null}</td>
                       </tr>
                     )
                   }
@@ -80,5 +103,12 @@ export function WeaponPanel(){
         })
       }
     </div>
+  )
+}
+
+function parseAtkDamage(atk: WeaponAttack, scale: number, STR: number) {
+  return(
+    atk.impact+(atk.heavyMod ? '+' + (atk.type == 'melee' ? Math.floor(atk.heavyMod*STR*dmgArr[scale-1])  : atk.heavyMod*dmgArr[scale-1]) : '' ) + '/' +Math.floor(atk.impact*atk.penMod)+(atk.heavyMod ? '+'+(atk.type == 'melee' ? Math.floor(atk.heavyMod*atk.penMod*STR*dmgArr[scale-1]) : atk.heavyMod*atk.penMod*dmgArr[scale-1]) : '')
+
   )
 }

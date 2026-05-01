@@ -389,14 +389,14 @@
       {
         "type": "melee",
         "impact": 0,
-        "heavyMod":1 ,
+        "heavyMod":0 ,
         "penMod": 1,
         "range": "long I",
         "RES": 30,
         "TGH": 50,
         "AP": 3,
         "deflection":0,
-        "props": "gancho ",
+        "props": "hook ",
         "handed":"two"
       },
       {
@@ -449,14 +449,14 @@
       {
         "type": "melee",
         "impact": 0,
-        "heavyMod":1 ,
+        "heavyMod":0 ,
         "penMod": 1,
         "range": "long I",
         "RES": 30,
         "TGH": 50,
         "AP": 3,
         "deflection":0,
-        "props": "gancho ",
+        "props": "hook ",
         "handed":"two"
       },
       {

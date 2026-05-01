@@ -22,6 +22,8 @@ export function useActiveCharacter() {
       updateCharacter(updater as unknown as (c: Character) => Character);
     } else if (selectedTab === 'play') {
       updateCombatActive(updater as unknown as (c: CampaignCharacter) => CampaignCharacter);
+    } else if (selectedTab === 'break') {
+      updateCombatActive(updater as unknown as (c: CampaignCharacter) => CampaignCharacter);
     }
   };
 

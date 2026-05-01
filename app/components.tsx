@@ -12,9 +12,9 @@ import { Armor, Character, Weapon } from './domain/types';
 import { useCharacterStore } from './stores/useCharacterStore';
 import { equipArmor } from './domain/commands/equipArmor';
 import { equipWeapon } from './domain/commands/equipWeapon';
-import { scaleArmor } from './domain/selectors/helpers';
 import { useCombatStore } from './stores/useCombatStore';
 import { useActiveCharacter } from './hooks/useActiveCharacter';
+import { BreakMe } from './components/BreakMe';
 
 
 export function ArmorSelector(){
@@ -70,7 +70,6 @@ export function WeaponSelector(){
 }
 
 
-
 export function CharacterSelector(){
 
   const [open, setOpen] = useState<{ [key: string]: boolean }>({});
@@ -116,71 +115,75 @@ export function CharacterSelector(){
     updateBaseCharacterList()
   }
 
+  
+
   return (
     <div className="bg-gray-900 text-white p-2">
-      {baseCharacterList && Object.entries(baseCharacterList).sort((a,b) => a[0] > b[0] ? 1 : -1).map(([topKey, sub]) => (
-        <div key={topKey} className="mb-2">
-          {/* Top level */}
-          <button
-            onClick={() => toggle(topKey)}
-            className="w-full text-left font-bold p-2 bg-gray-800 rounded"
-          >
-            {topKey}
-          </button>
-          {open[topKey] && (
-            <div className=" ml-4 mt-1">
-              {sub ? Object.entries(sub).sort((a,b) => a[0] > b[0] ? 1 : -1).map(([midKey, chars]) => (
-                <div key={midKey} className='pb-1'>
-                  <div key={midKey} className="flex flex-row mb-1 gap-1">
-                    {/* Second level */}
-                    <button
-                      onClick={() => {
-                        const char = chars as Character
-                        if(char.name ){
-                          handleSelectCharacterClick(char)
-                        }else{
-                          toggle(`${topKey}-${midKey}`)
-                        }
-                      }}
-                      className="w-full text-left font-semibold p-1 bg-gray-700 rounded"
-                    >
-                      {midKey}
-                    </button >
-                    <button className="w-6 text-left font-semibold p-1 bg-gray-700 rounded" onClick={() => createCharacter(topKey+'/'+midKey)}>
-                      +
-                    </button>
+      {
+        baseCharacterList && Object.entries(baseCharacterList).sort((a,b) => a[0] > b[0] ? 1 : -1).map(([topKey, sub]) => (
+          <div key={topKey} className="mb-2">
+            {/* Top level */}
+            <button
+              onClick={() => toggle(topKey)}
+              className="w-full text-left font-bold p-2 bg-gray-800 rounded"
+            >
+              {topKey}
+            </button>
+            {open[topKey] && (
+              <div className=" ml-4 mt-1">
+                {sub ? Object.entries(sub).sort((a,b) => a[0] > b[0] ? 1 : -1).map(([midKey, chars]) => (
+                  <div key={midKey} className='pb-1'>
+                    <div key={midKey} className="flex flex-row mb-1 gap-1">
+                      {/* Second level */}
+                      <button
+                        onClick={() => {
+                          const char = chars as Character
+                          if(char.name ){
+                            handleSelectCharacterClick(char)
+                          }else{
+                            toggle(`${topKey}-${midKey}`)
+                          }
+                        }}
+                        className="w-full text-left font-semibold p-1 bg-gray-700 rounded"
+                      >
+                        {midKey}
+                      </button >
+                      <button className="w-6 text-left font-semibold p-1 bg-gray-700 rounded" onClick={() => createCharacter(topKey+'/'+midKey)}>
+                        +
+                      </button>
+                    </div>
+                    <div>
+                      {open[`${topKey}-${midKey}`] && (
+                        <div className="ml-4 mt-1 space-y-1">
+                          {Object.entries(chars).sort((a,b) => a[0] > b[0] ? 1 : -1).map(([charKey, charVal]) => {
+                            const val = charVal as Character
+                            return(
+                              <div
+                                key={charKey}
+                                className="flex flex-row p-1 bg-gray-600 rounded cursor-pointer hover:bg-gray-500"
+                              >
+                                <input type={'button'} key={charKey} className='text-center w-full hover:bg-gray-500 p-1 ' value={charKey} aria-label={charKey} onClick={() => handleSelectCharacterClick(val)}/>
+                                {/* {charKey} */}
+                                {
+                                  selectedGameTab == 'edit' ?
+                                  <button className="w-6 text-left font-semibold p-1 bg-red-500 rounded" onClick={() => handleDeleteBaseCharacter(topKey+'/'+midKey, charKey)}>
+                                    -
+                                  </button>
+                                  : null
+                                }
+                              </div>
+                            )
+                          })}
+                        </div>
+                      )}
+                    </div>
                   </div>
-                  <div>
-                    {open[`${topKey}-${midKey}`] && (
-                      <div className="ml-4 mt-1 space-y-1">
-                        {Object.entries(chars).sort((a,b) => a[0] > b[0] ? 1 : -1).map(([charKey, charVal]) => {
-                          const val = charVal as Character
-                          return(
-                            <div
-                              key={charKey}
-                              className="flex flex-row p-1 bg-gray-600 rounded cursor-pointer hover:bg-gray-500"
-                            >
-                              <input type={'button'} key={charKey} className='text-center w-full hover:bg-gray-500 p-1 ' value={charKey} aria-label={charKey} onClick={() => handleSelectCharacterClick(val)}/>
-                              {/* {charKey} */}
-                              {
-                                selectedGameTab == 'edit' ?
-                                <button className="w-6 text-left font-semibold p-1 bg-red-500 rounded" onClick={() => handleDeleteBaseCharacter(topKey+'/'+midKey, charKey)}>
-                                  -
-                                </button>
-                                : null
-                              }
-                            </div>
-                          )
-                        })}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )): null}
-            </div>
-          )}
-        </div>
-      ))}
+                )): null}
+              </div>
+            )}
+          </div>
+        ))
+      }
       {
         <div>
           <input type={'button'} key={'oplay'} className='w-full font-bold bg-gray-800 rounded hover:bg-gray-500 p-1 text-left' value={'PCs'} aria-label={'oplay'} onClick={() => setOpenCampaignChars(!openCampaignChars)}/>
@@ -242,6 +245,7 @@ export function App(){
           <input className={'py-1 rounded px-2 hover:bg-gray-500 '+ (selectedGameTab == 'edit' ? 'bg-white text-black' : '')} type={'button'} aria-label={'head_char'} value={'Character'} onClick={() => setSelectedGameTab('edit')}/>
           {/* <input className={'py-1 rounded px-2 hover:bg-gray-500 '+ (selectedPage == 'Play' ? 'bg-white text-black' : '')} type={'button'} aria-label={'head_play'} value={'Play'} onClick={() => setSelectedPage('Play')}/> */}
           <input className={'py-1 rounded px-2 hover:bg-gray-500 hidden md:block '+ (selectedGameTab == 'play' ? 'bg-white text-black' : '')} type={'button'} aria-label={'head_play'} value={'Run'} onClick={() => setSelectedGameTab('play')}/>
+          <input className={'py-1 rounded px-2 hover:bg-gray-500 hidden md:block '+ (selectedGameTab == 'break' ? 'bg-white text-black' : '')} type={'button'} aria-label={'head_break'} value={'Break Me'} onClick={() => setSelectedGameTab('break')}/>
         </div>
       </header>
 
@@ -286,6 +290,8 @@ export function App(){
             <CharacterCreator /> :
             selectedGameTab == 'play' ?
             <PlayPanel/> :
+            selectedGameTab == 'break' ?
+            <BreakMe/> :
             null
         }
       </div>

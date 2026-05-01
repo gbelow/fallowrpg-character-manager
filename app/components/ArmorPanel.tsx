@@ -19,40 +19,40 @@ export function ArmorPanel(){
         <thead>
           <tr >
             <th></th>
-            <th>PROT</th>
-            <th>TGH</th>
-            <th>INS</th>
+            <th>PROT (blunt)</th>
+            <th>TGH (piercing)</th>
+            <th>INS (burn)</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>armor</td>
+            <td>T1</td>
             <td>{ armor.prot}</td>
             <td>{ armor.TGH}</td>
             <td>{ armor.INS}</td>
           </tr>
           <tr>
-            <td>light</td>
+            <td>T2</td>
             <td>{effectiveRES + armor.prot}</td>
             <td>{effectiveTGH + armor.TGH}</td>
             <td>{effectiveINS + armor.INS}</td>
           </tr>
           <tr>
-            <td>serious</td>
+            <td>T3</td>
             <td>{effectiveRES*2 + armor.prot}</td>
             <td>{effectiveTGH*2 + armor.TGH}</td>
             <td>{effectiveINS*2 + armor.INS}</td>
           </tr>
           <tr>
-            <td>deadly</td>
+            <td>T4</td>
             <td>{effectiveRES*3 + armor.prot}</td>
             <td>{effectiveTGH*3 + armor.TGH}</td>
             <td>{effectiveINS*3 + armor.INS}</td>
           </tr>
           <tr>
-            <td>sudden</td>
-            <td>{effectiveRES*6 + armor.prot}</td>
-            <td>{effectiveTGH*6 + armor.TGH}</td>
+            <td>T5+</td>
+            <td>{effectiveRES*4 + armor.prot}</td>
+            <td>{effectiveTGH*4 + armor.TGH}</td>
             <td></td>
           </tr>
         </tbody>

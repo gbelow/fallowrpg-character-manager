@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { AppStoreContext } from "./appStoreProvider";
 import { useStore } from "zustand";
 
-type GameTabs = 'edit' | 'play' 
+type GameTabs = 'edit' | 'play' | 'break'
 
 export interface AppState {
   selectedGameTab: GameTabs

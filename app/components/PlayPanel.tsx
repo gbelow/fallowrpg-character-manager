@@ -17,6 +17,7 @@ import { useAfflictionLens } from '../hooks/useAfflictionLens';
 import { useGameCommands } from '../hooks/useGameCommands';
 import { useActiveCharacterData } from '../hooks/useCharacterDataLens';
 import { useShallow } from 'zustand/shallow';
+import { injuryMap } from '../domain/tables';
 
 
 export function PlayPanel(){
@@ -87,7 +88,7 @@ export function PlayPanel(){
               <DamageControl />
               <InjuryControl type='injuryLevel' />
               <InjuryControl type='hemorrhage' />
-              <input type="button" className='w-20 h-20 border' onClick={killCharacter} value="Kill" /> 
+              <input type="button" className='border p-2 h-12 m-auto' onClick={killCharacter} value="Kill" /> 
             </div>                  
             <div className='flex flex-row gap-2 justify-center'>
               <SimpleMove moveName='basic' title={'basic (1AP)'} />
@@ -172,24 +173,35 @@ export function PlayPanel(){
   )
 }
 
-function DamageControl(){
-  const {injuries, setInjury} = useInjuryLens()
+function DamageButton({tier}: {tier: keyof typeof injuryMap}){
+  const { injuries, setInjury } = useInjuryLens()
+  const [AP, setAP] = useResourceLens('AP')
+  const dealDamage = (hasInterrupt: boolean) => {
+    setInjury('injuryLevel', injuries.injuryLevel + (injuryMap[tier] ?? 0));
+    hasInterrupt && setAP(AP - 2) 
+  }
 
-  const dealDamage = (amount: number) => {
-    setInjury('injuryLevel', injuries.injuryLevel + amount);
-  };
+  return(
+    <div className='flex flex-row'>
+      <input type='button' className='border p-1' aria-label={`cause${tier}Injury`} value={tier} onClick={() => dealDamage(false)} />
+      <input type='button' className='border p-1 px-2' aria-label={`cause${tier}Interrupt`} value={'i'} onClick={() => dealDamage(true)} />
+    </div>
+  )
+}
+
+function DamageControl(){
 
   return(
     <div className='flex flex-row gap-4 justify-center items-center'>      
       <div className='flex flex-col justify-center items-center gap-2 ml-4'>
         <span className='text-xs'>Cause Injury</span>
         <div className='flex flex-row gap-2' >
-          <input type='button' className='border p-1 rounded' aria-label={'causet2Injury'} value={'T2'} onClick={() => dealDamage(5)} />
-          <input type='button' className='border p-1 rounded' aria-label={'causet3Injury'} value={'T3'} onClick={() => dealDamage(10)} />
+          <DamageButton tier='T2' />
+          <DamageButton tier='T3' />
         </div>
         <div className='flex flex-row gap-2'>
-          <input type='button' className='border p-1 rounded' aria-label={'causet4Injury'} value={'T4'} onClick={() => dealDamage(20)} />
-          <input type='button' className='border p-1 rounded' aria-label={'causet5Injury'} value={'T5'} onClick={() => dealDamage(30)} />
+          <DamageButton tier='T4' />
+          <DamageButton tier='T5' />
         </div>
       </div>      
     </div>
@@ -209,7 +221,7 @@ function DamageControl(){
           <input className='w-12 text-center' type='number' inputMode="numeric" aria-label={'injury'} value={value} onChange={(e) => setInjury( type, parseInt(e.target.value))} />
           <div className='flex flex-row gap-2'>
             <input type='button' aria-label={'causeInjury'} value={'+'} onClick={() => setInjury( type, value + 1)} />
-            <input type='button' aria-label={'healInjury'} value={'-'} onClick={() => type == 'injuryLevel' ? cureIL(value - 1) : setInjury( type, value + 1)} />
+            <input type='button' aria-label={'healInjury'} value={'-'} onClick={() => type == 'injuryLevel' ? cureIL(value - 1) : setInjury( type, value - 1)} />
           </div>
         </div>
       </div>
