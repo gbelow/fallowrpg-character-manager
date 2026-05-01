@@ -59,12 +59,12 @@
   },
   "movement": {
     "basic": 1,
-    "careful": 1,
-    "crawl": 1,
+    "careful": 0.5,
+    "crawl": 0.33,
     "run": 0,
     "jump": 0,
-    "swim": 1,
-    "fast swim": 1,
+    "swim": 0.33,
+    "fast swim": 0.5,
     "stand": 0
   },
   "hasGauntlets": 1,
