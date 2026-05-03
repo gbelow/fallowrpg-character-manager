@@ -63,13 +63,13 @@
         "type": "melee",
         "impact": 8,
         "heavyMod": 0.5,
-        "penMod": 2,
+        "penMod": 3,
         "range": "short",
         "RES": 20,
         "TGH": 40,
         "AP": 3,
         "deflection":0,
-        "props": "DEF, heavy I, precise ",
+        "props": "DEF, heavy I, precise, draw ",
         "handed":"small"
       }
     ]
@@ -503,8 +503,8 @@
     "attacks":[
       {
         "type": "ranged",
-        "impact": 7,
-        "heavyMod":1,
+        "impact": 5,
+        "heavyMod":0,
         "penMod": 3,
         "range": "100m",
         "RES": 10,
@@ -525,8 +525,8 @@
     "attacks":[
       {
         "type": "ranged",
-        "impact": 9,
-        "heavyMod":1,
+        "impact": 6,
+        "heavyMod":0,
         "penMod": 3,
         "range": "150m",
         "RES": 10,
@@ -547,8 +547,8 @@
       {
         "type": "ranged",
         "impact": 8,
-        "heavyMod":2,
-        "penMod": 3,
+        "heavyMod":0,
+        "penMod": 4,
         "range": "200m",
         "RES": 10,
         "TGH": 10,

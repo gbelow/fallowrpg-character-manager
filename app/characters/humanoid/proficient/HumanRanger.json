@@ -79,7 +79,50 @@
     "penalty": 0,
     "type": "light"
   },
-  "weapons": {},
+  "weapons": {
+    "ShortBow": {
+      "name": "ShortBow",
+      "handed": "two",
+      "penalty": 0,
+      "scale": 3,
+      "attacks": [
+        {
+          "type": "ranged",
+          "impact": 5,
+          "heavyMod": 0,
+          "penMod": 3,
+          "range": "100m",
+          "RES": 10,
+          "TGH": 10,
+          "AP": 4,
+          "deflection": 0,
+          "props": "precise",
+          "handed": "two"
+        }
+      ]
+    },
+    "dagger": {
+      "name": "dagger",
+      "handed": "small",
+      "penalty": 0,
+      "scale": 3,
+      "attacks": [
+        {
+          "type": "melee",
+          "impact": 8,
+          "heavyMod": 0,
+          "penMod": 2,
+          "range": "short",
+          "RES": 20,
+          "TGH": 20,
+          "AP": 3,
+          "deflection": 0,
+          "props": "DEF, draw, precise",
+          "handed": "small"
+        }
+      ]
+    }
+  },
   "containers": {},
   "notes": ""
 }

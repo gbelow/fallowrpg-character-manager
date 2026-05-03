@@ -172,6 +172,27 @@
           "handed": "two"
         }
       ]
+    },
+    "rondel": {
+      "name": "rondel",
+      "handed": "small",
+      "penalty": 0,
+      "scale": 3,
+      "attacks": [
+        {
+          "type": "melee",
+          "impact": 8,
+          "heavyMod": 0.5,
+          "penMod": 3,
+          "range": "short",
+          "RES": 20,
+          "TGH": 40,
+          "AP": 3,
+          "deflection": 0,
+          "props": "DEF, heavy I, precise, draw ",
+          "handed": "small"
+        }
+      ]
     }
   },
   "containers": {},

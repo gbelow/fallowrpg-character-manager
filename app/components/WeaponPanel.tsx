@@ -9,15 +9,8 @@ import { useWeaponLens } from "../hooks/useWeaponLens";
 import { useResourceLens } from "../hooks/useResourceLens";
 import { WeaponAttack } from "../domain/types";
 import { useCharacterCommands } from "../hooks/useCharacterCommands";
-import { useActiveCharacter } from "../hooks/useActiveCharacter";
-import { isCampaignCharacter } from "../domain/utils";
 
 function getCharDataHook() {
-  const char = (useActiveCharacter().character)
-  if(!char) return { STA: 0, AP: 0, setAP: () => null, updateSTA: () => null }
-  const isCampaignChar = isCampaignCharacter(char)
-  if(!isCampaignChar) return { STA: 0, AP: 0, setAP: () => null, updateSTA: () => null }
-
   const [STA] = useResourceLens('STA')
   const { updateSTA } = useCharacterCommands()
   const [AP, setAP] = useResourceLens('AP')
@@ -38,14 +31,14 @@ export function WeaponPanel(){
     if(AP <= atk.AP) return
     if(atk.heavyMod > 0 && STA < 1) return
     setAP(AP - atk.AP - (modification !== 'heavy' ? 0 : atk.heavyMod === 0.5 ? 1 : atk.heavyMod === 1 ? 2 : atk.heavyMod === 1.5 ? 3 : 0 ))
-    if(atk.heavyMod > 0) updateSTA(STA - 1)
+    if(modification !== 'basic') updateSTA(STA - 1)
 
     const roll = makeFullRoll()
-    let val = 0
+    let val = roll
     if(atk.heavyMod == 1) val -= 2 
     if(atk.heavyMod >= 1.5) val -= 3 
-    if(atk.range=='ranged') val += roll + accuracy
-    if(atk.range=='melee') val += roll + strike
+    if(atk.type=='ranged') val += accuracy
+    if(atk.type=='melee') val += strike
     setLastAtk({atk: val, properties: modification, weapon})
   }
 
