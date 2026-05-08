@@ -10,17 +10,11 @@ import { useResourceLens } from "../hooks/useResourceLens";
 import { WeaponAttack } from "../domain/types";
 import { useCharacterCommands } from "../hooks/useCharacterCommands";
 
-function getCharDataHook() {
-  const [STA] = useResourceLens('STA')
-  const { updateSTA } = useCharacterCommands()
-  const [AP, setAP] = useResourceLens('AP')
-
-  return { STA, AP, setAP, updateSTA }
-}
-
 export function WeaponPanel(){
   const {weapons, unequip} = useWeaponLens()
-  const { STA, AP, setAP, updateSTA } = getCharDataHook()
+  const [STA] = useResourceLens('STA')
+  const { updateSTA } = useCharacterCommands()
+  const [AP, setAP] = useResourceLens('AP')  
 
   const [lastAtk, setLastAtk] = useState({atk:0, properties: '', weapon: ''})
   const [strike] = useSkillLens('strike')
@@ -28,7 +22,7 @@ export function WeaponPanel(){
   const [STR] = useCharacteristicLens('STR') ?? 10
 
   const pressAtk = (atk: WeaponAttack, modification: string, weapon: string,) => {
-    if(AP <= atk.AP) return
+    if(AP < atk.AP) return
     if(atk.heavyMod > 0 && STA < 1) return
     setAP(AP - atk.AP - (modification !== 'heavy' ? 0 : atk.heavyMod === 0.5 ? 1 : atk.heavyMod === 1 ? 2 : atk.heavyMod === 1.5 ? 3 : 0 ))
     if(modification !== 'basic') updateSTA(STA - 1)

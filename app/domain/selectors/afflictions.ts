@@ -29,11 +29,7 @@ export function getAfflictionPenalty(
 
   const injuryPenalty = (SkillPenaltyTable["injury"].includes(skill) ? Math.floor(getInjuryPenalty(character)) : 0)
 
-  const afflictions = getAfflictions(character)
-  if (afflictions.length === 0) {
-    return injuryPenalty
-  }
-  
+  const afflictions = getAfflictions(character)  
   let totalPenalty = 0  
   
   for (const afflictionName of afflictions) {
@@ -55,7 +51,7 @@ export function getAfflictionPenalty(
     }
   }
 
-  return totalPenalty - injuryPenalty
+  return totalPenalty + injuryPenalty
 }
 
 function getPenaltyForCategory(
