@@ -1,6 +1,8 @@
 'use client'
+import { putGauntlets, putHelm } from '../domain/commands/equipArmor'
 import { makeCharacter } from '../domain/factories'
 import { ArmorSchema } from '../domain/types'
+import { useActiveCharacter } from '../hooks/useActiveCharacter'
 import { useArmorLens } from '../hooks/useArmorLens'
 import { useCharacteristicLens } from '../hooks/useCharacteristicLens'
 
@@ -14,7 +16,8 @@ export function ArmorPanel(){
 
   return(
     <>
-    <div>Armor: {armor.name}</div>
+      <div className='font-bold '>Armor: {armor.name}</div>
+      <ArmorAddons />
       <table className='w-84 md:w-full text-center'>
         <thead>
           <tr >
@@ -63,5 +66,22 @@ export function ArmorPanel(){
         <span>Coverage {armor.cover}</span>
       </div>
     </>
+  )
+}
+
+function ArmorAddons (){
+  const {character, update} = useActiveCharacter()
+
+  return(
+    <div className='flex flex-row gap-2'>
+        <div className='flex flex-col'>
+          <label>Gauntlet</label>
+          <input type='checkbox' aria-label={'gaunt'} name={'gaunt'} checked={!!character?.hasGauntlets} onChange={() => update(putGauntlets)} />
+        </div>
+        <div className='flex flex-col'>
+          <label>Full Helm</label>
+          <input type='checkbox' aria-label={'helm'} name={'helm'} checked={!!character?.hasHelm} onChange={() => update(putHelm)} />
+        </div>
+      </div>
   )
 }

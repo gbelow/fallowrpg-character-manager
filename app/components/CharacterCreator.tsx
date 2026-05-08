@@ -6,57 +6,114 @@ import { WeaponPanel } from './WeaponPanel';
 import { ArmorPanel } from './ArmorPanel';
 import { useCharacterStore } from '../stores/useCharacterStore';
 import { Character, Characteristics, Movement, Skills } from '../domain/types';
-import { makeTextLens } from '../domain/selectors/factories';
-import { putGauntlets, putHelm } from '../domain/commands/equipArmor';
 import { useAppStore } from '../stores/useAppStore';
 import { resetSkill, resetAllSkills } from '../domain/commands/resetSkills';
 import { useSkillLens } from '../hooks/useSkillLens';
 import { useMovementLens } from '../hooks/useMovementLens';
 import { useCharacteristicLens } from '../hooks/useCharacteristicLens';
 import { useTextLens } from '../hooks/useTextLens';
+import { ST } from 'next/dist/shared/lib/utils';
 
-export function CharacterCreator() {
+function SaveBaseCharacterButton(){
+  const character = useCharacterStore(s => s.character)
+  const updateBaseCharacterList = useAppStore(s => s.updateBaseCharacterList)
 
-  const [showConfirm, setShowConfirm] = useState(false);
-
-  const {character, updateCharacter} = useCharacterStore(s => s)
-  const {updateBaseCharacterList, updatePlayerCharacterList} = useAppStore(s => s)
-  
-
-  const handleDeleteCharacterClick = (name: string) => {
-    deleteCharacter(name)
-    updateBaseCharacterList()
-  }  
-
-  const handleSaveBaseCharacterClick = () => {
+  const handleClick = () => {
     if(!character) return
     upsertBaseCharacter(character)
     updateBaseCharacterList()
   }
 
-  const handleSaveCharacterClick = () => {
+  return(
+    <input className='border rounded w-12 p-1' type='button' value={'save'} onClick={handleClick} />
+  )
+}
+
+function SavePlayerCharacterButton(){
+  const character = useCharacterStore(s => s.character)
+  const updatePlayerCharacterList = useAppStore(s => s.updatePlayerCharacterList)
+
+  const handleClick = () => {
     if(!character) return
     saveCharacter(character)
     updatePlayerCharacterList()
   }
-  
-  // size, race, abilities, armor penalties, injuries, movements, AP, STA, STA regen
-  return (
-    <div className='grid grid-col-1 md:grid-cols-12 w-full px-1'>
-      <div className='md:col-span-7 flex flex-col gap-2 text-sm gap-2 px-1'>
-        <div>
-          <button className='border p-2 rounded' onClick={ () => updateCharacter(resetAllSkills())}>Reset Skills</button>
+
+  return(
+    <input className='border rounded w-12 p-1' type='button' value={'save'} onClick={handleClick} />
+  )
+}
+
+function DeleteCharacterButton(){
+  const character = useCharacterStore(s => s.character)
+  const updateBaseCharacterList = useAppStore(s => s.updateBaseCharacterList)
+  const [showConfirm, setShowConfirm] = useState(false);
+
+  const handleDeleteCharacterClick = () => {
+    if(!character) return
+    deleteCharacter(character.name)
+    updateBaseCharacterList()
+    setShowConfirm(false)
+  }
+
+  return(
+    <>
+      <input className='border rounded bg-red-700 w-12 p-1' type='button' value={'delete'} onClick={()=> setShowConfirm(true)} />
+      {showConfirm && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black w-64 h-32 m-auto">
+          <div className="p-4 rounded shadow-md w-64">
+            <p className="mb-4">Are you sure you want to delete {character?.name}?</p>
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => setShowConfirm(false)}
+                className="px-3 py-1 border rounded"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDeleteCharacterClick}
+                className="px-3 py-1 bg-red-500 text-white rounded"
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
         </div>
+      )}
+    </>
+  )
+}
+
+function ResetAllSkillsButton(){
+  const updateCharacter = useCharacterStore(s => s.updateCharacter)
+
+  const handleResetSkills = () => {
+    updateCharacter(resetAllSkills())
+  }
+
+  return(
+    <button className='border p-2 rounded m-auto' onClick={handleResetSkills}>Reset Skills</button>
+  )
+}
+
+export function CharacterCreator() {
+
+  const STA = useCharacteristicLens('STA')[0] ?? 0
+  const STARegen = Math.floor(STA / 4)
+  
+  return (
+    <div className='grid grid-col-1 md:grid-cols-12 w-full px-1 py-2 gap-2'>
+      <div className='md:col-span-7 flex flex-col gap-2 text-sm gap-2 px-1'>        
           <div className='flex flex-row justify-center gap-2'>
             <label htmlFor="name" className='font-bold'>Name: </label>
             <TextItem keyName={'name'} mode='normal'/>
-            {/* <input id='del' className='border rounded bg-red-700 w-12 p-1' type='button' value={'delete'} onClick={()=> setShowConfirm(true)} /> */}
-            <input id='log' className='border rounded w-12 p-1' type='button' value={'save'} onClick={handleSaveBaseCharacterClick } />
+            <SaveBaseCharacterButton />
+            <DeleteCharacterButton />
           </div>
         <div className='flex flex-row gap-2 justify-center'>
           <div>AP: {6}</div>
-          <div>STA: {character?.characteristics.STA}</div>
-          <div>STA regen: {Math.floor((character?.characteristics.STA ?? 0)/4)}</div>
+          <div>STA: {STA}</div>
+          <div>STA regen: {STARegen}</div>
         </div>
         <div className='flex flex-row gap-2 justify-center'>
           <Movementinput movementName={'basic'}  title={'basic (1AP)'} />
@@ -85,14 +142,7 @@ export function CharacterCreator() {
           <StatDial stat={'TGH'} title={'TGH'} />
           <StatDial stat={'INS'} title={'INS'} />
           {/* <StatDial stat={gearPen} natStat={gearPen} setStat={setGearPen} title={'Gear pen'} /> */}
-          <div className='flex flex-col'>
-            <label>Gauntlet</label>
-            <input type='checkbox' aria-label={'gaunt'} name={'gaunt'} checked={!!character?.hasGauntlets} onChange={() => updateCharacter(putGauntlets)} />
-          </div>
-          <div className='flex flex-col'>
-            <label>Full Helm</label>
-            <input type='checkbox' aria-label={'helm'} name={'helm'} checked={!!character?.hasHelm} onChange={() => updateCharacter(putHelm)} />
-          </div>
+          
 
         </div>
         <div className='flex flex-row gap-2 justify-center'>
@@ -103,7 +153,7 @@ export function CharacterCreator() {
           <StatDial stat={'conviction1'} title={'Conviction1'} />
           <StatDial stat={'conviction2'} title={'Conviction2'} />
         </div>
-
+        <ResetAllSkillsButton />
         <div className='flex flex-row gap-2 justify-center'>
           <SkillItem key={'strike'} skillName='strike' title='strike' />
           <SkillItem key={'accuracy'} skillName='accuracy' title='accuracy' />
@@ -145,47 +195,19 @@ export function CharacterCreator() {
         <TextItem aria-label='notes' keyName='notes' mode='large'/>
         {/* <textarea aria-label='notes' className='border rounded p-1 min-h-32' onChange={val => setNotes(val.target.value)} value={notes} /> */}
         
-        <button type='button' className='border rounded p-2' onClick={handleSaveCharacterClick}>Save</button>
+        <SavePlayerCharacterButton />
       </div>
       <div className='flex flex-col text-center md:col-span-5  items-center mx-2 gap-2'>
-        {
-          character ? 
-          <>
-            <ArmorPanel/>
-            <WeaponPanel />
-          </>
-          :
-          null
-        }
+        <ArmorPanel/>
+        <WeaponPanel />
         <span>Items</span>
       </div>
-      {showConfirm && character && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black w-64 h-32 m-auto">
-          <div className="p-4 rounded shadow-md w-64">
-            <p className="mb-4">Are you sure you want to delete {character?.name}?</p>
-            <div className="flex justify-end gap-2">
-              <button
-                onClick={() => setShowConfirm(false)}
-                className="px-3 py-1 border rounded"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => {handleDeleteCharacterClick(character?.name ?? ''); setShowConfirm(false)}}
-                className="px-3 py-1 bg-red-500 text-white rounded"
-              >
-                Confirm
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   )
 }
 
 function SkillItem({ title, skillName}:{title: string, skillName: keyof Skills}){ 
-  const {updateCharacter} = useCharacterStore(s => s)
+  const updateCharacter = useCharacterStore(s => s.updateCharacter)
   const [ value, setValue] = useSkillLens(skillName)
   const resetValue = () => 
     updateCharacter(resetSkill( skillName)) 
