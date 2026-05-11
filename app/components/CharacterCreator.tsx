@@ -12,7 +12,6 @@ import { useSkillLens } from '../hooks/useSkillLens';
 import { useMovementLens } from '../hooks/useMovementLens';
 import { useCharacteristicLens } from '../hooks/useCharacteristicLens';
 import { useTextLens } from '../hooks/useTextLens';
-import { ST } from 'next/dist/shared/lib/utils';
 
 function SaveBaseCharacterButton(){
   const character = useCharacterStore(s => s.character)
@@ -108,7 +107,7 @@ export function CharacterCreator() {
             <label htmlFor="name" className='font-bold'>Name: </label>
             <TextItem keyName={'name'} mode='normal'/>
             <SaveBaseCharacterButton />
-            <DeleteCharacterButton />
+            
           </div>
         <div className='flex flex-row gap-2 justify-center'>
           <div>AP: {6}</div>
@@ -123,7 +122,7 @@ export function CharacterCreator() {
         </div>
         <div className='flex flex-row gap-2 justify-center'>
           <Movementinput movementName={'swim'}  title={'swim (1AP)'} />
-          <Movementinput movementName={'fast swim'}  title={'fast swim (1AP+1STA)'} />
+          {/* <Movementinput movementName={'fast swim'}  title={'fast swim (1AP+1STA)'} /> */}
           <Movementinput movementName={'jump'}  title={'jump (1AP+1STA)'} />
           <Movementinput movementName={'stand'}  title={'stand up'} />
         </div>
@@ -194,8 +193,10 @@ export function CharacterCreator() {
 
         <TextItem aria-label='notes' keyName='notes' mode='large'/>
         {/* <textarea aria-label='notes' className='border rounded p-1 min-h-32' onChange={val => setNotes(val.target.value)} value={notes} /> */}
-        
-        <SavePlayerCharacterButton />
+        <div className='flex flex-row gap-2 justify-center'>
+          <SavePlayerCharacterButton />
+          <DeleteCharacterButton />
+        </div>
       </div>
       <div className='flex flex-col text-center md:col-span-5  items-center mx-2 gap-2'>
         <ArmorPanel/>

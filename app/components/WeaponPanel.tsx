@@ -94,8 +94,10 @@ export function WeaponPanel(){
 }
 
 function parseAtkDamage(atk: WeaponAttack, scale: number, STR: number) {
+  let impact = atk.impact
+  if(atk.props.includes("hook")) impact = STR
   return(
-    atk.impact+(atk.heavyMod ? '+' + (atk.type == 'melee' ? Math.floor(atk.heavyMod*STR*dmgArr[scale-1])  : atk.heavyMod*dmgArr[scale-1]) : '' ) + '/' +Math.floor(atk.impact*atk.penMod)+(atk.heavyMod ? '+'+(atk.type == 'melee' ? Math.floor(atk.heavyMod*atk.penMod*STR*dmgArr[scale-1]) : atk.heavyMod*atk.penMod*dmgArr[scale-1]) : '')
+    impact+(atk.heavyMod ? '+' + (atk.type == 'melee' ? Math.floor(atk.heavyMod*STR*dmgArr[scale-1])  : atk.heavyMod*dmgArr[scale-1]) : '' ) + '/' +Math.floor(impact*atk.penMod)+(atk.heavyMod ? '+'+(atk.type == 'melee' ? Math.floor(atk.heavyMod*atk.penMod*STR*dmgArr[scale-1]) : atk.heavyMod*atk.penMod*dmgArr[scale-1]) : '')
 
   )
 }

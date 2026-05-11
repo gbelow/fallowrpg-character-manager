@@ -98,7 +98,7 @@ export function PlayPanel(){
             </div>
             <div className='flex flex-row gap-2 justify-center'>
               <SimpleMove moveName='swim'  title={'swim (1AP)'} />
-              <SimpleMove moveName='fast swim'  title={'swim (1AP+1STA)'} />
+              {/* <SimpleMove moveName='fast swim'  title={'swim (1AP+1STA)'} /> */}
               <SimpleMove moveName='jump'  title={'jump (1AP+1STA)'} />
               <SimpleMove moveName='stand'  title={'stand up'} />
             </div>
