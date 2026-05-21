@@ -17,7 +17,7 @@ export function makeMovementLens<T extends Character>(
 }
 
 // Returns just the stored value from character.movement if set, or default string/number
-const getRaw = (c: Character, key: keyof Character["movement"]) => {
+export function getRaw (c: Character, key: keyof Character["movement"]) {
   return c.movement[key];
 };
 

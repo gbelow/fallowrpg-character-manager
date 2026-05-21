@@ -196,12 +196,12 @@ function DamageControl(){
       <div className='flex flex-col justify-center items-center gap-2 ml-4'>
         <span className='text-xs'>Cause Injury</span>
         <div className='flex flex-row gap-2' >
+          <DamageButton tier='T1' />
           <DamageButton tier='T2' />
-          <DamageButton tier='T3' />
         </div>
         <div className='flex flex-row gap-2'>
+          <DamageButton tier='T3' />
           <DamageButton tier='T4' />
-          <DamageButton tier='T5' />
         </div>
       </div>      
     </div>
