@@ -12,7 +12,7 @@ export const ArmorSchema = z.object({
   prot: z.number().default(0),
   cover: z.number().default(0),
   penalty: z.number().default(0),
-  type: z.enum(['light', 'medium', 'heavy']).default('light'),
+  type: z.enum(['cloth', 'metallic', 'rigid']).default('rigid'),
 }).strip()
 
 export type Armor = z.infer<typeof ArmorSchema>
@@ -71,13 +71,16 @@ export const WeaponAttackSchema = z.object({
   handed: str.default('small'),
 
   impact: num.default(0),
+  STRmod: num.default(0),
   heavyMod: num.default(0),
   penMod: num.default(0),
 
   range: str.default('short'),
 
   RES: num.default(0),
+  RESmod: num.default(0),
   TGH: num.default(0),
+  TGHmod: num.default(0),
 
   AP: num.default(0),
   deflection: num.default(0),

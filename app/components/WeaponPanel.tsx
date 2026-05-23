@@ -36,6 +36,21 @@ export function WeaponPanel(){
     setLastAtk({atk: val, properties: modification, weapon})
   }
 
+  const parseModdedValue = (value: number, mod: number) => {
+    if(mod === 0) return value
+      return Math.floor(value + mod*STR)
+  }
+
+  const parseAtkDamage = (atk: WeaponAttack, scale: number) => {
+    let impact = parseModdedValue(atk.impact, atk.STRmod)
+    return(
+      impact+(atk.heavyMod ? '+' + (atk.type == 'melee' ? Math.floor(atk.heavyMod*STR*dmgArr[scale-1])  : atk.heavyMod*dmgArr[scale-1]) : '' ) + '/' +Math.floor(impact*atk.penMod)+(atk.heavyMod ? '+'+(atk.type == 'melee' ? Math.floor(atk.heavyMod*atk.penMod*STR*dmgArr[scale-1]) : atk.heavyMod*atk.penMod*dmgArr[scale-1]) : '')
+
+    )
+  }
+
+  
+
   return(
     <div className='flex flex-col justify-center w-84 md:w-full'>
       <span className="pb-1"> Weapon: {lastAtk.weapon} /  properties: {lastAtk.properties} / ROLL: {lastAtk.atk}  </span>
@@ -71,9 +86,9 @@ export function WeaponPanel(){
                   {
                     el.attacks.map((atk, index) => 
                       <tr key={el+index.toString()}>
-                        <td>{atk.RES}</td>
-                        <td>{atk.TGH}</td>
-                        <td>{parseAtkDamage(atk, el.scale, STR)}</td>
+                        <td>{parseModdedValue(atk.RES, atk.RESmod)}</td>
+                        <td>{parseModdedValue(atk.TGH, atk.TGHmod)}</td>
+                        <td>{parseAtkDamage(atk, el.scale)}</td>
                         <td>{atk.AP + '+' + (atk.heavyMod === 0.5 ? 1 : atk.heavyMod === 1 ? 2 : atk.heavyMod === 1.5 ? 3 : 0)}</td>
                         <td>{atk.range}</td>
                         <td>{atk.deflection}</td>
@@ -90,14 +105,5 @@ export function WeaponPanel(){
         })
       }
     </div>
-  )
-}
-
-function parseAtkDamage(atk: WeaponAttack, scale: number, STR: number) {
-  let impact = atk.impact
-  if(atk.props.includes("hook")) impact = STR
-  return(
-    impact+(atk.heavyMod ? '+' + (atk.type == 'melee' ? Math.floor(atk.heavyMod*STR*dmgArr[scale-1])  : atk.heavyMod*dmgArr[scale-1]) : '' ) + '/' +Math.floor(impact*atk.penMod)+(atk.heavyMod ? '+'+(atk.type == 'melee' ? Math.floor(atk.heavyMod*atk.penMod*STR*dmgArr[scale-1]) : atk.heavyMod*atk.penMod*dmgArr[scale-1]) : '')
-
   )
 }

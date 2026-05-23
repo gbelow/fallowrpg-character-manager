@@ -82,56 +82,63 @@
   "weapons": {
     "Mace": {
       "name": "Mace",
-      "handed": "one",
       "penalty": 0,
       "scale": 3,
       "attacks": [
         {
           "type": "melee",
+          "handed": "one",
           "impact": 12,
+          "STRmod": 0,
           "heavyMod": 1,
           "penMod": 0.2,
-          "range": "long I",
-          "RES": 40,
-          "TGH": 50,
+          "range": "short",
+          "RES": 100,
+          "RESmod": 0,
+          "TGH": 100,
+          "TGHmod": 0,
           "AP": 3,
           "deflection": 0,
-          "props": "heavy II",
-          "handed": "one"
+          "props": "heavy II"
         },
         {
           "type": "melee",
-          "impact": 5,
-          "heavyMod": 0.5,
-          "penMod": 0.2,
+          "handed": "one",
+          "impact": 0,
+          "STRmod": 0,
+          "heavyMod": 0,
+          "penMod": 0,
           "range": "short",
-          "RES": 20,
-          "TGH": 30,
-          "AP": 3,
+          "RES": 15,
+          "RESmod": 0,
+          "TGH": 15,
+          "TGHmod": 0,
+          "AP": 2,
           "deflection": 0,
-          "props": "DEF, heavy I ",
-          "handed": "one"
+          "props": "DEF, shaft"
         }
       ]
     },
     "WoodenShield": {
       "name": "WoodenShield",
-      "handed": "one",
       "penalty": 1,
       "scale": 3,
       "attacks": [
         {
           "type": "melee",
+          "handed": "one",
           "impact": 8,
+          "STRmod": 0,
           "heavyMod": 0.5,
           "penMod": 0.2,
           "range": "short",
-          "RES": 30,
-          "TGH": 25,
+          "RES": 20,
+          "RESmod": 0,
+          "TGH": 20,
+          "TGHmod": 0,
           "AP": 3,
-          "deflection": 1,
-          "props": "DEF, heavy I",
-          "handed": "one"
+          "deflection": 3,
+          "props": "DEF, heavy I"
         }
       ]
     }

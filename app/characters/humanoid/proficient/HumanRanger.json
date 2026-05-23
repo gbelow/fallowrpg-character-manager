@@ -71,54 +71,51 @@
   "hasHelm": 0,
   "armor": {
     "name": "Gambeson",
-    "RES": 50,
-    "TGH": 10,
+    "RES": 10,
+    "TGH": 0,
     "INS": 6,
     "prot": 3,
-    "cover": 10,
+    "cover": 4,
     "penalty": 0,
-    "type": "light"
+    "type": "cloth"
   },
   "weapons": {
-    "ShortBow": {
-      "name": "ShortBow",
-      "handed": "two",
-      "penalty": 0,
-      "scale": 3,
-      "attacks": [
-        {
-          "type": "ranged",
-          "impact": 5,
-          "heavyMod": 0,
-          "penMod": 3,
-          "range": "100m",
-          "RES": 10,
-          "TGH": 10,
-          "AP": 4,
-          "deflection": 0,
-          "props": "precise",
-          "handed": "two"
-        }
-      ]
-    },
-    "dagger": {
-      "name": "dagger",
-      "handed": "small",
+    "Dagger": {
+      "name": "Dagger",
       "penalty": 0,
       "scale": 3,
       "attacks": [
         {
           "type": "melee",
+          "handed": "small",
           "impact": 8,
+          "STRmod": 0,
           "heavyMod": 0,
           "penMod": 2,
           "range": "short",
-          "RES": 20,
-          "TGH": 20,
+          "RES": 50,
+          "RESmod": 0,
+          "TGH": 15,
+          "TGHmod": 0,
           "AP": 3,
           "deflection": 0,
-          "props": "DEF, draw, precise",
-          "handed": "small"
+          "props": "draw, DEF, precise"
+        },
+        {
+          "type": "melee",
+          "handed": "small",
+          "impact": 6,
+          "STRmod": 0,
+          "heavyMod": 0,
+          "penMod": 2,
+          "range": "short",
+          "RES": 50,
+          "RESmod": 0,
+          "TGH": 15,
+          "TGHmod": 0,
+          "AP": 3,
+          "deflection": 0,
+          "props": "draw, precise throw"
         }
       ]
     }

@@ -70,16 +70,56 @@
   "hasGauntlets": 0,
   "hasHelm": 0,
   "armor": {
-    "name": "PaddedArmor",
-    "RES": 0,
-    "TGH": 12,
-    "INS": 8,
-    "prot": 5,
-    "cover": 12,
-    "penalty": 1,
-    "type": "light"
+    "name": "Clothing",
+    "RES": 6,
+    "TGH": 0,
+    "INS": 4,
+    "prot": 0,
+    "cover": 2,
+    "penalty": 0,
+    "type": "cloth"
   },
-  "weapons": {},
+  "weapons": {
+    "ShortSword": {
+      "name": "ShortSword",
+      "penalty": 0,
+      "scale": 5,
+      "attacks": [
+        {
+          "type": "melee",
+          "handed": "one",
+          "impact": 16,
+          "STRmod": 0,
+          "heavyMod": 0,
+          "penMod": 2,
+          "range": "short",
+          "RES": 100,
+          "RESmod": 0,
+          "TGH": 40,
+          "TGHmod": 0,
+          "AP": 3,
+          "deflection": 0,
+          "props": "precise, draw"
+        },
+        {
+          "type": "melee",
+          "handed": "one",
+          "impact": 20,
+          "STRmod": 0,
+          "heavyMod": 0.5,
+          "penMod": 1,
+          "range": "short",
+          "RES": 100,
+          "RESmod": 0,
+          "TGH": 30,
+          "TGHmod": 0,
+          "AP": 3,
+          "deflection": 0,
+          "props": "sweep, draw, DEF, heavy I"
+        }
+      ]
+    }
+  },
   "containers": {},
   "notes": ""
 }

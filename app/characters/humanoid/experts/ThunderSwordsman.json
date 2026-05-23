@@ -70,60 +70,68 @@
   "hasGauntlets": 1,
   "hasHelm": 0,
   "armor": {
-    "name": "HalfPlate",
-    "RES": 50,
-    "TGH": 30,
-    "INS": 8,
+    "name": "Half Armor",
+    "RES": 30,
+    "TGH": 25,
+    "INS": 7,
     "prot": 15,
-    "cover": 12,
+    "cover": 5,
     "penalty": 2,
-    "type": "heavy"
+    "type": "rigid"
   },
   "weapons": {
-    "LongSword": {
-      "name": "LongSword",
-      "handed": "two",
+    "Longsword": {
+      "name": "Longsword",
       "penalty": 0,
       "scale": 3,
       "attacks": [
         {
           "type": "melee",
+          "handed": "two",
           "impact": 12,
+          "STRmod": 0,
           "heavyMod": 0.5,
           "penMod": 1,
           "range": "long I",
-          "RES": 20,
-          "TGH": 50,
+          "RES": 50,
+          "RESmod": 0,
+          "TGH": 20,
+          "TGHmod": 0,
           "AP": 3,
           "deflection": 0,
-          "props": "heavy I, DEF",
-          "handed": "two"
+          "props": "sweep, DEF, heavy I"
         },
         {
           "type": "melee",
+          "handed": "one",
           "impact": 8,
-          "heavyMod": 0,
-          "penMod": 2,
-          "range": "long I",
-          "RES": 20,
-          "TGH": 50,
-          "AP": 3,
-          "deflection": 0,
-          "props": "precise",
-          "handed": "two"
-        },
-        {
-          "type": "melee",
-          "impact": 8,
+          "STRmod": 0,
           "heavyMod": 0.5,
           "penMod": 2,
           "range": "short",
-          "RES": 20,
-          "TGH": 50,
+          "RES": 50,
+          "RESmod": 0,
+          "TGH": 30,
+          "TGHmod": 0,
           "AP": 4,
           "deflection": 0,
-          "props": "precise, heavy I, cleave",
-          "handed": "two"
+          "props": "precise, heavy I"
+        },
+        {
+          "type": "melee",
+          "handed": "two",
+          "impact": 8,
+          "STRmod": 0,
+          "heavyMod": 0,
+          "penMod": 2,
+          "range": "long I",
+          "RES": 50,
+          "RESmod": 0,
+          "TGH": 20,
+          "TGHmod": 0,
+          "AP": 3,
+          "deflection": 0,
+          "props": "precise"
         }
       ]
     }

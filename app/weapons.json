@@ -1,604 +1,801 @@
 {
-  "hands": {
-    "name": "hands",
-    "penalty":0,
-    "scale":3,
-    "attacks":[
+  "ShortSword": {
+    "name": "ShortSword",
+    "handed": "one",
+    "penalty": 0,
+    "scale": 3,
+    "attacks": [
+      {
+        "type": "melee",
+        "impact": 8,
+        "STRmod": 0,
+        "heavyMod": 0,
+        "penMod": 2,
+        "range": "short",
+        "RES": 50,
+        "RESmod": 0,
+        "TGH": 20,
+        "TGHmod": 0,
+        "AP": 3,
+        "deflection": 0,
+        "props": "precise, draw",
+        "handed": "one"
+      },
+      {
+        "type": "melee",
+        "impact": 10,
+        "STRmod": 0,
+        "heavyMod": 0.5,
+        "penMod": 1,
+        "range": "short",
+        "RES": 50,
+        "RESmod": 0,
+        "TGH": 15,
+        "TGHmod": 0,
+        "AP": 3,
+        "props": "sweep, draw, DEF, heavy I",
+        "handed": "one"
+      }
+    ]
+  },
+  "Rapier": {
+    "name": "Rapier",
+    "handed": "one",
+    "penalty": 0,
+    "scale": 3,
+    "attacks": [
+      {
+        "type": "melee",
+        "impact": 8,
+        "STRmod": 0,
+        "heavyMod": 0,
+        "penMod": 2,
+        "range": "long I",
+        "RES": 50,
+        "RESmod": 0,
+        "TGH": 15,
+        "TGHmod": 0,
+        "AP": 3,
+        "deflection": 0,
+        "props": "draw, precise",
+        "handed": "one"
+      },
       {
         "type": "melee",
         "impact": 0,
+        "STRmod": 0,
+        "heavyMod": 0,
+        "penMod": 0,
+        "range": "long I",
+        "RES": 50,
+        "RESmod": 0,
+        "TGH": 15,
+        "TGHmod": 0,
+        "AP": 0,
+        "deflection": 0,
+        "props": "DEF",
+        "handed": "one"
+      }
+    ]
+  },
+  "ShortSpear": {
+    "name": "ShortSpear",
+    "handed": "one",
+    "penalty": 0,
+    "scale": 3,
+    "attacks": [
+      {
+        "type": "melee",
+        "impact": 8,
+        "STRmod": 0,
+        "heavyMod": 0,
+        "penMod": 2,
+        "range": "long I",
+        "RES": 50,
+        "RESmod": 0,
+        "TGH": 20,
+        "TGHmod": 0,
+        "AP": 4,
+        "deflection": 0,
+        "props": "braced, precise",
+        "handed": "one"
+      },
+      {
+        "type": "melee",
+        "impact": 8,
+        "STRmod": 0,
+        "heavyMod": 0.5,
+        "penMod": 2,
+        "range": "long I",
+        "RES": 50,
+        "RESmod": 0,
+        "TGH": 20,
+        "TGHmod": 0,
+        "AP": 3,
+        "deflection": 0,
+        "props": "braced, precise, heavy I",
+        "handed": "two"
+      },
+      {
+        "type": "melee",
+        "impact": 0,
+        "STRmod": 0,
+        "heavyMod": 0,
+        "penMod": 0.2,
+        "range": "short",
+        "RES": 15,
+        "RESmod": 0,
+        "TGH": 15,
+        "TGHmod": 0,
+        "AP": 3,
+        "deflection": 0,
+        "props": "DEF, Shaft, grapple",
+        "handed": "two"
+      },
+      {
+        "type": "melee",
+        "impact": 8,
+        "STRmod": 0,
+        "heavyMod": 0,
+        "penMod": 2,
+        "range": "2xSTR",
+        "RES": 50,
+        "RESmod": 0,
+        "TGH": 20,
+        "TGHmod": 0,
+        "AP": 5,
+        "deflection": 0,
+        "props": "throw, precise",
+        "handed": "one"
+      }
+    ]
+  },
+  "Mace": {
+    "name": "Mace",
+    "handed": "one",
+    "penalty": 0,
+    "scale": 3,
+    "attacks": [
+      {
+        "type": "melee",
+        "impact": 12,
+        "STRmod": 0,
+        "heavyMod": 1,
+        "penMod": 0.2,
+        "range": "short",
+        "RES": 100,
+        "RESmod": 0,
+        "TGH": 100,
+        "TGHmod": 0,
+        "AP": 3,
+        "deflection": 0,
+        "props": "heavy II",
+        "handed": "one"
+      },
+      {
+        "type": "melee",
+        "impact": 0,
+        "STRmod": 0,
+        "heavyMod": 0,
+        "penMod": 0,
+        "range": "short",
+        "RES": 15,
+        "RESmod": 0,
+        "TGH": 15,
+        "TGHmod": 0,
+        "AP": 2,
+        "deflection": 0,
+        "props": "DEF, shaft",
+        "handed": "one"
+      }
+    ]
+  },
+  "BattleAxe": {
+    "name": "BattleAxe",
+    "handed": "one",
+    "penalty": 0,
+    "scale": 3,
+    "attacks": [
+      {
+        "type": "melee",
+        "impact": 14,
+        "STRmod": 0,
+        "heavyMod": 0.5,
+        "penMod": 1,
+        "range": "short",
+        "RES": 50,
+        "RESmod": 0,
+        "TGH": 25,
+        "TGHmod": 0,
+        "AP": 4,
+        "deflection": 0,
+        "props": "heavy I",
+        "handed": "one"
+      },
+      {
+        "type": "melee",
+        "impact": 0,
+        "STRmod": 0,
+        "heavyMod": 0,
+        "penMod": 0,
+        "range": "short",
+        "RES": 15,
+        "RESmod": 0,
+        "TGH": 15,
+        "TGHmod": 0,
+        "AP": 2,
+        "deflection": 0,
+        "props": "DEF",
+        "handed": "one"
+      }
+    ]
+  },
+  "Longsword": {
+    "name": "Longsword",
+    "handed": "two",
+    "penalty": 0,
+    "scale": 3,
+    "attacks": [
+      {
+        "type": "melee",
+        "impact": 12,
+        "STRmod": 0,
+        "heavyMod": 0.5,
+        "penMod": 1,
+        "range": "long I",
+        "RES": 50,
+        "RESmod": 0,
+        "TGH": 20,
+        "TGHmod": 0,
+        "AP": 3,
+        "deflection": 0,
+        "props": "sweep, DEF, heavy I",
+        "handed": "two"
+      },
+      {
+        "type": "melee",
+        "impact": 8,
+        "STRmod": 0,
+        "heavyMod": 0.5,
+        "penMod": 2,
+        "range": "short",
+        "RES": 50,
+        "RESmod": 0,
+        "TGH": 30,
+        "TGHmod": 0,
+        "AP": 4,
+        "deflection": 0,
+        "props": "precise, heavy I",
+        "handed": "one"
+      },
+      {
+        "type": "melee",
+        "impact": 8,
+        "STRmod": 0,
+        "heavyMod": 0,
+        "penMod": 2,
+        "range": "long I",
+        "RES": 50,
+        "RESmod": 0,
+        "TGH": 20,
+        "TGHmod": 0,
+        "AP": 3,
+        "deflection": 0,
+        "props": "precise",
+        "handed": "two"
+      }
+    ]
+  },
+  "Pike": {
+    "name": "Pike",
+    "handed": "two",
+    "penalty": 0,
+    "scale": 3,
+    "attacks": [
+      {
+        "type": "melee",
+        "impact": 8,
+        "STRmod": 0,
+        "heavyMod": 0.5,
+        "penMod": 2,
+        "range": "long II",
+        "RES": 50,
+        "RESmod": 0,
+        "TGH": 20,
+        "TGHmod": 0,
+        "AP": 3,
+        "deflection": 0,
+        "props": "braced, precise, heavy I",
+        "handed": "two"
+      },
+      {
+        "type": "melee",
+        "impact": 0,
+        "STRmod": 0,
+        "heavyMod": 0,
+        "penMod": 0,
+        "range": "long I",
+        "RES": 15,
+        "RESmod": 0,
+        "TGH": 15,
+        "TGHmod": 0,
+        "AP": 2,
+        "deflection": 0,
+        "props": "Shaft",
+        "handed": "two"
+      }
+    ]
+  },
+  "Halberd": {
+    "name": "Halberd",
+    "handed": "two",
+    "penalty": 0,
+    "scale": 3,
+    "attacks": [
+      {
+        "type": "melee",
+        "impact": 8,
+        "STRmod": 0,
+        "heavyMod": 0.5,
+        "penMod": 2,
+        "range": "long I",
+        "RES": 50,
+        "RESmod": 0,
+        "TGH": 20,
+        "TGHmod": 0,
+        "AP": 3,
+        "deflection": 0,
+        "props": "braced, precise, heavy I",
+        "handed": "two"
+      },
+      {
+        "type": "melee",
+        "impact": 0,
+        "STRmod": 1,
+        "heavyMod": 0,
+        "penMod": 1,
+        "range": "long I",
+        "RES": 50,
+        "RESmod": 0,
+        "TGH": 30,
+        "TGHmod": 0,
+        "AP": 3,
+        "deflection": 0,
+        "props": "hook",
+        "handed": "two"
+      },
+      {
+        "type": "melee",
+        "impact": 0,
+        "STRmod": 0,
+        "heavyMod": 0,
+        "penMod": 0.2,
+        "range": "short",
+        "RES": 15,
+        "RESmod": 0,
+        "TGH": 15,
+        "TGHmod": 0,
+        "AP": 3,
+        "deflection": 0,
+        "props": "DEF, Shaft, grapple",
+        "handed": "two"
+      },
+      {
+        "type": "melee",
+        "impact": 18,
+        "STRmod": 0,
+        "heavyMod": 1,
+        "penMod": 1,
+        "range": "long I",
+        "RES": 50,
+        "RESmod": 0,
+        "TGH": 60,
+        "TGHmod": 0,
+        "AP": 4,
+        "deflection": 0,
+        "props": "heavy II",
+        "handed": "two"
+      }
+    ]
+  },
+  "Warhammer": {
+    "name": "Warhammer",
+    "handed": "two",
+    "penalty": 0,
+    "scale": 3,
+    "attacks": [
+      {
+        "type": "melee",
+        "impact": 8,
+        "STRmod": 0,
+        "heavyMod": 0.5,
+        "penMod": 2,
+        "range": "long I",
+        "RES": 20,
+        "RESmod": 0,
+        "TGH": 50,
+        "TGHmod": 0,
+        "AP": 3,
+        "deflection": 0,
+        "props": "braced, precise, heavy I",
+        "handed": "two"
+      },
+      {
+        "type": "melee",
+        "impact": 0,
+        "STRmod": 1,
+        "heavyMod": 0,
+        "penMod": 1,
+        "range": "long I",
+        "RES": 50,
+        "RESmod": 0,
+        "TGH": 30,
+        "TGHmod": 0,
+        "AP": 3,
+        "deflection": 0,
+        "props": "hook",
+        "handed": "two"
+      },
+      {
+        "type": "melee",
+        "impact": 0,
+        "STRmod": 0,
+        "heavyMod": 0,
+        "penMod": 0.2,
+        "range": "short",
+        "RES": 15,
+        "RESmod": 0,
+        "TGH": 15,
+        "TGHmod": 0,
+        "AP": 3,
+        "deflection": 0,
+        "props": "DEF, Shaft, grapple",
+        "handed": "two"
+      },
+      {
+        "type": "melee",
+        "impact": 20,
+        "STRmod": 0,
+        "heavyMod": 3,
+        "penMod": 0.2,
+        "range": "long I",
+        "RES": 200,
+        "RESmod": 0,
+        "TGH": 200,
+        "TGHmod": 0,
+        "AP": 4,
+        "deflection": 0,
+        "props": "heavy III",
+        "handed": "two"
+      }
+    ]
+  },
+  "Bardiche": {
+    "name": "Bardiche",
+    "handed": "two",
+    "penalty": 0,
+    "scale": 3,
+    "attacks": [
+      {
+        "type": "melee",
+        "impact": 18,
+        "STRmod": 0,
+        "heavyMod": 1,
+        "penMod": 1,
+        "range": "long I",
+        "RES": 50,
+        "RESmod": 0,
+        "TGH": 40,
+        "TGHmod": 0,
+        "AP": 4,
+        "deflection": 0,
+        "props": "heavy II, sweep",
+        "handed": "two"
+      },
+      {
+        "type": "melee",
+        "impact": 0,
+        "STRmod": 0,
+        "heavyMod": 0,
+        "penMod": 0.2,
+        "range": "short",
+        "RES": 15,
+        "RESmod": 0,
+        "TGH": 15,
+        "TGHmod": 0,
+        "AP": 3,
+        "deflection": 0,
+        "props": "DEF, shaft, grapple",
+        "handed": "two"
+      }
+    ]
+  },
+  "Greatsword": {
+    "name": "Greatsword",
+    "handed": "two",
+    "penalty": 0,
+    "scale": 3,
+    "attacks": [
+      {
+        "type": "melee",
+        "impact": 14,
+        "STRmod": 0,
+        "heavyMod": 1,
+        "penMod": 1,
+        "range": "long I",
+        "RES": 50,
+        "RESmod": 0,
+        "TGH": 30,
+        "TGHmod": 0,
+        "AP": 4,
+        "deflection": 0,
+        "props": "sweep, DEF, heavy II",
+        "handed": "two"
+      },
+      {
+        "type": "melee",
+        "impact": 8,
+        "STRmod": 0,
+        "heavyMod": 0.5,
+        "penMod": 2,
+        "range": "long I",
+        "RES": 50,
+        "RESmod": 0,
+        "TGH": 20,
+        "TGHmod": 0,
+        "AP": 3,
+        "deflection": 0,
+        "props": "precise, heavy I, braced",
+        "handed": "two"
+      }
+    ]
+  },
+  "Unarmed": {
+    "name": "Unarmed",
+    "handed": "small",
+    "penalty": 0,
+    "scale": 3,
+    "attacks": [
+      {
+        "type": "melee",
+        "impact": 0,
+        "STRmod": 0,
         "heavyMod": 0,
         "penMod": 0,
         "range": "short",
         "RES": 0,
+        "RESmod": 0.5,
         "TGH": 0,
+        "TGHmod": 0.5,
         "AP": 3,
-        "deflection":0,        
-        "props": "grapple, draw",
-        "handed":"small"
+        "deflection": 0,
+        "props": "grapple, DEF, draw",
+        "handed": "small"
       },
       {
         "type": "melee",
         "impact": 0,
+        "STRmod": 0.5,
         "heavyMod": 0.5,
         "penMod": 0.2,
         "range": "short",
         "RES": 0,
+        "RESmod": 0.5,
         "TGH": 0,
+        "TGHmod": 0.5,
         "AP": 3,
-        "deflection":0,        
+        "deflection": 0,
         "props": "heavy I, draw",
-        "handed":"small"
+        "handed": "small"
       }
     ]
   },
-  "dagger":{
-    "name": "dagger",
-    "handed":"small", 
-    "penalty":0,
-    "scale":3,
-    "attacks":[
-      {
-        "type": "melee",
-        "impact": 8,
-        "heavyMod": 0,
-        "penMod": 2,
-        "range": "short",
-        "RES": 20,
-        "TGH": 20,
-        "AP": 3,
-        "deflection":0,        
-        "props": "DEF, draw, precise",
-        "handed":"small"
-      }
-    ]
-  },
-  "rondel":{
-    "name": "rondel",
-    "handed":"small", 
-    "penalty":0,
-    "scale":3,
-    "attacks":[
-      {
-        "type": "melee",
-        "impact": 8,
-        "heavyMod": 0.5,
-        "penMod": 3,
-        "range": "short",
-        "RES": 20,
-        "TGH": 40,
-        "AP": 3,
-        "deflection":0,
-        "props": "DEF, heavy I, precise, draw ",
-        "handed":"small"
-      }
-    ]
-  },
-  "Club":{
-    "name": "Club",
-    "handed":"one", 
-    "penalty":0,
-    "scale":3,
-    "attacks":[
-      {
-        "type": "melee",
-        "impact": 8,
-        "heavyMod": 0.5,
-        "penMod": 0.2,
-        "range": "short",
-        "RES": 30,
-        "TGH": 50,
-        "AP": 3,
-        "deflection":0,
-        "props": "DEF, heavy I, cleave, draw ",
-        "handed":"one"
-      }
-    ]
-  },
-  "ShortSword":{
-    "name": "ShortSword",
-    "handed":"one", 
-    "penalty":0,
-    "scale":3,
-    "attacks":[
-      {
-        "type": "melee",
-        "impact": 8,
-        "heavyMod": 0,
-        "penMod": 2,
-        "range": "short",
-        "RES": 30,
-        "TGH": 50,
-        "AP": 3,
-        "deflection":0,
-        "props": "draw, precise ",
-        "handed":"one"
-      },
-      {
-        "type": "melee",
-        "impact": 8,
-        "heavyMod": 0.5,
-        "penMod": 1,
-        "range": "short",
-        "RES": 30,
-        "TGH": 50,
-        "AP": 3,
-        "deflection":0,
-        "props": "DEF, heavy I, draw ",
-        "handed":"one"
-      }
-    ]
-  },
-  "Rapier":{
-    "name": "Rapier",
-    "handed":"one", 
-    "penalty":0,
-    "scale":3,
-    "attacks":[
-      {
-        "type": "melee",
-        "impact": 8,
-        "heavyMod": 0,
-        "penMod": 2,
-        "range": "long I",
-        "RES": 20,
-        "TGH": 40,
-        "AP": 3,
-        "deflection":0,
-        "props": "draw, precise ",
-        "handed":"one"
-      }      
-    ]
-  },
-  "ShortSpear":{
-    "name": "ShortSpear",
-    "handed":"one", 
-    "penalty":0,
-    "scale":3,
-    "attacks":[
-      {
-        "type": "melee",
-        "impact": 8,
-        "heavyMod": 0.5,
-        "penMod": 2,
-        "range": "long I",
-        "RES": 20,
-        "TGH": 50,
-        "AP": 4,
-        "deflection":0,
-        "props": "braced, precise, heavy I ",
-        "handed":"two"
-      },
-      {
-        "type": "melee",
-        "impact": 5,
-        "heavyMod": 0.5,
-        "penMod": 0.2,
-        "range": "short",
-        "RES": 20,
-        "TGH": 30,
-        "AP": 3,
-        "deflection":0,
-        "props": "DEF, heavy I ",
-        "handed":"one"
-      }
-    ]
-  },
-  "Mace":{
-    "name": "Mace",
-    "handed":"one", 
-    "penalty":0,
-    "scale":3,
-    "attacks":[
-      {
-        "type": "melee",
-        "impact": 12,
-        "heavyMod": 1,
-        "penMod": 0.2,
-        "range": "long I",
-        "RES": 40,
-        "TGH": 50,
-        "AP": 3,
-        "deflection":0,
-        "props": "heavy II",
-        "handed":"one"
-      },
-      {
-        "type": "melee",
-        "impact": 5,
-        "heavyMod": 0.5,
-        "penMod": 0.2,
-        "range": "short",
-        "RES": 20,
-        "TGH": 30,
-        "AP": 3,
-        "deflection":0,
-        "props": "DEF, heavy I ",
-        "handed":"one"
-      }      
-    ]
-  },
-  "WarAxe":{
-    "name": "WarAxe",
-    "handed":"one", 
-    "penalty":0,
-    "scale":3,
-    "attacks":[
-      {
-        "type": "melee",
-        "impact": 15,
-        "heavyMod": 0.5,
-        "penMod": 1,
-        "range": "short",
-        "RES": 40,
-        "TGH": 50,
-        "AP": 4,
-        "deflection":0,
-        "props": "heavy I",
-        "handed":"one"
-      },
-      {
-        "type": "melee",
-        "impact": 5,
-        "heavyMod": 0.5,
-        "penMod": 0.2,
-        "range": "short",
-        "RES": 20,
-        "TGH": 30,
-        "AP": 3,
-        "deflection":0,
-        "props": "DEF, heavy I ",
-        "handed":"one"
-      }      
-    ]
-  },
-  "LongSword":{
-    "name": "LongSword",
-    "handed":"two", 
-    "penalty":0,
-    "scale":3,
-    "attacks":[
-      {
-        "type": "melee",
-        "impact": 12,
-        "heavyMod": 0.5,
-        "penMod": 1,
-        "range": "long I",
-        "RES": 20,
-        "TGH": 50,
-        "AP": 3,
-        "deflection":0,
-        "props": "heavy I, DEF",
-        "handed":"two"
-      },
-      {
-        "type": "melee",
-        "impact": 8,
-        "heavyMod": 0,
-        "penMod": 2,
-        "range": "long I",
-        "RES": 20,
-        "TGH": 50,
-        "AP": 3,
-        "deflection":0,
-        "props": "precise",
-        "handed":"two"
-      },
-      {
-        "type": "melee",
-        "impact": 8,
-        "heavyMod": 0.5,
-        "penMod": 2,
-        "range": "short",
-        "RES": 20,
-        "TGH": 50,
-        "AP": 4,
-        "deflection":0,
-        "props": "precise, heavy I, cleave",
-        "handed":"two"
-      }    
-    ]
-  },
-  "GreatSword":{
-    "name": "GreatSword",
-    "handed":"one", 
-    "penalty":0,
-    "scale":3,
-    "attacks":[
-      {
-        "type": "melee",
-        "impact": 14,
-        "heavyMod": 1,
-        "penMod": 1,
-        "range": "long I",
-        "RES": 30,
-        "TGH": 50,
-        "AP": 4,
-        "deflection":0,
-        "props": "heavy II, DEF, cleave",
-        "handed":"two"
-      },
-      {
-        "type": "melee",
-        "impact": 8,
-        "heavyMod": 0.5,
-        "penMod": 2,
-        "range": "long I",
-        "RES": 25,
-        "TGH": 50,
-        "AP": 3,
-        "deflection":0,
-        "props": "precise, braced, heavy I",
-        "handed":"two"
-      }
-    ]
-  },
-  "Pike":{
-    "name": "Pike",
-    "handed":"one", 
-    "penalty":0,
-    "scale":3,
-    "attacks":[
-      {
-        "type": "melee",
-        "impact": 8,
-        "heavyMod": 0.5,
-        "penMod": 2,
-        "range": "long II",
-        "RES": 20,
-        "TGH": 50,
-        "AP": 3,
-        "deflection":0,
-        "props": "precise, braced",
-        "handed":"two"
-      }      
-    ]
-  },
-  "Halberd":{
-    "name": "Halberd",
-    "handed":"two", 
-    "penalty":0,
-    "scale":3,
-    "attacks":[
-      {
-        "type": "melee",
-        "impact": 18,
-        "heavyMod": 1,
-        "penMod": 1,
-        "range": "long I",
-        "RES": 60,
-        "TGH": 50,
-        "AP": 4,
-        "deflection":0,
-        "props": "heavy II",
-        "handed":"two"
-      },
-      {
-        "type": "melee",
-        "impact": 8,
-        "heavyMod": 0.5,
-        "penMod": 2,
-        "range": "long I",
-        "RES": 20,
-        "TGH": 50,
-        "AP": 3,
-        "deflection":0,
-        "props": "braced, precise, heavy I ",
-        "handed":"two"
-      },
-      {
-        "type": "melee",
-        "impact": 0,
-        "heavyMod":0 ,
-        "penMod": 1,
-        "range": "long I",
-        "RES": 30,
-        "TGH": 50,
-        "AP": 3,
-        "deflection":0,
-        "props": "hook ",
-        "handed":"two"
-      },
-      {
-        "type": "melee",
-        "impact": 5,
-        "heavyMod": 0.5,
-        "penMod": 0.2,
-        "range": "short",
-        "RES": 20,
-        "TGH": 30,
-        "AP": 3,
-        "deflection":0,
-        "props": "DEF, heavy I ",
-        "handed":"two"
-      } 
-    ]
-  },
-  "Warhammer":{
-    "name": "Warhammer",
-    "handed":"two", 
-    "penalty":0,
-    "scale":3,
-    "attacks":[
-      {
-        "type": "melee",
-        "impact": 20,
-        "heavyMod": 1.5,
-        "penMod": 0.2,
-        "range": "long I",
-        "RES": 100,
-        "TGH": 100,
-        "AP": 4,
-        "deflection":0,
-        "props": "heavy III",
-        "handed":"two"
-      },
-      {
-        "type": "melee",
-        "impact": 8,
-        "heavyMod": 0.5,
-        "penMod": 2,
-        "range": "long I",
-        "RES": 20,
-        "TGH": 50,
-        "AP": 3,
-        "deflection":0,
-        "props": "braced, precise, heavy I ",
-        "handed":"two"
-      },
-      {
-        "type": "melee",
-        "impact": 0,
-        "heavyMod":0 ,
-        "penMod": 1,
-        "range": "long I",
-        "RES": 30,
-        "TGH": 50,
-        "AP": 3,
-        "deflection":0,
-        "props": "hook ",
-        "handed":"two"
-      },
-      {
-        "type": "melee",
-        "impact": 5,
-        "heavyMod": 0.5,
-        "penMod": 0.2,
-        "range": "short",
-        "RES": 20,
-        "TGH": 30,
-        "AP": 3,
-        "deflection":0,
-        "props": "DEF, heavy I ",
-        "handed":"two"
-      } 
-    ]
-  },
-  "WoodenShield":{
-    "name": "WoodenShield",
-    "handed":"one", 
-    "penalty":1,
-    "scale":3,
-    "attacks":[
-      {
-        "type": "melee",
-        "impact": 8,
-        "heavyMod": 0.5,
-        "penMod": 0.2,
-        "range": "short",
-        "RES": 30,
-        "TGH": 25,
-        "AP": 3,
-        "deflection":1,
-        "props": "DEF, heavy I",
-        "handed":"one"
-      }
-    ]
-  },
-  "ShortBow":{
-    "name": "ShortBow",
-    "handed":"two", 
-    "penalty":0,
-    "scale":3,
-    "attacks":[
-      {
-        "type": "ranged",
-        "impact": 5,
-        "heavyMod":0,
-        "penMod": 3,
-        "range": "100m",
-        "RES": 10,
-        "TGH": 10,
-        "AP": 4,
-        "deflection":0,
-        "props": "precise",
-        "handed":"two"
-      }
-      
-    ]
-  },
-  "LongBow":{
-    "name": "LongBow",
-    "handed":"two", 
-    "penalty":0,
-    "scale":3,
-    "attacks":[
-      {
-        "type": "ranged",
-        "impact": 6,
-        "heavyMod":0,
-        "penMod": 3,
-        "range": "150m",
-        "RES": 10,
-        "TGH": 10,
-        "AP": 5,
-        "deflection":0,
-        "props": "precise, STR 13",
-        "handed":"two"
-      }
-    ]
-  },
-  "HeavyBow":{
-    "name": "HeavyBow",
-    "handed":"two", 
-    "penalty":0,
-    "scale":3,
-    "attacks":[
-      {
-        "type": "ranged",
-        "impact": 8,
-        "heavyMod":0,
-        "penMod": 4,
-        "range": "200m",
-        "RES": 10,
-        "TGH": 10,
-        "AP": 5,
-        "deflection":0,
-        "props": "precise, STR 16",
-        "handed":"two"
-      }
-    ]
-  },
-  "Jaws":{
-    "name": "Jaws",
-    "handed":"small", 
-    "penalty":0,
-    "scale":3,
-    "attacks":[
-      {
-        "type": "melee",
-        "impact": 6,
-        "heavyMod":0.5,
-        "penMod": 1,
-        "range": "short",
-        "RES": 10,
-        "TGH": 10,
-        "AP": 3,
-        "deflection":0,
-        "props": "grapple, heavy I",
-        "handed":"small"
-      }
-    ]
-  },
-  "Claws":{
+  "Claws": {
     "name": "Claws",
-    "handed":"small", 
-    "penalty":0,
-    "scale":3,
-    "attacks":[
+    "handed": "small",
+    "penalty": 0,
+    "scale": 3,
+    "attacks": [
       {
         "type": "melee",
         "impact": 6,
-        "heavyMod":0,
+        "STRmod": 0,
+        "heavyMod": 0.5,
         "penMod": 1,
         "range": "short",
         "RES": 10,
+        "RESmod": 0,
         "TGH": 10,
+        "TGHmod": 0,
         "AP": 3,
-        "deflection":0,
-        "props": "grapple",
-        "handed":"small"
+        "deflection": 0,
+        "props": "heavy I, grapple, DEF",
+        "handed": "small"
       }
     ]
-  }
+  },
+  "BrassKnuckles": {
+    "name": "BrassKnuckles",
+    "handed": "small",
+    "penalty": 0,
+    "scale": 3,
+    "attacks": [
+      {
+        "type": "melee",
+        "impact": 0,
+        "STRmod": 0,
+        "heavyMod": 0,
+        "penMod": 0,
+        "range": "short",
+        "RES": 25,
+        "RESmod": 0,
+        "TGH": 25,
+        "TGHmod": 0,
+        "AP": 3,
+        "deflection": 0,
+        "props": "grapple, DEF",
+        "handed": "small"
+      },
+      {
+        "type": "melee",
+        "impact": 0,
+        "STRmod": 1,
+        "heavyMod": 0,
+        "penMod": 0.2,
+        "range": "short",
+        "RES": 25,
+        "RESmod": 0,
+        "TGH": 25,
+        "TGHmod": 0,
+        "AP": 3,
+        "deflection": 0,
+        "props": "",
+        "handed": "one"
+      }
+    ]
+  },
+  "Dagger": {
+    "name": "Dagger",
+    "handed": "small",
+    "penalty": 0,
+    "scale": 3,
+    "attacks": [
+      {
+        "type": "melee",
+        "impact": 8,
+        "STRmod": 0,
+        "heavyMod": 0,
+        "penMod": 2,
+        "range": "short",
+        "RES": 50,
+        "RESmod": 0,
+        "TGH": 15,
+        "TGHmod": 0,
+        "AP": 3,
+        "deflection": 0,
+        "props": "draw, DEF, precise",
+        "handed": "small"
+      },
+      {
+        "type": "melee",
+        "impact": 6,
+        "STRmod": 0,
+        "heavyMod": 0,
+        "penMod": 2,
+        "range": "short",
+        "RES": 50,
+        "RESmod": 0,
+        "TGH": 15,
+        "TGHmod": 0,
+        "AP": 3,
+        "deflection": 0,
+        "props": "draw, precise throw",
+        "handed": "small"
+      }
+    ]
+  },
+  "Rondel": {
+    "name": "Rondel",
+    "handed": "small",
+    "penalty": 0,
+    "scale": 3,
+    "attacks": [
+      {
+        "type": "melee",
+        "impact": 8,
+        "STRmod": 0,
+        "heavyMod": 0.5,
+        "penMod": 2,
+        "range": "short",
+        "RES": 50,
+        "RESmod": 0,
+        "TGH": 15,
+        "TGHmod": 0,
+        "AP": 3,
+        "deflection": 0,
+        "props": "draw, heavy I, precise",
+        "handed": "small"
+      },
+      {
+        "type": "melee",
+        "impact": 0,
+        "STRmod": 0,
+        "heavyMod": 0,
+        "penMod": 0,
+        "range": "short",
+        "RES": 50,
+        "RESmod": 0,
+        "TGH": 15,
+        "TGHmod": 0,
+        "AP": 2,
+        "deflection": 0,
+        "props": "draw, DEF",
+        "handed": "small"
+      }
+    ]
+  },
+  "Whip": {
+    "name": "Whip",
+    "handed": "small",
+    "penalty": 0,
+    "scale": 3,
+    "attacks": [
+      {
+        "type": "melee",
+        "impact": 6,
+        "STRmod": 0,
+        "heavyMod": 0,
+        "penMod": 1,
+        "range": "long II",
+        "RES": 10,
+        "RESmod": 0,
+        "TGH": 0,
+        "TGHmod": 0,
+        "AP": 3,
+        "deflection": 0,
+        "props": "draw",
+        "handed": "small"
+      },
+      {
+        "type": "melee",
+        "impact": 0,
+        "STRmod": 0,
+        "heavyMod": 0,
+        "penMod": 4,
+        "range": "long II",
+        "RES": 30,
+        "RESmod": 0,
+        "TGH": 10,
+        "TGHmod": 0,
+        "AP": 3,
+        "deflection": 0,
+        "props": "grab",
+        "handed": "small"
+      }
+    ]
+  },
+  "WoodenShield": {
+      "name": "WoodenShield",
+      "handed": "one",
+      "penalty": 1,
+      "scale": 3,
+      "attacks": [
+        {
+          "type": "melee",
+          "impact": 8,
+          "STRmod": 0,
+          "heavyMod": 0.5,
+          "penMod": 0.2,
+          "range": "short",
+          "RES": 20,
+          "RESmod": 0,
+          "TGH": 20,
+          "TGHmod": 0,
+          "AP": 3,
+          "deflection": 3,
+          "props": "DEF, heavy I",
+          "handed": "one"
+        }
+      ]
+    }
 }

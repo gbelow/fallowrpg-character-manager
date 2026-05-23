@@ -17,9 +17,9 @@
     "conviction1": 0,
     "conviction2": 0,
     "devotion": 0,
-    "RES": 5,
-    "INS": 5,
-    "TGH": 5
+    "RES": 0,
+    "INS": 0,
+    "TGH": 0
   },
   "skills": {
     "strike": 0,
@@ -39,9 +39,9 @@
     "explore": 0,
     "cunning": 0,
     "will": 0,
-    "charm": 0,
-    "stress": 0,
-    "acting": 0,
+    "persuasion": 0,
+    "deception": 0,
+    "insight": 0,
     "devotion": 0,
     "combustion": 0,
     "eletromag": 0,
@@ -49,7 +49,10 @@
     "entropy": 0,
     "biomancy": 0,
     "telepathy": 0,
-    "animancy": 0
+    "animancy": 0,
+    "charm": 0,
+    "stress": 0,
+    "acting": 0
   },
   "movement": {
     "basic": 1,

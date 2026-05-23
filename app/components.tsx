@@ -8,7 +8,7 @@ import { scaleWeapon } from './components/utils';
 import { upsertBaseCharacter, deleteBaseCharacter, getCharacter, deleteCharacter } from './actions';
 import { useAppStore } from './stores/useAppStore';
 import { makeCharacter } from './domain/factories';
-import { Armor, Character, Weapon } from './domain/types';
+import { Armor, Character, Weapon, WeaponSchema } from './domain/types';
 import { useCharacterStore } from './stores/useCharacterStore';
 import { equipArmor } from './domain/commands/equipArmor';
 import { equipWeapon } from './domain/commands/equipWeapon';
@@ -43,9 +43,9 @@ export function WeaponSelector(){
 
   const handleEquipWeaponClick = (weapon: Weapon) => {
     update( equipWeapon( weapon))
-  };
+  };  
 
-  const typedBaseWeapons : Record<string, Weapon> = baseWeapons 
+  const typedBaseWeapons : Record<string, Weapon> = Object.entries(baseWeapons).reduce((acc, w) => ({...acc, [w[0]]: (WeaponSchema.parse(w[1]))}), {});
 
   const [weapons, setWeapons] = useState(typedBaseWeapons)
 
