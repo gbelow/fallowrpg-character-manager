@@ -85,6 +85,7 @@ export const WeaponAttackSchema = z.object({
   RESmod: num.default(0),
 
   AP: num.default(0),
+  reload: num.default(0),
   deflection: num.default(0),
 
   properties: str.default(''),

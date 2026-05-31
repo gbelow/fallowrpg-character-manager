@@ -6,96 +6,129 @@
     "poise": 0,
     "INS": 2,
     "protection": 0,
-    "deflection": 4,
+    "deflection": 3,
     "penalty": 0,
-    "properties": "cloth"
+    "properties": "fiber",
+    "notes": ""
+  },
+  "FurCoat": {
+    "name": "Fur Coat",
+    "RES": 4,
+    "RESlayer": 0,
+    "poise": 0,
+    "INS": 5,
+    "protection": 2,
+    "deflection": 5,
+    "penalty": 0,
+    "properties": "fiber",
+    "notes": ""
+  },
+  "ThickHide": {
+    "name": "Thick Hide",
+    "RES": 6,
+    "RESlayer": 0,
+    "poise": 0,
+    "INS": 7,
+    "protection": 4,
+    "deflection": 6,
+    "penalty": 0,
+    "properties": "fiber",
+    "notes": ""
   },
   "Gambeson": {
     "name": "Gambeson",
-    "RES": 10,
+    "RES": 8,
     "RESlayer": 0,
-    "poise": 0,
+    "poise": 1,
     "INS": 6,
     "protection": 3,
-    "deflection": 4,
+    "deflection": 5,
     "penalty": 0,
-    "properties": "cloth"
+    "properties": "fiber",
+    "notes": ""
   },
   "PaddedArmor": {
     "name": "Padded Armor",
     "RES": 12,
     "RESlayer": 0,
-    "poise": 0,
+    "poise": 2,
     "INS": 8,
-    "protection": 8,
+    "protection": 5,
     "deflection": 5,
     "penalty": 1,
-    "properties": "cloth"
+    "properties": "fiber",
+    "notes": ""
   },
   "ChainShirt": {
     "name": "Chain Shirt",
-    "RES": 12,
+    "RES": 10,
     "RESlayer": 0,
     "poise": 0,
     "INS": 5,
     "protection": 3,
-    "deflection": 4,
+    "deflection": 5,
     "penalty": 0,
-    "properties": "metallic"
+    "properties": "metallic",
+    "notes": ""
   },
   "Hauberk": {
     "name": "Hauberk",
-    "RES": 15,
+    "RES": 12,
     "RESlayer": 0,
     "poise": 0,
     "INS": 6,
-    "protection": 5,
+    "protection": 4,
     "deflection": 5,
     "penalty": 1,
-    "properties": "metallic"
+    "properties": "metallic",
+    "notes": ""
   },
   "Brigandine": {
     "name": "Brigandine",
-    "RES": 20,
+    "RES": 15,
     "RESlayer": 0,
     "poise": 0,
     "INS": 8,
-    "protection": 8,
+    "protection": 6,
     "deflection": 6,
     "penalty": 2,
-    "properties": "metallic"
+    "properties": "metallic",
+    "notes": ""
   },
   "HalfArmor": {
     "name": "Half Armor",
-    "RES": 30,
-    "RESlayer": 0,
+    "RES": 20,
+    "RESlayer": 10,
     "poise": 0,
     "INS": 7,
-    "protection": 15,
+    "protection": 10,
     "deflection": 5,
     "penalty": 2,
-    "properties": "rigid"
+    "properties": "rigid, metallic",
+    "notes": ""
   },
   "FullArmor": {
     "name": "Full Armor",
-    "RES": 30,
+    "RES": 20,
     "RESlayer": 0,
     "poise": 0,
-    "INS": 10,
-    "protection": 15,
+    "INS": 9,
+    "protection": 10,
     "deflection": 7,
     "penalty": 3,
-    "properties": "rigid"
+    "properties": "rigid, metallic",
+    "notes": ""
   },
   "ReinforcedArmor": {
     "name": "Reinforced Armor",
-    "RES": 40,
+    "RES": 25,
     "RESlayer": 0,
     "poise": 0,
     "INS": 10,
-    "protection": 18,
+    "protection": 12,
     "deflection": 8,
     "penalty": 4,
-    "properties": "rigid"
+    "properties": "rigid, metallic",
+    "notes": ""
   }
 }

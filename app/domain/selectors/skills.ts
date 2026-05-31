@@ -71,7 +71,6 @@ export function getGrapple(c: Character) {
 export function getCunning(c: Character) {
   return (
     getAwareness(c) -
-    3 * c.hasHelm +
     skill(c, 'cunning') -
     getAfflictionPenalty(c, 'cunning')
   )
@@ -119,6 +118,7 @@ export function getDetection(c: Character) {
   return (
     getAwareness(c) +
     skill(c, 'detection') -
+    3 * c.hasHelm -
     getAfflictionPenalty(c, 'detection')
   )
 }

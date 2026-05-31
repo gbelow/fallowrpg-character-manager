@@ -40,7 +40,7 @@
     "climb": 2,
     "knowledge": 0,
     "explore": 0,
-    "cunning": 1,
+    "cunning": 0,
     "will": 6,
     "persuasion": 0,
     "deception": 0,
@@ -75,16 +75,16 @@
   "hasHelm": 0,
   "armor": {
     "name": "Brigandine",
-    "RES": 20,
+    "RES": 15,
     "RESlayer": 0,
     "INS": 8,
     "poise": 0,
-    "protection": 8,
+    "protection": 6,
     "deflection": 6,
     "penalty": 2,
     "properties": "metallic",
     "notes": "",
-    "prot": 8,
+    "prot": 6,
     "cover": 6
   },
   "weapons": {
@@ -96,17 +96,18 @@
         {
           "type": "melee",
           "handed": "two",
-          "energy": 14,
+          "energy": 12,
           "STRmod": 0,
           "heavyMod": 1,
-          "SHP": 1,
+          "SHP": 1.5,
           "forceMod": 1,
           "range": "long I",
-          "RES": 50,
+          "RES": 30,
           "RESmod": 0,
-          "AP": 4,
+          "AP": 3,
+          "reload": 0,
           "deflection": 0,
-          "properties": "sweep, DEF, heavy II"
+          "properties": "sweep, DEF, heavy I-II, bladed"
         },
         {
           "type": "melee",
@@ -117,11 +118,12 @@
           "SHP": 2,
           "forceMod": 1,
           "range": "long I",
-          "RES": 50,
+          "RES": 20,
           "RESmod": 0,
           "AP": 3,
+          "reload": 0,
           "deflection": 0,
-          "properties": "precise, heavy I, braced"
+          "properties": "piercing, heavy I, braced"
         }
       ]
     }

@@ -18,7 +18,7 @@ export function ArmorPanel(){
     <>
       <div className='font-bold '>Armor: {armor.name}</div>
       <ArmorAddons />
-      <span>Poise {armor.poise + effectiveTGH}</span>
+      
       <table className='w-84 md:w-full text-center'>
         <thead>
           <tr >
@@ -32,7 +32,7 @@ export function ArmorPanel(){
           <tr>
             <td>T0</td>
             <td>{ armor.protection}</td>
-            <td>{ armor.RES}</td>
+            <td>{ armor.RES + (armor.RESlayer > 0 ? "/" + armor.RESlayer : '')}</td>
             <td>{ armor.INS}</td>
           </tr>
           <tr>
@@ -62,10 +62,16 @@ export function ArmorPanel(){
         </tbody>
       </table>
       <div className='flex gap-2 text-center justify-center'>
-        <span>Poise {armor.poise}</span>
+        <span>Poise {armor.poise + effectiveTGH}</span>
         <span>Penal {armor.penalty}</span>
         <span>Deflection {armor.deflection}</span>
+        <span> {armor.properties}</span>
       </div>
+      {
+        armor.notes ?
+        <textarea title='armorNotes' value={armor.notes} />
+        : null
+      }
     </>
   )
 }
