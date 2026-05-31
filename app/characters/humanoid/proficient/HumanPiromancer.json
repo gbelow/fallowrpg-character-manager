@@ -12,14 +12,16 @@
     "DEX": 1,
     "melee": 0,
     "ranged": 2,
-    "detection": 2,
-    "spellcast": 2,
+    "awareness": 0,
+    "sorcery": 0,
     "conviction1": 0,
     "conviction2": 0,
     "devotion": 0,
     "RES": 0,
     "INS": 0,
-    "TGH": 0
+    "TGH": 0,
+    "detection": 2,
+    "spellcast": 2
   },
   "skills": {
     "strike": 0,
@@ -31,7 +33,7 @@
     "stealth": 0,
     "prestidigitation": 0,
     "balance": 0,
-    "strength": 0,
+    "detection": 0,
     "health": 0,
     "swim": 0,
     "climb": 0,
@@ -50,6 +52,7 @@
     "biomancy": 0,
     "telepathy": 0,
     "animancy": 0,
+    "strength": 0,
     "charm": 2,
     "stress": 1,
     "acting": 0,
@@ -72,11 +75,15 @@
   "armor": {
     "name": "Chain Shirt",
     "RES": 12,
-    "TGH": 0,
     "INS": 5,
+    "poise": 0,
+    "protection": 0,
+    "deflection": 0,
+    "penalty": 0,
+    "properties": "",
+    "TGH": 0,
     "prot": 3,
     "cover": 4,
-    "penalty": 0,
     "type": "metallic"
   },
   "weapons": {
@@ -121,5 +128,5 @@
     }
   },
   "containers": {},
-  "notes": "Lança chamas - NA 8 -  6 AP+1STA - explosão cone 4m 60 graus - 20xMD dano fogo."
+  "notes": ""
 }

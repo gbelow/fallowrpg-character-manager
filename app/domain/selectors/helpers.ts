@@ -30,10 +30,10 @@ export function scaleArmor(armor: Armor, scale: number): Armor {
   const arm = {
     ...armor,
     RES: Math.floor(armor.RES * dmgArr[scaleIndex]),
-    TGH: Math.floor(armor.TGH * dmgArr[scaleIndex]),
     INS: Math.floor(armor.INS * dmgArr[scaleIndex]),
-    prot: Math.floor(armor.prot * dmgArr[scaleIndex]),
-    cover: armor.cover - SMArr[scaleIndex]
+    prot: Math.floor(armor.protection * dmgArr[scaleIndex]),
+    poise: Math.floor(armor.poise * dmgArr[scaleIndex]),
+    cover: armor.deflection - SMArr[scaleIndex]
   }
   return arm
 }
@@ -52,9 +52,9 @@ export function scaleWeapon(weapon: Weapon, scale: number): Weapon {
     scale: clampedScale,
     attacks: weapon.attacks.map(el => ({
       ...el,
-      impact: Math.floor(el.impact * dmgArr[scaleIndex]),
+      energy: Math.floor(el.energy * dmgArr[scaleIndex]),
       RES: Math.floor(el.RES * dmgArr[scaleIndex]),
-      TGH: Math.floor(el.TGH * dmgArr[scaleIndex])
+
     }))
   }
   return weap

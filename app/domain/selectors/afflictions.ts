@@ -1,6 +1,7 @@
 import { CampaignCharacter, Character } from '../types'
 import { SkillPenaltyTable, AFFLICTIONS as afflictionDefinitions } from '../tables'
 import { isCampaignCharacter } from '../utils'
+import { getSTA } from './characteristics'
 
 export function getAfflictions(character: Character){
   if(!isCampaignCharacter(character)) return []
@@ -14,9 +15,9 @@ export function getAfflictions(character: Character){
   if(rss.thirst > 15) afflictions.add('dehydrated')
   if(rss.thirst > 20) afflictions.add('confused')
 
-  if(rss.exhaustion > (character.characteristics.STA/2)) afflictions.add('tired')
-  if(rss.exhaustion > character.characteristics.STA) afflictions.add('exhausted')
-  if(rss.exhaustion > 1.5*character.characteristics.STA) afflictions.add('confused')
+  if(rss.exhaustion > (getSTA(character)/2)) afflictions.add('tired')
+  if(rss.exhaustion > getSTA(character)) afflictions.add('exhausted')
+  if(rss.exhaustion > 1.5*getSTA(character)) afflictions.add('confused')
   
   return [...afflictions]
 }

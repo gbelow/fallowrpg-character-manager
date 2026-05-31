@@ -3,7 +3,7 @@ import { CampaignCharacter } from "../types"
 import { bleed } from "./bleed"
 
 export function actionSurge(c: CampaignCharacter): CampaignCharacter {
-  const cost = 3 + Math.floor(getGearPenalties(c) / 3)
+  const cost = 3
   if (c.hasActionSurge && c.resources && cost <= c.resources.STA) {
     const char = bleed(cost)(c)
     return {

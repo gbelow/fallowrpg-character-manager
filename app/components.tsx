@@ -4,7 +4,7 @@ import armors from './armors.json'
 import baseWeapons from './weapons.json'
 import { PlayPanel } from './components/PlayPanel';
 import { CharacterCreator } from './components/CharacterCreator';
-import { scaleWeapon } from './components/utils';
+import { scaleWeapon } from './domain/selectors/helpers';
 import { upsertBaseCharacter, deleteBaseCharacter, getCharacter, deleteCharacter } from './actions';
 import { useAppStore } from './stores/useAppStore';
 import { makeCharacter } from './domain/factories';

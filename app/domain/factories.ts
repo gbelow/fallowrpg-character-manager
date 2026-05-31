@@ -1,5 +1,6 @@
 import z from 'zod'
 import { CampaignCharacter, CampaignCharacterSchema, CampaignValuesSchema, Character, CharacterSchema } from './types'
+import { getSTA } from './selectors/characteristics'
 
 export function makeCharacter(raw: unknown): Character {
   const EMPTY_CHARACTER: Character =  CharacterSchema.parse({ path: '',})
@@ -52,7 +53,7 @@ export function makeCampaignCharacter(raw: unknown, character: Character):Campai
     ...campaignCharacter,
     afflictions: parsed.data.afflictions ?? campaignCharacter.afflictions,
     resources: {
-      ...parsed.data.resources ?? {...campaignCharacter.resources, STA: campaignCharacter.characteristics.STA, AP: 6},
+      ...parsed.data.resources ?? {...campaignCharacter.resources, STA: getSTA(campaignCharacter), AP: 6},
     },
     injuries: {
       ...parsed.data?.injuries ?? campaignCharacter.injuries,

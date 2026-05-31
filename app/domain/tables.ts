@@ -11,7 +11,16 @@ export const SkillPenaltyTable = {
     "swim",
   ],
   "sensory":[
-    "strike", "defend", "accuracy", "reflex", "cunning", "balance", "climb", "exploration", "stealth", "prestidigitation"
+    "strike", 
+    "defend", 
+    "accuracy", 
+    "reflex", 
+    "detection", 
+    "balance", 
+    "climb", 
+    "exploration", 
+    "stealth", 
+    "prestidigitation"
   ],
   "mental":[
     "knowledge",

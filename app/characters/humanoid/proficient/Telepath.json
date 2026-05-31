@@ -12,14 +12,16 @@
     "DEX": 0,
     "melee": 0,
     "ranged": 0,
-    "detection": 2,
-    "spellcast": 2,
+    "awareness": 0,
+    "sorcery": 0,
     "conviction1": 0,
     "conviction2": 0,
     "devotion": 0,
     "RES": 0,
     "INS": 0,
-    "TGH": 0
+    "TGH": 0,
+    "detection": 2,
+    "spellcast": 2
   },
   "skills": {
     "strike": 0,
@@ -31,7 +33,7 @@
     "stealth": 0,
     "prestidigitation": 0,
     "balance": 0,
-    "strength": 0,
+    "detection": 0,
     "health": 0,
     "swim": 0,
     "climb": 0,
@@ -50,6 +52,7 @@
     "biomancy": 0,
     "telepathy": 3,
     "animancy": 0,
+    "strength": 0,
     "charm": 4,
     "stress": 2,
     "acting": 0,
@@ -72,11 +75,15 @@
   "armor": {
     "name": "Chain Shirt",
     "RES": 12,
-    "TGH": 0,
     "INS": 5,
+    "poise": 0,
+    "protection": 0,
+    "deflection": 0,
+    "penalty": 0,
+    "properties": "",
+    "TGH": 0,
     "prot": 3,
     "cover": 4,
-    "penalty": 0,
     "type": "metallic"
   },
   "weapons": {
@@ -121,5 +128,5 @@
     }
   },
   "containers": {},
-  "notes": "\\spell{Assustar}{3 AP }{Telepatia 1}{}{5}{15m, alvo detectável}{Psíquico}{instantâneo}{ Um ataque espiritual que faz alguém ficar com medo se falhar ou raspar em um teste de vontade contra o Estressar.}\n\n\\spell{Calmaria}{3 AP }{Telepatia 1}{}{5}{15m, alvo detectável}{Psíquico}{instantâneo}{ Um ataque espiritual que remove o medo ou fúria se falhar ou raspar em um teste de vontade contra o Encantar.}\n\n\\spell{Ligação Telepática}{3 AP}{Telepatia 3}{}{5}{20m}{Efeito}{10 minutos}{Cria uma ligação telepática com uma criatura próxima se falharem ou rasparem em um teste de vontade ou se permitirem a ligação. O conjurador pode falar diretamente com a mente de seu alvo durante a duração do feitiço ou até que a distância máxima seja excedida, momento em que o feitiço se quebra. Cada ligação simultânea aumenta a dificuldade do teste de feitiçaria em 2.}\n\n\\spell{Sugestão}{3 AP }{Telepatia 2}{}{5}{15m alvo que consiga ouvir e entender a sugestão}{Psíquico}{}{Diz a uma criatura que consiga escutar e entender as palavras e que esteja confusa, enfurecida, seduzida ou amedrontada para fazer uma coisa, causando a compulsão de obedecer. Se falharem ou rasparem em um teste vontade contra Encantar, eles obedecerão. Essa compulsão não deve custar mais do que 6 AP em caso de erro, 4 AP em caso de raspar. }\n"
+  "notes": ""
 }

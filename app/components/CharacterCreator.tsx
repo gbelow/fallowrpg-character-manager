@@ -127,28 +127,28 @@ export function CharacterCreator() {
           <Movementinput movementName={'stand'}  title={'stand up'} />
         </div>
         <div className='flex flex-row gap-2 justify-center'>
-          <StatDial stat={'STR'} title={'STR'} />
-          <StatDial stat={'AGI'} title={'AGI'} />
-          <StatDial stat={'STA'} title={'STA'} />
           <StatDial stat={'CON'} title={'CON'} />
           <StatDial stat={'DEX'} title={'DEX'} />
           <StatDial stat={'INT'} title={'INT'} />
           <StatDial stat={'SPI'} title={'SPI'} />
+          {/* <StatDial stat={'RES'} title={'RES'} /> */}
+          {/* <StatDial stat={'TGH'} title={'TGH'} /> */}
+          {/* <StatDial stat={'INS'} title={'INS'} /> */}
+          {/* <StatDial stat={gearPen} natStat={gearPen} setStat={setGearPen} title={'Gear pen'} /> */}        
         </div>
         <div className='flex flex-row gap-2 justify-center'>
+          <StatDial stat={'STR'} title={'STR'} />
+          <StatDial stat={'AGI'} title={'AGI'} />
+          <StatDial stat={'STA'} title={'STA'} />
           <StatDial stat={'size'} title={'size'} />
-          <StatDial stat={'RES'} title={'RES'} />
-          <StatDial stat={'TGH'} title={'TGH'} />
-          <StatDial stat={'INS'} title={'INS'} />
-          {/* <StatDial stat={gearPen} natStat={gearPen} setStat={setGearPen} title={'Gear pen'} /> */}
-          
-
         </div>
+        
         <div className='flex flex-row gap-2 justify-center'>
           <StatDial stat={'melee'} title={'Melee'} />
           <StatDial stat={'ranged'} title={'Ranged'} />
-          <StatDial stat={'detection'} title={'Detection'} />
-          <StatDial stat={'spellcast'} title={'Spellcasting'} />
+          <StatDial stat={'awareness'} title={'Awareness'} />
+          <StatDial stat={'sorcery'} title={'Sorcery'} />
+          <StatDial stat={'charisma'} title={'Charisma'} />
           <StatDial stat={'conviction1'} title={'Conviction1'} />
           <StatDial stat={'conviction2'} title={'Conviction2'} />
         </div>
@@ -167,7 +167,7 @@ export function CharacterCreator() {
           <SkillItem key={'balance'} skillName='balance' title='balance' />
           <SkillItem key={'climb'} skillName='climb' title='climb' />
           <SkillItem key={'swim'} skillName='swim' title='swim' />
-          <SkillItem key={'strength'} skillName='strength' title='strength' />
+          <SkillItem key={'detection'} skillName='detection' title='detection' />
           <SkillItem key={'stealth'} skillName='stealth' title='stealth' />
           <SkillItem key={'prestidigitation'} skillName='prestidigitation' title='prestidigitation' />
           <SkillItem key={'health'} skillName='health' title='health' />

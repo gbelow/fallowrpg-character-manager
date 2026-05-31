@@ -7,12 +7,15 @@ const str = z.string()
 export const ArmorSchema = z.object({
   name: z.string().default('Skin'),
   RES: z.number().default(0),
-  TGH: z.number().default(0),
+  RESlayer: z.number().default(0),
+  // TGH: z.number().default(0),
   INS: z.number().default(0),
-  prot: z.number().default(0),
-  cover: z.number().default(0),
+  poise: z.number().default(0),
+  protection: z.number().default(0),
+  deflection: z.number().default(0),
   penalty: z.number().default(0),
-  type: z.enum(['cloth', 'metallic', 'rigid']).default('rigid'),
+  properties: str.default(''),
+  notes: z.string().default(''),
 }).strip()
 
 export type Armor = z.infer<typeof ArmorSchema>
@@ -28,7 +31,7 @@ export const SkillsSchema = z.object({
   stealth: num.default(0),
   prestidigitation: num.default(0),
   balance: num.default(0),
-  strength: num.default(0),
+  detection: num.default(0),
   health: num.default(0),
   swim: num.default(0),
   climb: num.default(0),
@@ -70,22 +73,21 @@ export const WeaponAttackSchema = z.object({
   type: str.default('melee'),
   handed: str.default('small'),
 
-  impact: num.default(0),
+  energy: num.default(0),
   STRmod: num.default(0),
   heavyMod: num.default(0),
-  penMod: num.default(0),
+  SHP: num.default(0),
+  forceMod: num.default(0),
 
   range: str.default('short'),
 
   RES: num.default(0),
   RESmod: num.default(0),
-  TGH: num.default(0),
-  TGHmod: num.default(0),
 
   AP: num.default(0),
   deflection: num.default(0),
 
-  props: str.default(''),
+  properties: str.default(''),
 }).strip()
 
 export type WeaponAttack = z.infer<typeof WeaponAttackSchema>
@@ -179,16 +181,17 @@ export const CharacteristicsSchema = z.object({
 
   melee: z.number().default(0),
   ranged: z.number().default(0),
-  detection: z.number().default(0),
-  spellcast: z.number().default(0),
+  awareness: z.number().default(0),
+  sorcery: z.number().default(0),
   conviction1: z.number().default(0),
   conviction2: z.number().default(0),
   devotion: z.number().default(0),
+  charisma: z.number().default(0),
 
   // Base additive terms for derived wound thresholds.
   // Effective values are computed in selectors from: floor((0.5 * STR + base) * DM)
-  RES: z.number().default(0),
-  INS: z.number().default(0),
+  // RES: z.number().default(0),
+  // INS: z.number().default(0),
   TGH: z.number().default(0),
 }).strip()
 

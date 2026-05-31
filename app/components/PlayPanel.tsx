@@ -111,6 +111,15 @@ export function PlayPanel(){
               <SimpleCharacteristic propName={'SPI'} />
               <SimpleCharacteristic propName={'DEX'} />
             </div>
+            <div className='flex flex-row gap-2 justify-center'>
+              <SimpleCharacteristic propName={'melee'} />
+              <SimpleCharacteristic propName={'ranged'} />
+              <SimpleCharacteristic propName={'awareness'} />
+              <SimpleCharacteristic propName={'charisma'} />
+              <SimpleCharacteristic propName={'sorcery'} />
+              <SimpleCharacteristic propName={'conviction1'} />
+              <SimpleCharacteristic propName={'conviction2'} />
+            </div>
             <div className='flex flex-row'>
               <h2 className='text-md'>Last roll:</h2>
               <span className='px-4'>{rolledSkill.name} : {rolledSkill.value}</span>
@@ -127,7 +136,7 @@ export function PlayPanel(){
             <div className='flex flex-row gap-2 justify-center'>
               <SimpleSkill skillName={'balance'} rollSkill={rollSkill}/>
               <SimpleSkill skillName={'climb'} rollSkill={rollSkill}/>
-              <SimpleSkill skillName={'strength'} rollSkill={rollSkill}/>
+              <SimpleSkill skillName={'detection'} rollSkill={rollSkill}/>
               <SimpleSkill skillName={'stealth'} rollSkill={rollSkill}/>
               <SimpleSkill skillName={'prestidigitation'} rollSkill={rollSkill}/>
               <SimpleSkill skillName={'health'} rollSkill={rollSkill}/>
@@ -158,9 +167,9 @@ export function PlayPanel(){
             <AfflictionsPannel />
             <ArmorPanel  />
             <div className='flex flex-row gap-2 text-center justify-center'>
-              <SimpleCharacteristic propName={'RES'} />
-              <SimpleCharacteristic propName={'TGH'} />
-              <SimpleCharacteristic propName={'INS'} />
+              {/* <SimpleCharacteristic propName={'RES'} /> */}
+              {/* <SimpleCharacteristic propName={'TGH'} /> */}
+              {/* <SimpleCharacteristic propName={'INS'} /> */}
             </div>
             <WeaponPanel />
             <span>Items</span>
@@ -173,18 +182,16 @@ export function PlayPanel(){
   )
 }
 
-function DamageButton({tier}: {tier: keyof typeof injuryMap}){
+function DamageButton({amount}: {amount: number}){
   const { injuries, setInjury } = useInjuryLens()
-  const [AP, setAP] = useResourceLens('AP')
-  const dealDamage = (hasInterrupt: boolean) => {
-    setInjury('injuryLevel', injuries.injuryLevel + (injuryMap[tier] ?? 0));
-    hasInterrupt && setAP(AP - 2) 
+
+  const dealDamage = () => {
+    setInjury('injuryLevel', injuries.injuryLevel + amount);
   }
 
   return(
     <div className='flex flex-row'>
-      <input type='button' className='border p-1' aria-label={`cause${tier}Injury`} value={tier} onClick={() => dealDamage(false)} />
-      <input type='button' className='border p-1 px-2' aria-label={`cause${tier}Interrupt`} value={'i'} onClick={() => dealDamage(true)} />
+      <input type='button' className='border p-1' aria-label={`cause${amount}Injury`} value={amount} onClick={ dealDamage} />
     </div>
   )
 }
@@ -196,12 +203,12 @@ function DamageControl(){
       <div className='flex flex-col justify-center items-center gap-2 ml-4'>
         <span className='text-xs'>Cause Injury</span>
         <div className='flex flex-row gap-2' >
-          <DamageButton tier='T1' />
-          <DamageButton tier='T2' />
+          <DamageButton amount={5} />
+          <DamageButton amount={10} />
         </div>
         <div className='flex flex-row gap-2'>
-          <DamageButton tier='T3' />
-          <DamageButton tier='T4' />
+          <DamageButton amount={20} />
+          <DamageButton amount={30} />
         </div>
       </div>      
     </div>

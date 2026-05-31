@@ -1,3 +1,4 @@
+import { getSTA } from "../selectors/characteristics"
 import { CampaignCharacter, Character } from "../types"
 
 export function restCharacter(c: CampaignCharacter): CampaignCharacter
@@ -6,7 +7,7 @@ export function restCharacter(c: CampaignCharacter): CampaignCharacter
     return c
   }
 
-  const newSTA = c.resources.STA + Math.floor(c.characteristics.STA / 4)
+  const newSTA = c.resources.STA + Math.floor(getSTA(c) / 4)
   const newAP = c.resources.AP - 4
 
   return {

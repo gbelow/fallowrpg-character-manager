@@ -41,19 +41,22 @@ export function WeaponPanel(){
       return Math.floor(value + mod*STR)
   }
 
-  const parseAtkDamage = (atk: WeaponAttack, scale: number) => {
-    let impact = parseModdedValue(atk.impact, atk.STRmod)
-    return(
-      impact+(atk.heavyMod ? '+' + (atk.type == 'melee' ? Math.floor(atk.heavyMod*STR*dmgArr[scale-1])  : atk.heavyMod*dmgArr[scale-1]) : '' ) + '/' +Math.floor(impact*atk.penMod)+(atk.heavyMod ? '+'+(atk.type == 'melee' ? Math.floor(atk.heavyMod*atk.penMod*STR*dmgArr[scale-1]) : atk.heavyMod*atk.penMod*dmgArr[scale-1]) : '')
+  const parseAtkDamage = (atk: WeaponAttack, scale: number, component: string) => {
+    let energy = parseModdedValue(atk.energy, atk.STRmod)
+    const dmgScale = dmgArr[scale-1]
+    const value = 
+    component === "blunt" ? energy /*+(atk.heavyMod ? '+' + Math.floor(atk.heavyMod*STR*dmgScale) : '' )*/ :
+    component === "cutting" ? Math.floor(energy*atk.SHP) /*+ (atk.heavyMod ? '+'+ Math.floor(atk.heavyMod*atk.SHP*STR*dmgScale) : '')*/ :
+    component === "force" ? Math.floor(energy*atk.forceMod) /*+(atk.heavyMod ? '+'+ Math.floor(atk.heavyMod*atk.forceMod*STR*dmgScale) : '')*/ : 0
 
-    )
+    return(value)
   }
 
   
 
   return(
     <div className='flex flex-col justify-center w-84 md:w-full'>
-      <span className="pb-1"> Weapon: {lastAtk.weapon} /  properties: {lastAtk.properties} / ROLL: {lastAtk.atk}  </span>
+      <span className="pb-1"> Weapon: {lastAtk.weapon} /  type: {lastAtk.properties} / ROLL: {lastAtk.atk}  </span>
       {
         Object.entries(weapons).map(([key, el]) => {
           
@@ -72,14 +75,15 @@ export function WeaponPanel(){
                 <thead>
                   <tr>
                     <td>RES</td>
-                    <td>TGH</td>
-                    <td>impact/PEN</td>
+                    <td>force</td>
+                    <td>blunt</td>
+                    <td>cutting</td>
                     <td>AP</td>
                     <td>reach</td>
                     <td>DEF</td>
                     <td>properties</td>
                     <td>basic atk</td>
-                    <td>moded atk</td>
+                    {/* <td>moded atk</td> */}
                   </tr>
                 </thead>
                 <tbody>
@@ -87,14 +91,15 @@ export function WeaponPanel(){
                     el.attacks.map((atk, index) => 
                       <tr key={el+index.toString()}>
                         <td>{parseModdedValue(atk.RES, atk.RESmod)}</td>
-                        <td>{parseModdedValue(atk.TGH, atk.TGHmod)}</td>
-                        <td>{parseAtkDamage(atk, el.scale)}</td>
-                        <td>{atk.AP + '+' + (atk.heavyMod === 0.5 ? 1 : atk.heavyMod === 1 ? 2 : atk.heavyMod === 1.5 ? 3 : 0)}</td>
+                        <td>{parseAtkDamage(atk, el.scale, "force")}</td>
+                        <td>{parseAtkDamage(atk, el.scale, "blunt")}</td>
+                        <td>{parseAtkDamage(atk, el.scale, "cutting")}</td>
+                        <td>{atk.AP /*+ '+' + (atk.heavyMod === 0.5 ? 1 : atk.heavyMod === 1 ? 2 : atk.heavyMod === 1.5 ? 3 : 0)*/}</td>
                         <td>{atk.range}</td>
                         <td>{atk.deflection}</td>
-                        <td>{atk.props}</td>
+                        <td>{atk.properties}</td>
                         <td><input className="bg-gray-500 border rounded px-1" type='button' value={'basic'} onClick={() => pressAtk(atk, 'basic', el.name)} /></td>
-                        <td>{atk.heavyMod > 0 ? <input className="bg-gray-500 border rounded px-1" type='button' value={'heavy'} onClick={() => pressAtk(atk, 'heavy', el.name)}  /> : null}</td>
+                        {/* <td>{atk.heavyMod > 0 ? <input className="bg-gray-500 border rounded px-1" type='button' value={'heavy'} onClick={() => pressAtk(atk, 'heavy', el.name)}  /> : null}</td> */}
                       </tr>
                     )
                   }

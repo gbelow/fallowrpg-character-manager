@@ -2,91 +2,100 @@
   "Clothing": {
     "name": "Clothing",
     "RES": 3,
-    "TGH": 0,
+    "RESlayer": 0,
+    "poise": 0,
     "INS": 2,
-    "prot": 0,
-    "cover": 4,
+    "protection": 0,
+    "deflection": 4,
     "penalty": 0,
-    "type": "cloth"
+    "properties": "cloth"
   },
   "Gambeson": {
     "name": "Gambeson",
     "RES": 10,
-    "TGH": 0,
+    "RESlayer": 0,
+    "poise": 0,
     "INS": 6,
-    "prot": 3,
-    "cover": 4,
+    "protection": 3,
+    "deflection": 4,
     "penalty": 0,
-    "type": "cloth"
+    "properties": "cloth"
   },
   "PaddedArmor": {
     "name": "Padded Armor",
     "RES": 12,
-    "TGH": 0,
+    "RESlayer": 0,
+    "poise": 0,
     "INS": 8,
-    "prot": 8,
-    "cover": 5,
+    "protection": 8,
+    "deflection": 5,
     "penalty": 1,
-    "type": "cloth"
+    "properties": "cloth"
   },
   "ChainShirt": {
     "name": "Chain Shirt",
     "RES": 12,
-    "TGH": 0,
+    "RESlayer": 0,
+    "poise": 0,
     "INS": 5,
-    "prot": 3,
-    "cover": 4,
+    "protection": 3,
+    "deflection": 4,
     "penalty": 0,
-    "type": "metallic"
+    "properties": "metallic"
   },
   "Hauberk": {
     "name": "Hauberk",
     "RES": 15,
-    "TGH": 0,
+    "RESlayer": 0,
+    "poise": 0,
     "INS": 6,
-    "prot": 5,
-    "cover": 5,
+    "protection": 5,
+    "deflection": 5,
     "penalty": 1,
-    "type": "metallic"
+    "properties": "metallic"
   },
   "Brigandine": {
     "name": "Brigandine",
     "RES": 20,
-    "TGH": 0,
+    "RESlayer": 0,
+    "poise": 0,
     "INS": 8,
-    "prot": 8,
-    "cover": 6,
+    "protection": 8,
+    "deflection": 6,
     "penalty": 2,
-    "type": "metallic"
+    "properties": "metallic"
   },
   "HalfArmor": {
     "name": "Half Armor",
     "RES": 30,
-    "TGH": 25,
+    "RESlayer": 0,
+    "poise": 0,
     "INS": 7,
-    "prot": 15,
-    "cover": 5,
+    "protection": 15,
+    "deflection": 5,
     "penalty": 2,
-    "type": "rigid"
+    "properties": "rigid"
   },
   "FullArmor": {
     "name": "Full Armor",
     "RES": 30,
-    "TGH": 25,
+    "RESlayer": 0,
+    "poise": 0,
     "INS": 10,
-    "prot": 15,
-    "cover": 7,
+    "protection": 15,
+    "deflection": 7,
     "penalty": 3,
-    "type": "rigid"
+    "properties": "rigid"
   },
   "ReinforcedArmor": {
     "name": "Reinforced Armor",
     "RES": 40,
-    "TGH": 30,
+    "RESlayer": 0,
+    "poise": 0,
     "INS": 10,
-    "prot": 18,
-    "cover": 8,
+    "protection": 18,
+    "deflection": 8,
     "penalty": 4,
-    "type": "rigid"
+    "properties": "rigid"
   }
 }

@@ -10,8 +10,8 @@ export function equipArmor(
   if (!armor.name || typeof armor.name !== 'string') {
     throw new Error('Armor must have a valid name')
   }
-  if (typeof armor.RES !== 'number' || typeof armor.TGH !== 'number' || typeof armor.INS !== 'number') {
-    throw new Error('Armor must have valid RES, TGH, and INS values')
+  if (typeof armor.RES !== 'number' || typeof armor.INS !== 'number') {
+    throw new Error('Armor must have valid RES and INS values')
   }
 
   return (character: Character) => ({ ...character, armor: scaleArmor(armor, character.characteristics.size) })

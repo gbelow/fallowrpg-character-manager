@@ -12,14 +12,17 @@
     "DEX": 2,
     "melee": 2,
     "ranged": 1,
-    "detection": 2,
-    "spellcast": 0,
+    "awareness": 0,
+    "sorcery": 0,
     "conviction1": 0,
     "conviction2": 0,
     "devotion": 0,
+    "charisma": 0,
+    "TGH": 0,
     "RES": 0,
     "INS": 0,
-    "TGH": 0
+    "detection": 2,
+    "spellcast": 0
   },
   "skills": {
     "strike": 3,
@@ -31,7 +34,7 @@
     "stealth": 0,
     "prestidigitation": 0,
     "balance": 2,
-    "strength": 0,
+    "detection": 0,
     "health": 2,
     "swim": 0,
     "climb": 2,
@@ -50,6 +53,7 @@
     "biomancy": 0,
     "telepathy": 0,
     "animancy": 0,
+    "strength": 0,
     "charm": 0,
     "stress": 6,
     "acting": 0,
@@ -72,12 +76,16 @@
   "armor": {
     "name": "Brigandine",
     "RES": 20,
-    "TGH": 0,
+    "RESlayer": 0,
     "INS": 8,
-    "prot": 8,
-    "cover": 6,
+    "poise": 0,
+    "protection": 8,
+    "deflection": 6,
     "penalty": 2,
-    "type": "metallic"
+    "properties": "metallic",
+    "notes": "",
+    "prot": 8,
+    "cover": 6
   },
   "weapons": {
     "Greatsword": {
@@ -88,38 +96,36 @@
         {
           "type": "melee",
           "handed": "two",
-          "impact": 14,
+          "energy": 14,
           "STRmod": 0,
           "heavyMod": 1,
-          "penMod": 1,
+          "SHP": 1,
+          "forceMod": 1,
           "range": "long I",
           "RES": 50,
           "RESmod": 0,
-          "TGH": 30,
-          "TGHmod": 0,
           "AP": 4,
           "deflection": 0,
-          "props": "sweep, DEF, heavy II"
+          "properties": "sweep, DEF, heavy II"
         },
         {
           "type": "melee",
           "handed": "two",
-          "impact": 8,
+          "energy": 8,
           "STRmod": 0,
           "heavyMod": 0.5,
-          "penMod": 2,
+          "SHP": 2,
+          "forceMod": 1,
           "range": "long I",
           "RES": 50,
           "RESmod": 0,
-          "TGH": 20,
-          "TGHmod": 0,
           "AP": 3,
           "deflection": 0,
-          "props": "precise, heavy I, braced"
+          "properties": "precise, heavy I, braced"
         }
       ]
     }
   },
   "containers": {},
-  "notes": "Reconstrução celular: 3AP+1STA - Regenera número de curas igual à saúde.\n\nContra ataque, giro da morte, levantada técnica, movimentação tática."
+  "notes": ""
 }

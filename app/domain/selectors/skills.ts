@@ -1,7 +1,7 @@
 import { Character, Lens } from '../types'
 import { getSM, skill } from './helpers'
-import { getAfflictionPenalty, getAfflictions, getInjuryPenalty } from './afflictions'
-import { getAGI, getMelee, getRanged, getDetection, getSpellcast, getSTR } from './characteristics'
+import { getAfflictionPenalty, getAfflictions } from './afflictions'
+import { getAGI, getMelee, getRanged, getAwareness, getSorcery, getSTR, getCharisma } from './characteristics'
 import { characteristicLenses } from '.'
 
 
@@ -48,7 +48,7 @@ export function getDefend(c: Character) {
 export function getReflex(c: Character) {
   const SM = getSM(c)
   return (
-    getDetection(c) +
+    getAwareness(c) +
     getRanged(c) -
     3 * c.hasHelm -
     SM +
@@ -70,7 +70,7 @@ export function getGrapple(c: Character) {
 
 export function getCunning(c: Character) {
   return (
-    getDetection(c) -
+    getAwareness(c) -
     3 * c.hasHelm +
     skill(c, 'cunning') -
     getAfflictionPenalty(c, 'cunning')
@@ -115,14 +115,11 @@ export function getSwim(c: Character) {
   )
 }
 
-export function getStrength(c: Character) {
-  const SM = getSM(c)
+export function getDetection(c: Character) {
   return (
-    getSTR(c) -
-    10 +
-    5 * SM +
-    skill(c, 'strength') -
-    getAfflictionPenalty(c, 'strength')
+    getAwareness(c) +
+    skill(c, 'detection') -
+    getAfflictionPenalty(c, 'detection')
   )
 }
 
@@ -158,7 +155,7 @@ export function getKnowledge(c: Character) {
 
 export function getExplore(c: Character) {
   return (
-    getDetection(c) +
+    getAwareness(c) +
     skill(c, 'explore') -
     getAfflictionPenalty(c, 'explore')
   )
@@ -169,15 +166,15 @@ export function getWill(c: Character) {
 }
 
 export function getPersuasion(c: Character) {
-  return skill(c, 'persuasion') - getAfflictionPenalty(c, 'persuasion')
+  return getCharisma(c) + skill(c, 'persuasion') - getAfflictionPenalty(c, 'persuasion')
 }
 
 export function getDeception(c: Character) {
-  return skill(c, 'deception') - getAfflictionPenalty(c, 'deception')
+  return getCharisma(c) + skill(c, 'deception') - getAfflictionPenalty(c, 'deception')
 }
 
 export function getInsight(c: Character) {
-  return skill(c, 'insight') - getAfflictionPenalty(c, 'insight')
+  return getCharisma(c) + skill(c, 'insight') - getAfflictionPenalty(c, 'insight')
 }
 
 export function getDevotion(c: Character) {
@@ -187,7 +184,7 @@ export function getDevotion(c: Character) {
 const magic =
   (school: string) =>
   (c: Character) =>
-    getSpellcast(c) +
+    getSorcery(c) +
     skill(c, school as keyof Character['skills']) -
     getAfflictionPenalty(c, school as keyof Character['skills'])
 

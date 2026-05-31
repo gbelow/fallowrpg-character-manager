@@ -10,14 +10,15 @@ export function ArmorPanel(){
   const [armor] = useArmorLens()
 
   const fallback = makeCharacter('')
-  const effectiveRES = useCharacteristicLens('RES')[0] ?? fallback.characteristics.RES
-  // const effectiveTGH = useCharacteristicLens('TGH')[0] ?? fallback.characteristics.TGH
-  const effectiveINS = useCharacteristicLens('INS')[0] ?? fallback.characteristics.INS
+  // const effectiveRES = useCharacteristicLens('RES')[0] ?? fallback.characteristics.RES
+  const effectiveTGH = useCharacteristicLens('TGH')[0] ?? fallback.characteristics.TGH
+  // const effectiveINS = useCharacteristicLens('INS')[0] ?? fallback.characteristics.INS
 
   return(
     <>
       <div className='font-bold '>Armor: {armor.name}</div>
       <ArmorAddons />
+      <span>Poise {armor.poise + effectiveTGH}</span>
       <table className='w-84 md:w-full text-center'>
         <thead>
           <tr >
@@ -30,40 +31,40 @@ export function ArmorPanel(){
         <tbody>
           <tr>
             <td>T0</td>
-            <td>{ armor.prot}</td>
+            <td>{ armor.protection}</td>
             <td>{ armor.RES}</td>
             <td>{ armor.INS}</td>
           </tr>
           <tr>
             <td>T1</td>
-            <td>{effectiveRES + armor.prot}</td>
-            <td>{effectiveRES + armor.RES}</td>
-            <td>{effectiveINS + armor.INS}</td>
+            <td>{effectiveTGH + armor.protection}</td>
+            <td>{effectiveTGH + armor.RES}</td>
+            <td>{effectiveTGH + armor.INS}</td>
           </tr>
           <tr>
             <td>T2</td>
-            <td>{effectiveRES*2 + armor.prot}</td>
-            <td>{effectiveRES*2 + armor.RES}</td>
-            <td>{effectiveINS*2 + armor.INS}</td>
+            <td>{effectiveTGH*2 + armor.protection}</td>
+            <td>{effectiveTGH*2 + armor.RES}</td>
+            <td>{effectiveTGH*2 + armor.INS}</td>
           </tr>
           <tr>
             <td>T3</td>
-            <td>{effectiveRES*3 + armor.prot}</td>
-            <td>{effectiveRES*3 + armor.RES}</td>
-            <td>{effectiveINS*3 + armor.INS}</td>
+            <td>{effectiveTGH*3 + armor.protection}</td>
+            <td>{effectiveTGH*3 + armor.RES}</td>
+            <td>{effectiveTGH*3 + armor.INS}</td>
           </tr>
           <tr>
             <td>T4</td>
-            <td>{effectiveRES*4 + armor.prot}</td>
-            <td>{effectiveRES*4 + armor.RES}</td>
+            <td>{effectiveTGH*4 + armor.protection}</td>
+            <td>{effectiveTGH*4 + armor.RES}</td>
             <td></td>
           </tr>
         </tbody>
       </table>
       <div className='flex gap-2 text-center justify-center'>
-        <span>TGH {armor.TGH}</span>
+        <span>Poise {armor.poise}</span>
         <span>Penal {armor.penalty}</span>
-        <span>Coverage {armor.cover}</span>
+        <span>Deflection {armor.deflection}</span>
       </div>
     </>
   )

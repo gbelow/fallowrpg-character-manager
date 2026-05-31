@@ -1,9 +1,9 @@
 import { Character, Characteristics, Lens, Movement, Skills } from "../types";
-import { getAGI, getCON, getConviction1, getConviction2, getDetection, getDEX, getINS, getINT, getMelee, getRanged, getRES, getSize, getSpellcast, getSPI, getSTA, getSTR, getTGH, makeCharacteristicLens } from "./characteristics";
+import { getAGI, getAwareness, getCharisma, getCON, getConviction1, getConviction2, getDEX, getINT, getMelee, getRanged, getSize, getSorcery, getSPI, getSTA, getSTR, getTGH, makeCharacteristicLens } from "./characteristics";
 import { getBasicMovement, getCarefulMovement, getCrawlMovement, getFastSwimMovement, getJumpMovement, getRunMovement, getStandMovement, getSwimMovement, makeMovementLens } from "./movement";
 import {
   getStrike, getAccuracy, getDefend, getReflex, getGrapple, getCunning, getSD,
-  getBalance, getClimb, getSwim, getStrength, getPrestidigitation, getHealth, getKnowledge,
+  getBalance, getClimb, getSwim, getPrestidigitation, getHealth, getKnowledge,
   getExplore, getWill, getDevotion,
   getCombustion, getEletromag, getRadiation, getEntropy, getBiomancy, getTelepathy, getAnimancy,
   getStealth,
@@ -11,6 +11,7 @@ import {
   getPersuasion,
   getInsight,
   getDeception,
+  getDetection,
 } from "./skills";
 
 export const skillLenses: Record<keyof Skills, Lens<Character, number>> = {
@@ -24,7 +25,7 @@ export const skillLenses: Record<keyof Skills, Lens<Character, number>> = {
   balance: makeSkillLens("balance", getBalance),
   climb: makeSkillLens("climb", getClimb),
   swim: makeSkillLens("swim", getSwim),
-  strength: makeSkillLens("strength", getStrength),
+  detection: makeSkillLens("detection", getDetection),
   stealth: makeSkillLens("stealth", getStealth),
   prestidigitation: makeSkillLens("prestidigitation", getPrestidigitation),
   health: makeSkillLens("health", getHealth),
@@ -55,14 +56,15 @@ export const characteristicLenses: Record<keyof Characteristics, Lens<Character,
   SPI: makeCharacteristicLens("SPI", getSPI),
   melee: makeCharacteristicLens("melee", getMelee),
   ranged: makeCharacteristicLens("ranged", getRanged),
-  detection: makeCharacteristicLens("detection", getDetection),
-  spellcast: makeCharacteristicLens("spellcast", getSpellcast),
+  awareness: makeCharacteristicLens("awareness", getAwareness),
+  sorcery: makeCharacteristicLens("sorcery", getSorcery),
   devotion: makeCharacteristicLens("devotion", getDevotion),
   conviction1: makeCharacteristicLens("conviction1", getConviction1),
   conviction2: makeCharacteristicLens("conviction2", getConviction2),
+  charisma: makeCharacteristicLens("charisma", getCharisma),
   TGH: makeCharacteristicLens("TGH", getTGH),
-  RES: makeCharacteristicLens("RES", getRES),
-  INS: makeCharacteristicLens("INS", getINS),
+  // RES: makeCharacteristicLens("RES", getRES),
+  // INS: makeCharacteristicLens("INS", getINS),
 }
 
 export const movementLenses: Record<keyof Movement, Lens<Character, number>> = {
