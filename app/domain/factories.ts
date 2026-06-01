@@ -1,5 +1,5 @@
 import z from 'zod'
-import { CampaignCharacter, CampaignCharacterSchema, CampaignValuesSchema, Character, CharacterSchema } from './types'
+import { ArmorSchema, CampaignCharacter, CampaignCharacterSchema, CampaignValuesSchema, Character, CharacterSchema, WeaponSchema } from './types'
 import { getSTA } from './selectors/characteristics'
 
 export function makeCharacter(raw: unknown): Character {
@@ -83,13 +83,11 @@ export const CharacterIngestSchema = z.object({
   hasGauntlets: z.number().optional(),
   hasHelm: z.number().optional(),
 
-  armor: z.record(z.string(), z.any()).optional(),
-  weapons: z.record(z.string(), z.any()).optional(),
+  armor: ArmorSchema.optional(),
+  weapons: z.record(z.string(), WeaponSchema).optional(),
   containers: z.record(z.string(), z.any()).optional(),
 
-  notes: z.string().optional(),
-
-  
+  notes: z.string().optional(),  
 }).strip()
 
 
