@@ -10,12 +10,12 @@ type CharacterStore = {
 
   updateCharacter: (
     updater: (c: Character) => Character
-  ) => void
+  ) => Character | undefined
 
   removeCharacter: (id: string) => void
 }
 
-export const useCharacterStore = create<CharacterStore>((set) => ({ 
+export const useCharacterStore = create<CharacterStore>((set, get) => ({ 
   character: null,
 
   loadCharacter: (rawCharacter) => {
@@ -27,18 +27,17 @@ export const useCharacterStore = create<CharacterStore>((set) => ({
     ))
   },
 
+  updateCharacter: (updater) => {
+    const current = get().character;
+    console.log('getchar', current)
+    if (!current) return undefined;
 
-  updateCharacter: ( updater) =>
-    set((s) => {
-      const current = s.character
-      if (!current) return s
-      const updated = updater(current)
+    const updated = updater(current);
 
-      return {
-        character: updated,
-        }
-      }
-    ),
+    set({ character: updated });
+
+    return updated;
+  },
   
   removeCharacter: () =>
     set(() => {

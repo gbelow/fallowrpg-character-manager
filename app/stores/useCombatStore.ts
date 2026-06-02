@@ -55,20 +55,22 @@ export const useCombatStore = create<CombatStore>((set, get) => ({
     return characters[activeCharacterId]
   },
 
-  updateActiveCharacter: (updater) =>
-    set((s) => {
-      const current = s.getActiveCharacter()      
-      if (!current || !current.id) return s
+  updateActiveCharacter: (updater) => {
+    const currentState = get();
+    const current = currentState.getActiveCharacter();
+    if (!current || !current.id) return undefined;
+    
+    const updated = updater(current);
 
-      const updated = updater(current)
-
-      return {
-        characters: {
-          ...s.characters,
-          [current.id]: updated
-        }
+    set({
+      characters: {
+        ...currentState.characters,
+        [current.id]: updated
       }
-    }),
+    });
+
+    return updated;
+  },
 
   removeCharacter: (id) =>
     set((s) => {
