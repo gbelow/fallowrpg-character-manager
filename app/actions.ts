@@ -1,6 +1,7 @@
 "use server"
 
 import { Character } from './domain/types';
+import { isCampaignCharacter } from './domain/utils';
 import redis from './redis'
 import fs from "fs";
 import path from "path";
@@ -43,7 +44,8 @@ export async function getBasicCharList(){
 }
 
 export async function upsertBaseCharacter(data: Character) {
-
+  if(isCampaignCharacter(data)) return
+   
   const {id, ...character} = data 
 
   const targetDir = path.join('app/characters', character.path);
@@ -79,7 +81,6 @@ export async function deleteBaseCharacter(
 export async function saveCharacter(character: Character) {
   try {
     const list: {id: string, name: string}[] = (await redis.get('charList')) ?? [];
-    console.log(list)
     if(!list.some(el => el.id === character.id)){
       await redis.set('charList', [...list, {id: character.id, name: character.name}]);
     }

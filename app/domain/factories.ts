@@ -1,56 +1,67 @@
 import z from 'zod'
-import { ArmorSchema, CampaignCharacter, CampaignCharacterSchema, CampaignValuesSchema, Character, CharacterSchema, WeaponSchema } from './types'
+import { ArmorSchema, CampaignCharacter, CampaignCharacterSchema, BaseCharacterSchema, WeaponSchema, BaseCharacter } from './types'
 import { getSTA } from './selectors/characteristics'
+import { isBaseCharacter } from './utils'
 
-export function makeCharacter(raw: unknown): Character {
-  const EMPTY_CHARACTER: Character =  CharacterSchema.parse({ path: '',})
-  if (typeof raw !== 'object' || raw === null) {
-    return EMPTY_CHARACTER
-  }
-
-  const parsed = CharacterIngestSchema.safeParse(raw)
-
-  if (!parsed.success) {
-    return EMPTY_CHARACTER
-  }
+function addBaseValues(emptyCharacter: BaseCharacter, parsedCharacter: CharacterIngestType): BaseCharacter
+function addBaseValues(emptyCharacter: CampaignCharacter, parsedCharacter: CampaignCharacterType): CampaignCharacter
+function addBaseValues (emptyCharacter: BaseCharacter | CampaignCharacter, parsedCharacter: CharacterIngestType | CampaignCharacterType){
 
   return {
-    ...EMPTY_CHARACTER,
-    ...parsed.data,
+    ...emptyCharacter,
+    ...parsedCharacter,
     
     // deep merge the important nested objects
     characteristics: {
-      ...EMPTY_CHARACTER.characteristics,
-      ...parsed.data.characteristics,
+      ...emptyCharacter.characteristics,
+      ...parsedCharacter.characteristics,
     },
     skills: {
-      ...EMPTY_CHARACTER.skills,
-      ...parsed.data.skills,
+      ...emptyCharacter.skills,
+      ...parsedCharacter.skills,
     },
     movement: {
-      ...EMPTY_CHARACTER.movement,
-      ...parsed.data.movement,
+      ...emptyCharacter.movement,
+      ...parsedCharacter.movement,
     },
     armor: {
-      ...EMPTY_CHARACTER.armor,
-      ...parsed.data.armor,
+      ...emptyCharacter.armor,
+      ...parsedCharacter.armor,
     },
-    weapons: parsed.data.weapons ?? EMPTY_CHARACTER.weapons,
-    containers: parsed.data.containers ?? EMPTY_CHARACTER.containers,
+    weapons: parsedCharacter.weapons ?? emptyCharacter.weapons,
+    containers: parsedCharacter.containers ?? emptyCharacter.containers,
   }
 }
 
-export function makeCampaignCharacter(raw: unknown, character: Character):CampaignCharacter {
+export function makeCharacter(raw: unknown): BaseCharacter {
+  const emptyCharacter: BaseCharacter =  BaseCharacterSchema.parse({ path: '',})
+  if (typeof raw !== 'object' || raw === null) return emptyCharacter
 
-  const parsed = CharacterResourceIngestSchema.safeParse(raw)
-  const campaignCharacter = {...character, ...CampaignValuesSchema.parse({})}
+  const parsed = CharacterIngestSchema.safeParse(raw)
+  if (!parsed.success)  return emptyCharacter
+
+  const merged = addBaseValues(emptyCharacter, parsed.data)
+  if(isBaseCharacter(merged)) return merged
+
+  return emptyCharacter
+}
+
+export function makeCampaignCharacter(raw: unknown): CampaignCharacter {
+
+  const campaignCharacter = CampaignCharacterSchema.parse({})
+  if (typeof raw !== 'object' || raw === null) {
+    return campaignCharacter
+  }
+
+  const parsed = CampainCharacterIngestSchema.safeParse(raw)
 
   if (!parsed.success) {
     return campaignCharacter
   }
 
   return{
-    ...campaignCharacter,
+    ...addBaseValues(campaignCharacter, parsed.data),
+    type: 'campaign',
     afflictions: parsed.data.afflictions ?? campaignCharacter.afflictions,
     resources: {
       ...parsed.data.resources ?? {...campaignCharacter.resources, STA: getSTA(campaignCharacter), AP: 6},
@@ -60,7 +71,6 @@ export function makeCampaignCharacter(raw: unknown, character: Character):Campai
     },
     hasActionSurge: parsed.data.hasActionSurge ?? campaignCharacter.hasActionSurge,
   }
-
 }
 
 const safeNumber = z.preprocess(
@@ -71,9 +81,9 @@ const safeNumber = z.preprocess(
   z.number().default(1)
 )
 
-export const CharacterIngestSchema = z.object({
+
+const CharacterIngestValues = {
   id: z.string().optional(),
-  path: z.string().optional(),
   name: z.string().optional(),
 
   characteristics: z.record(z.string(), z.any()).optional(),
@@ -87,16 +97,28 @@ export const CharacterIngestSchema = z.object({
   weapons: z.record(z.string(), WeaponSchema).optional(),
   containers: z.record(z.string(), z.any()).optional(),
 
-  notes: z.string().optional(),  
+  notes: z.string().optional(), 
+}
+
+export const CharacterIngestSchema = z.object({
+  path: z.string().optional(),
+  type: z.literal('base').optional(),
+  ...CharacterIngestValues
 }).strip()
 
-
-
-export const CharacterResourceIngestSchema = z.object({
+export const ResourceIngestValues = ({
   injuries: z.any().optional(),
   afflictions: z.array(z.any()).optional(),
   resources: z.any().optional(),
-  hasActionSurge: z.boolean().optional(),
-  
+  hasActionSurge: z.boolean().optional(),  
+})
+
+export const CampainCharacterIngestSchema = z.object({
+  ...CharacterIngestValues,
+  ...ResourceIngestValues,
+  type: z.literal('campaign').optional(),
 }).strip()
 
+
+export type CharacterIngestType = z.infer<typeof CharacterIngestSchema>
+export type CampaignCharacterType = z.infer<typeof CampainCharacterIngestSchema>

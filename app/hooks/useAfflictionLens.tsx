@@ -1,7 +1,6 @@
 import { addAffliction } from "../domain/commands/addAffliction";
 import { getAfflictions } from "../domain/selectors/afflictions";
-import { makeResourceLens, makeTextLens } from "../domain/selectors/factories";
-import { AfflictionKey, Character, Resources, Skills } from "../domain/types";
+import { AfflictionKey } from "../domain/types";
 import { isCampaignCharacter } from "../domain/utils";
 import { useActiveCharacter } from "./useActiveCharacter";
 

@@ -23,9 +23,10 @@ export function getAfflictions(character: Character){
 }
 
 export function getAfflictionPenalty(
-  character: Character,
+  character: CampaignCharacter | Character,
   skill: keyof Character['skills']
 ): number {
+
   if(!isCampaignCharacter(character)) return 0
 
   const injuryPenalty = (SkillPenaltyTable["injury"].includes(skill) ? Math.floor(getInjuryPenalty(character)) : 0)

@@ -1,4 +1,4 @@
-import { CampaignCharacter, CampaignCharacterSchema, Character } from "./types"
+import { BaseCharacter, CampaignCharacter, Character } from "./types"
 
 function makeFightName(char: CampaignCharacter, characters: Record<string, CampaignCharacter>){
   let newName = char.name
@@ -15,8 +15,14 @@ export function addCharacterToCombat(char: CampaignCharacter, characters: Record
   return { ...char, fightName }
 }
 
-export function isCampaignCharacter(
-  c: Character | CampaignCharacter
+export function isCampaignCharacter( 
+  c: Character
 ): c is CampaignCharacter {
-  return CampaignCharacterSchema.safeParse(c).success
+  return c.type === 'campaign'
+}
+
+export function isBaseCharacter( 
+  c: Character
+): c is BaseCharacter {
+  return c.type === 'base'
 }

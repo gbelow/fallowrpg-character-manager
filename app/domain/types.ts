@@ -203,20 +203,21 @@ export type AfflictionKey = keyof typeof AFFLICTIONS
 const AfflictionKeySchema =
   z.enum(Object.keys(AFFLICTIONS) as [AfflictionKey, ...AfflictionKey[]])
 
-
-export const CampaignValuesSchema = z.object({
+const CampaignValues = {
   injuries: InjuriesSchema.partial().default({}).transform(v => InjuriesSchema.parse(v)),
   afflictions: z.array(AfflictionKeySchema).default([]),
   resources: ResourcesSchema.partial().default({}).transform(v => ResourcesSchema.parse(v)),
   hasActionSurge: z.boolean().default(false),
+}
+
+export const CampaignValuesSchema = z.object({
+  ...CampaignValues
 })
 
 export type CampaignValues = z.infer<typeof CampaignValuesSchema>
 
-
-export const CharacterSchema = z.object({
+const CharacterValues = {  
   id: z.string().default(() => crypto.randomUUID()),
-  path: z.string(),
   name: z.string().default(''),
 
   characteristics: CharacteristicsSchema.partial().default({}).transform(v => CharacteristicsSchema.parse(v)),
@@ -231,42 +232,28 @@ export const CharacterSchema = z.object({
   containers: z.record(z.string(), ContainerSchema).default({}),
 
   notes: z.string().default(''),
+}
+
+
+export const BaseCharacterSchema = z.object({
+  
+  path: z.string(),
+  type: z.literal('base').default('base'),
+  ...CharacterValues
 }).strip()
 
-export type Character = z.infer<typeof CharacterSchema>
+export type BaseCharacter = z.infer<typeof BaseCharacterSchema>
 
-export const CampaignCharacterSchema = CharacterSchema.extend({
-  injuries: InjuriesSchema,
-  afflictions: z.array(AfflictionKeySchema),
-  resources: ResourcesSchema,
-  hasActionSurge: z.boolean(),
+export const CampaignCharacterSchema = z.object({
+  ...CharacterValues,
+  type: z.literal('campaign').default('campaign'),
+  ...CampaignValues,
   fightName: z.string().optional(),
 })
 
 export type CampaignCharacter = z.infer<typeof CampaignCharacterSchema>
 
-// export type Afflictions = {
-//   prone: AfflictionItem,
-//   grappled: AfflictionItem,
-//   immobile: AfflictionItem,
-//   limp: AfflictionItem,
-//   dazzled: AfflictionItem,
-//   blind: AfflictionItem,
-//   fear: AfflictionItem,
-//   rage: AfflictionItem,
-//   confused: AfflictionItem,
-//   distracted: AfflictionItem,
-//   dominated: AfflictionItem,
-//   seduced: AfflictionItem,
-//   malnourished: AfflictionItem,
-//   thirsty: AfflictionItem,
-//   dehydrated: AfflictionItem,
-//   tired: AfflictionItem,
-//   exhausted: AfflictionItem,
-//   weakened: AfflictionItem,
-//   sick: AfflictionItem,
-// }
-
+export type Character = BaseCharacter | CampaignCharacter
 
 export type CharacterUpdater = (c: Character) => Character
 export type CampaignCharacterUpdater = (c: Character) => CampaignCharacter
