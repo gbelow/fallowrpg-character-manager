@@ -1,4 +1,4 @@
-import { CampaignCharacter } from "../types"
+import { CampaignCharacter } from "../../types"
 
 
 export function bleed( amount: number): (c: CampaignCharacter) => CampaignCharacter {

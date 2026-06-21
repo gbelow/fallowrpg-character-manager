@@ -2,6 +2,7 @@ import { BaseCharacter, CampaignCharacter, Character } from "./types"
 
 function makeFightName(char: CampaignCharacter, characters: Record<string, CampaignCharacter>){
   let newName = char.name
+  
   let count = 1
   while(Object.values(characters).find(el => el.fightName == newName) ){
     count++

@@ -10,7 +10,7 @@ export const ArmorSchema = z.object({
   RESlayer: z.number().default(0),
   // TGH: z.number().default(0),
   INS: z.number().default(0),
-  poise: z.number().default(0),
+  // poise: z.number().default(0),
   protection: z.number().default(0),
   deflection: z.number().default(0),
   penalty: z.number().default(0),
@@ -36,7 +36,7 @@ export const SkillsSchema = z.object({
   swim: num.default(0),
   climb: num.default(0),
 
-  knowledge: num.default(0),
+  // knowledge: num.default(0),
   explore: num.default(0),
   cunning: num.default(0),
   will: num.default(0),
@@ -45,13 +45,13 @@ export const SkillsSchema = z.object({
   insight: num.default(0),
   devotion: num.default(0),
 
-  combustion: num.default(0),
-  eletromag: num.default(0),
-  radiation: num.default(0),
-  entropy: num.default(0),
-  biomancy: num.default(0),
-  telepathy: num.default(0),
-  animancy: num.default(0),
+  // combustion: num.default(0),
+  // eletromag: num.default(0),
+  // radiation: num.default(0),
+  // entropy: num.default(0),
+  // biomancy: num.default(0),
+  // telepathy: num.default(0),
+  // animancy: num.default(0),
 }).strip()
 
 export type Skills = z.infer<typeof SkillsSchema>
@@ -77,7 +77,7 @@ export const WeaponAttackSchema = z.object({
   STRmod: num.default(0),
   heavyMod: num.default(0),
   SHP: num.default(0),
-  forceMod: num.default(0),
+  // forceMod: num.default(0),
 
   range: str.default('short'),
 

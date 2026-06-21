@@ -3,6 +3,7 @@ import { create } from 'zustand'
 import { Character } from '../domain/types'
 import { makeCharacter } from '../domain/factories'
 
+
 type CharacterStore = {
   character:  Character | null
 
@@ -16,7 +17,7 @@ type CharacterStore = {
 }
 
 export const useCharacterStore = create<CharacterStore>((set, get) => ({ 
-  character: null,
+  character: makeCharacter(null),
 
   loadCharacter: (rawCharacter) => {
     const character = makeCharacter(rawCharacter)
@@ -29,7 +30,7 @@ export const useCharacterStore = create<CharacterStore>((set, get) => ({
 
   updateCharacter: (updater) => {
     const current = get().character;
-    console.log('getchar', current)
+    
     if (!current) return undefined;
 
     const updated = updater(current);

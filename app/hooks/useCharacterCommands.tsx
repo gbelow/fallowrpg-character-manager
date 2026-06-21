@@ -1,10 +1,10 @@
 import { useActiveCharacter } from "./useActiveCharacter"
-import { actionSurge as doActionSurge} from "../domain/commands/actionSurge"
-import { addAffliction } from "../domain/commands/addAffliction"
+import { actionSurge as doActionSurge} from "../domain/character/commands/actionSurge"
+import { addAffliction } from "../domain/character/commands/addAffliction"
 import { AfflictionKey } from "../domain/types"
-import { restCharacter } from "../domain/commands/rest"
-import { updateIL as heal } from "../domain/commands/heal"
-import { updateSTA as bleed } from "../domain/commands/bleed"
+import { restCharacter } from "../domain/character/commands/rest"
+import { updateIL as heal } from "../domain/character/commands/heal"
+import { updateSTA as bleed } from "../domain/character/commands/bleed"
 
 
 export function useCharacterCommands() {

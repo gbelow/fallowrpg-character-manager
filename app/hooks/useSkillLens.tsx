@@ -1,4 +1,4 @@
-import { skillLenses } from "../domain/selectors";
+import { skillLenses } from "../domain/character/lenses";
 import { Skills } from "../domain/types";
 import { useCharacterStore } from "../stores/useCharacterStore";
 import { useActiveCharacter } from "./useActiveCharacter";

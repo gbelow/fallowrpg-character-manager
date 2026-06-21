@@ -1,4 +1,4 @@
-import { Character, Weapon } from "../types";
+import { Character, Weapon } from "../../types";
 
 export function getGearPenalties(c: Character){
   const pen = c.armor.penalty + 

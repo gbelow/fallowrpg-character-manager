@@ -1,4 +1,4 @@
-import { Character, CharacterUpdater, Skills } from '../types'
+import { Character, CharacterUpdater, Skills } from '../../types'
 
 export function resetSkill(  
   skill: keyof Skills

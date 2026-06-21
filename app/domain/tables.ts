@@ -6,7 +6,7 @@ export const SkillPenaltyTable = {
   "injury":[
     "will",
     "grapple",
-    "strength",
+    // "strength",
     "climb",
     "swim",
   ],
@@ -28,13 +28,13 @@ export const SkillPenaltyTable = {
     "will",
     "insight",
     "cunning",
-    "combustion",
-    "eletromag",
-    "radiation",
-    "entropy",
-    "biomancy",
-    "telepathy",
-    "animancy",
+    // "combustion",
+    // "eletromag",
+    // "radiation",
+    // "entropy",
+    // "biomancy",
+    // "telepathy",
+    // "animancy",
   ],
   "health":[
     "health"
@@ -58,7 +58,7 @@ export const AFFLICTIONS = {
 
   fear: { mental: 1, controlable: true},
   rage: { mental: 1, controlable: true},
-  confused: { mental: 3, controlable: true},
+  confused: { mental: 2, controlable: true},
   // seduced: { controlable: true},
   // distracted: { controlable: true},
   dominated: { controlable: true},
@@ -68,7 +68,7 @@ export const AFFLICTIONS = {
   thirsty: { health: 1, controlable: true},
   dehydrated: { health: 1, controlable: true},
   tired: { mental: 1, controlable: true},
-  exhausted: { mental: 2, controlable: true},
+  exhausted: { mental: 1, controlable: true},
   sick: { health: 2, controlable: true},
 }
 

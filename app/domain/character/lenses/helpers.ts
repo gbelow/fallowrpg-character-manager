@@ -1,5 +1,5 @@
-import { Armor, Character, Weapon } from '../types'
-import { dmgArr, SMArr } from '../tables'
+import { Armor, Character, Weapon } from '../../types'
+import { dmgArr, SMArr } from '../../tables'
 
 export const getSM = (c: Character): number => {
   const size = c.characteristics.size
@@ -32,7 +32,7 @@ export function scaleArmor(armor: Armor, scale: number): Armor {
     RES: Math.floor(armor.RES * dmgArr[scaleIndex]),
     INS: Math.floor(armor.INS * dmgArr[scaleIndex]),
     prot: Math.floor(armor.protection * dmgArr[scaleIndex]),
-    poise: Math.floor(armor.poise * dmgArr[scaleIndex]),
+    // poise: Math.floor(armor.poise * dmgArr[scaleIndex]),
     cover: armor.deflection - SMArr[scaleIndex]
   }
   return arm

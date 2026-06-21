@@ -1,4 +1,4 @@
-import { CampaignCharacter, Character, Injuries, Resources, Wound } from "../types";
+import { CampaignCharacter, Character, Injuries, Resources, Wound } from "../../types";
 
 export function makeTextLens(keyName: keyof Character){
   return {

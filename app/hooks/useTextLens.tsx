@@ -1,4 +1,4 @@
-import { makeTextLens } from "../domain/selectors/factories";
+import { makeTextLens } from "../domain/character/lenses/factories";
 import { Character, Skills } from "../domain/types";
 import { useActiveCharacter } from "./useActiveCharacter";
 

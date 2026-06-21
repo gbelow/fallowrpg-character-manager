@@ -1,5 +1,5 @@
-import { getGearPenalties } from "../selectors/gear"
-import { CampaignCharacter } from "../types"
+import { getGearPenalties } from "../lenses/gear"
+import { CampaignCharacter } from "../../types"
 import { bleed } from "./bleed"
 
 export function actionSurge(c: CampaignCharacter): CampaignCharacter {

@@ -1,4 +1,4 @@
-import { makeResourceLens } from "../domain/selectors/factories";
+import { makeResourceLens } from "../domain/character/lenses/factories";
 import { Resources } from "../domain/types";
 import { isCampaignCharacter } from "../domain/utils";
 import { useActiveCharacter } from "./useActiveCharacter";

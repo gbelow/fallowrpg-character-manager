@@ -1,9 +1,9 @@
-import { Character, Characteristics, Lens, Movement, Skills } from "../types";
+import { Character, Characteristics, Lens, Movement, Skills } from "../../types";
 import { getAGI, getAwareness, getCharisma, getCON, getConviction1, getConviction2, getDEX, getINT, getMelee, getRanged, getSize, getSorcery, getSPI, getSTA, getSTR, getTGH, makeCharacteristicLens } from "./characteristics";
 import { getBasicMovement, getCarefulMovement, getCrawlMovement, getFastSwimMovement, getJumpMovement, getRunMovement, getStandMovement, getSwimMovement, makeMovementLens } from "./movement";
 import {
   getStrike, getAccuracy, getDefend, getReflex, getGrapple, getCunning, getSD,
-  getBalance, getClimb, getSwim, getPrestidigitation, getHealth, getKnowledge,
+  getBalance, getClimb, getSwim, getPrestidigitation, getHealth, 
   getExplore, getWill, getDevotion,
   getCombustion, getEletromag, getRadiation, getEntropy, getBiomancy, getTelepathy, getAnimancy,
   getStealth,
@@ -29,20 +29,20 @@ export const skillLenses: Record<keyof Skills, Lens<Character, number>> = {
   stealth: makeSkillLens("stealth", getStealth),
   prestidigitation: makeSkillLens("prestidigitation", getPrestidigitation),
   health: makeSkillLens("health", getHealth),
-  knowledge: makeSkillLens("knowledge", getKnowledge),
+  // knowledge: makeSkillLens("knowledge", getKnowledge),
   explore: makeSkillLens("explore", getExplore),
   will: makeSkillLens("will", getWill),
   persuasion: makeSkillLens("persuasion", getPersuasion),
   deception: makeSkillLens("deception", getDeception),
   insight: makeSkillLens("insight", getInsight),
   devotion: makeSkillLens("devotion", getDevotion),
-  combustion: makeSkillLens("combustion", getCombustion),
-  eletromag: makeSkillLens("eletromag", getEletromag),
-  radiation: makeSkillLens("radiation", getRadiation),
-  entropy: makeSkillLens("entropy", getEntropy),
-  biomancy: makeSkillLens("biomancy", getBiomancy),
-  telepathy: makeSkillLens("telepathy", getTelepathy),
-  animancy: makeSkillLens("animancy", getAnimancy),
+  // combustion: makeSkillLens("combustion", getCombustion),
+  // eletromag: makeSkillLens("eletromag", getEletromag),
+  // radiation: makeSkillLens("radiation", getRadiation),
+  // entropy: makeSkillLens("entropy", getEntropy),
+  // biomancy: makeSkillLens("biomancy", getBiomancy),
+  // telepathy: makeSkillLens("telepathy", getTelepathy),
+  // animancy: makeSkillLens("animancy", getAnimancy),
 };
 
 export const characteristicLenses: Record<keyof Characteristics, Lens<Character, number>> = {

@@ -1,4 +1,4 @@
-import { CampaignCharacter } from "../types"
+import { CampaignCharacter } from "../../types"
 
 
 export function heal( amount: number): (c: CampaignCharacter) => CampaignCharacter {

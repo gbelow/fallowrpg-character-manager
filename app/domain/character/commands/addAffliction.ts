@@ -1,5 +1,5 @@
-import { getAfflictions } from "../selectors/afflictions"
-import { AfflictionKey, CampaignCharacter } from "../types"
+import { getAfflictions } from "../lenses/afflictions"
+import { AfflictionKey, CampaignCharacter } from "../../types"
 
 
 export function addAffliction(item: AfflictionKey): (c: CampaignCharacter) => CampaignCharacter {

@@ -4,14 +4,14 @@ import armors from './armors.json'
 import baseWeapons from './weapons.json'
 import { PlayPanel } from './components/PlayPanel';
 import { CharacterCreator } from './components/CharacterCreator';
-import { scaleWeapon } from './domain/selectors/helpers';
+import { scaleWeapon } from './domain/character/lenses/helpers';
 import { upsertBaseCharacter, deleteBaseCharacter, getCharacter, deleteCharacter } from './actions';
 import { useAppStore } from './stores/useAppStore';
 import { makeCharacter } from './domain/factories';
 import { Armor, Character, Weapon, WeaponSchema } from './domain/types';
 import { useCharacterStore } from './stores/useCharacterStore';
-import { equipArmor } from './domain/commands/equipArmor';
-import { equipWeapon } from './domain/commands/equipWeapon';
+import { equipArmor } from './domain/character/commands/equipArmor';
+import { equipWeapon } from './domain/character/commands/equipWeapon';
 import { useCombatStore } from './stores/useCombatStore';
 import { useActiveCharacter } from './hooks/useActiveCharacter';
 import { BreakMe } from './components/BreakMe';

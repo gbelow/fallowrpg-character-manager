@@ -1,5 +1,5 @@
-import { getSTA } from "../selectors/characteristics"
-import { CampaignCharacter, Character } from "../types"
+import { getSTA } from "../lenses/characteristics"
+import { CampaignCharacter, Character } from "../../types"
 
 export function restCharacter(c: CampaignCharacter): CampaignCharacter
  {

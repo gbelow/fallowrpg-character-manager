@@ -1,4 +1,4 @@
-import { Character, Lens } from "../types";
+import { Character, Lens } from "../../types";
 import { getAGI } from "./characteristics";
 
 export function makeMovementLens<T extends Character>(

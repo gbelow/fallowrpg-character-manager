@@ -1,4 +1,4 @@
-import { Character, CharacterUpdater, Weapon, WeaponSchema } from '../types'
+import { Character, CharacterUpdater, Weapon, WeaponSchema } from '../../types'
 
 export function equipWeapon(
   weapon: Weapon

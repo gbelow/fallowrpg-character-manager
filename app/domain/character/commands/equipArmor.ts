@@ -1,5 +1,5 @@
-import { scaleArmor } from "../selectors/helpers"
-import { Character, Armor, CharacterUpdater, ArmorSchema } from '../types'
+import { scaleArmor } from "../lenses/helpers"
+import { Character, Armor, CharacterUpdater, ArmorSchema } from '../../types'
 
 export function equipArmor(  
   armor: Armor

@@ -4,13 +4,13 @@ import { useState } from "react";
 import { useCharacteristicLens } from "../hooks/useCharacteristicLens";
 import { useWeaponLens } from "../hooks/useWeaponLens";
 import { WeaponAttack } from "../domain/types";
-import { parseAtkDamage } from "../domain/commands/weaponAttack";
+import { parseAtkDamage } from "../domain/character/commands/weaponAttack";
 
 
 export function WeaponPanel(){
   const {weapons, unequip, getVariantsList, attack} = useWeaponLens()
 
-  const [lastAtk, setLastAtk] = useState({atk:0, type: '', weapon: '', blunt: 0, cut: 0, force: 0})
+  const [lastAtk, setLastAtk] = useState({atk:0, type: '', weapon: '', blunt: 0, cut: 0})
   const [STR] = useCharacteristicLens('STR') ?? 10
 
 
@@ -59,7 +59,6 @@ export function WeaponPanel(){
                 <thead>
                   <tr>
                     <td>RES</td>
-                    <td>force</td>
                     <td>blunt</td>
                     <td>cutting</td>
                     <td>AP</td>
@@ -67,7 +66,6 @@ export function WeaponPanel(){
                     <td>DEF</td>
                     <td>properties</td>
                     <td>attacks</td>
-                    {/* <td>moded atk</td> */}
                   </tr>
                 </thead>
                 <tbody>
@@ -75,7 +73,6 @@ export function WeaponPanel(){
                     el.attacks.map((atk, index) => 
                       <tr key={el+index.toString()}>
                         <td>{parseModdedValue(atk.RES, atk.RESmod)}</td>
-                        <td>{parseAtkDamage(atk, el.scale, "force")}</td>
                         <td>{parseAtkDamage(atk, el.scale, "blunt")}</td>
                         <td>{parseAtkDamage(atk, el.scale, "cutting")}</td>
                         <td>{atk.AP + (atk.reload ? '+' + atk.reload : '')/*+ '+' + (atk.heavyMod === 0.5 ? 1 : atk.heavyMod === 1 ? 2 : atk.heavyMod === 1.5 ? 3 : 0)*/}</td>
@@ -83,7 +80,6 @@ export function WeaponPanel(){
                         <td>{atk.deflection}</td>
                         <td>{atk.properties}</td>
                         <td><AttackButtons atk={atk} weaponName={el.name} /></td>
-                        {/* <td>{atk.heavyMod > 0 ? <input className="bg-gray-500 border rounded px-1" type='button' value={'heavy'} onClick={() => pressAtk(atk, 'heavy', el.name)}  /> : null}</td> */}
                       </tr>
                     )
                   }

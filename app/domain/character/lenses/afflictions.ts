@@ -1,6 +1,6 @@
-import { CampaignCharacter, Character } from '../types'
-import { SkillPenaltyTable, AFFLICTIONS as afflictionDefinitions } from '../tables'
-import { isCampaignCharacter } from '../utils'
+import { CampaignCharacter, Character } from '../../types'
+import { SkillPenaltyTable, AFFLICTIONS as afflictionDefinitions } from '../../tables'
+import { isCampaignCharacter } from '../../utils'
 import { getSTA } from './characteristics'
 
 export function getAfflictions(character: Character){
@@ -9,15 +9,15 @@ export function getAfflictions(character: Character){
   const rss = character.resources
 
   if(rss.hunger > 15) afflictions.add('weakened') 
-  if(rss.hunger > 60) afflictions.add('malnourished')
+  if(rss.hunger > 30) afflictions.add('malnourished')
 
   if(rss.thirst > 10) afflictions.add('thirsty') 
   if(rss.thirst > 15) afflictions.add('dehydrated')
   if(rss.thirst > 20) afflictions.add('confused')
 
-  if(rss.exhaustion > (getSTA(character)/2)) afflictions.add('tired')
-  if(rss.exhaustion > getSTA(character)) afflictions.add('exhausted')
-  if(rss.exhaustion > 1.5*getSTA(character)) afflictions.add('confused')
+  if(rss.exhaustion > 4) afflictions.add('tired')
+  if(rss.exhaustion > 8) afflictions.add('exhausted')
+  if(rss.exhaustion > 12) afflictions.add('confused')
   
   return [...afflictions]
 }
@@ -76,6 +76,12 @@ function getPenaltyForCategory(
 
 export function getInjuryPenalty(c : CampaignCharacter) : number {
   if(!c.injuries) return 0  
-    const injPen = Math.floor(c.injuries.injuryLevel/c.injuries.injuryThreshold)
+    const injPen = Math.floor(c.injuries.injuryLevel/getIT(c))
     return injPen
+}
+
+export function getIT(c: CampaignCharacter){
+  const afflictions = getAfflictions(c)
+  const pen = afflictions.filter(el => el === 'malnourished' || el === 'weakened' || el === 'thirsty' || el === 'dehydrated').length + (afflictions.includes('sick') ? 2 : 0)
+  return c.injuries.injuryThreshold - pen
 }

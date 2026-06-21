@@ -1,4 +1,4 @@
-import { CampaignCharacter, Character, Lens } from "../types"
+import { CampaignCharacter, Character, Lens } from "../../types"
 import { getGearPenalties } from "./gear"
 import { getDM } from "./helpers"
 

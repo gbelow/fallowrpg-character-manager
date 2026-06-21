@@ -1,4 +1,4 @@
-import { characteristicLenses } from "../domain/selectors";
+import { characteristicLenses } from "../domain/character/lenses";
 import { Characteristics } from "../domain/types";
 import { useActiveCharacter } from "./useActiveCharacter";
 

@@ -34,7 +34,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/domain/commands",
+    "app/domain/character/commands",
     ".next/dev/types/**/*.ts"
   ],
   "exclude": [

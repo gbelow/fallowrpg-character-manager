@@ -1,7 +1,7 @@
 "use server"
 
 import { Character } from './domain/types';
-import { isCampaignCharacter } from './domain/utils';
+import { isBaseCharacter, isCampaignCharacter } from './domain/utils';
 import redis from './redis'
 import fs from "fs";
 import path from "path";
@@ -44,7 +44,7 @@ export async function getBasicCharList(){
 }
 
 export async function upsertBaseCharacter(data: Character) {
-  if(isCampaignCharacter(data)) return
+  if(!isBaseCharacter(data)) return 
    
   const {id, ...character} = data 
 

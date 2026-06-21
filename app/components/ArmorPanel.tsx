@@ -1,5 +1,5 @@
 'use client'
-import { putGauntlets, putHelm } from '../domain/commands/equipArmor'
+import { putGauntlets, putHelm } from '../domain/character/commands/equipArmor'
 import { makeCharacter } from '../domain/factories'
 import { ArmorSchema } from '../domain/types'
 import { useActiveCharacter } from '../hooks/useActiveCharacter'
@@ -62,7 +62,7 @@ export function ArmorPanel(){
         </tbody>
       </table>
       <div className='flex gap-2 text-center justify-center'>
-        <span>Poise {armor.poise + effectiveTGH}</span>
+        {/* <span>Poise {armor.poise + effectiveTGH}</span> */}
         <span>Penal {armor.penalty}</span>
         <span>Deflection {armor.deflection}</span>
         <span> {armor.properties}</span>

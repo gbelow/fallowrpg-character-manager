@@ -1,5 +1,5 @@
 import { CombatStore } from '@/app/stores/useCombatStore';
-import { CampaignCharacter } from '../types'
+import { CampaignCharacter } from '../../types'
 
 // set actionSurge to true to all characters.
 // add +6 AP to all characters but do not allow higher than 6

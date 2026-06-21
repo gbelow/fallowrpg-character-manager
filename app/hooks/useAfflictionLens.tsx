@@ -1,5 +1,5 @@
-import { addAffliction } from "../domain/commands/addAffliction";
-import { getAfflictions } from "../domain/selectors/afflictions";
+import { addAffliction } from "../domain/character/commands/addAffliction";
+import { getAfflictions } from "../domain/character/lenses/afflictions";
 import { AfflictionKey } from "../domain/types";
 import { isCampaignCharacter } from "../domain/utils";
 import { useActiveCharacter } from "./useActiveCharacter";

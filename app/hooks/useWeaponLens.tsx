@@ -1,5 +1,5 @@
-import { equipWeapon, getCharacterWeapons, unequipWeapon } from "../domain/commands/equipWeapon";
-import { AttackVariant, getAttacksList, getAttackValues, spendAttackResources } from "../domain/commands/weaponAttack";
+import { equipWeapon, getCharacterWeapons, unequipWeapon } from "../domain/character/commands/equipWeapon";
+import { AttackVariant, getAttacksList, getAttackValues, spendAttackResources } from "../domain/character/commands/weaponAttack";
 import { Weapon, WeaponAttack } from "../domain/types";
 import { isCampaignCharacter } from "../domain/utils";
 import { useActiveCharacter } from "./useActiveCharacter";

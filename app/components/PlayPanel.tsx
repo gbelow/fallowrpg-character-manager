@@ -25,6 +25,7 @@ export function PlayPanel(){
   const { rest, actionSurge, } = useCharacterCommands()
   const { nextRound, startTurn, resetCombat, killCharacter } = useCombatCommands()
   const { savePlayerCharacter} = useGameCommands()
+  const { isCharacterDead } = useInjuryLens()
   const round = useCombatStore(s => s.round)
   const isThereActiveCharacter = useCombatStore(s => !!s.activeCharacterId)
   const { notes, fightName, hasActionSurge} = useActiveCharacterData() 
@@ -88,7 +89,7 @@ export function PlayPanel(){
               <DamageControl />
               <InjuryControl type='injuryLevel' />
               <InjuryControl type='hemorrhage' />
-              <input type="button" className='border p-2 h-12 m-auto' onClick={killCharacter} value="Kill" /> 
+              <input type="button" className={'border p-2 h-12 m-auto ' + (isCharacterDead() ? 'bg-red-500' : '') } onClick={killCharacter} value="Kill" /> 
             </div>                  
             <div className='flex flex-row gap-2 justify-center'>
               <SimpleMove moveName='basic' title={'basic (1AP)'} />
@@ -143,7 +144,7 @@ export function PlayPanel(){
               <SimpleSkill skillName={'swim'} rollSkill={rollSkill}/>
             </div>
             <div className='flex flex-row gap-2 justify-center'>
-              <SimpleSkill skillName={'knowledge'} rollSkill={rollSkill}/>
+              {/* <SimpleSkill skillName={'knowledge'} rollSkill={rollSkill}/> */}
               <SimpleSkill skillName={'explore'} rollSkill={rollSkill}/>
               <SimpleSkill skillName={'will'} rollSkill={rollSkill}/>
               <SimpleSkill skillName={'persuasion'} rollSkill={rollSkill}/>
@@ -151,7 +152,7 @@ export function PlayPanel(){
               <SimpleSkill skillName={'insight'} rollSkill={rollSkill}/>
               <SimpleSkill skillName={'devotion'} rollSkill={rollSkill}/>
             </div>
-            <div className='flex flex-row gap-2 justify-center'>
+            {/* <div className='flex flex-row gap-2 justify-center'>
               <SimpleSkill skillName={'combustion'} rollSkill={rollSkill}/>
               <SimpleSkill skillName={'eletromag'} rollSkill={rollSkill}/>
               <SimpleSkill skillName={'radiation'} rollSkill={rollSkill}/>
@@ -159,7 +160,7 @@ export function PlayPanel(){
               <SimpleSkill skillName={'biomancy'} rollSkill={rollSkill}/>
               <SimpleSkill skillName={'telepathy'} rollSkill={rollSkill}/>
               <SimpleSkill skillName={'animancy'} rollSkill={rollSkill}/>
-            </div>
+            </div> */}
             <textarea aria-label='notes' className='border rounded p-1 min-h-32 w-84 md:w-full justify-center ' value={notes} readOnly/>
             <button type='button' className='border rounded p-2' onClick={savePlayerCharacter}>Save</button>
           </div>

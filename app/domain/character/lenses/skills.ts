@@ -1,4 +1,4 @@
-import { Character, Lens } from '../types'
+import { Character, Lens } from '../../types'
 import { getSM, skill } from './helpers'
 import { getAfflictionPenalty, getAfflictions } from './afflictions'
 import { getAGI, getMelee, getRanged, getAwareness, getSorcery, getSTR, getCharisma } from './characteristics'
@@ -63,7 +63,8 @@ export function getGrapple(c: Character) {
     getSTR(c) -
     10 +
     5 * SM +
-    skill(c, 'grapple') -
+    getMelee(c) -
+    // skill(c, 'grapple') -
     getAfflictionPenalty(c, 'grapple')
   )
 }
@@ -117,7 +118,7 @@ export function getSwim(c: Character) {
 export function getDetection(c: Character) {
   return (
     getAwareness(c) +
-    skill(c, 'detection') -
+    2* skill(c, 'detection') -
     3 * c.hasHelm -
     getAfflictionPenalty(c, 'detection')
   )
@@ -145,13 +146,13 @@ export function getHealth(c: Character) {
   return c.characteristics.CON + skill(c, 'health') - getAfflictionPenalty(c, 'health')
 }
 
-export function getKnowledge(c: Character) {
-  return (
-    2 * c.characteristics.INT +
-    skill(c, 'knowledge') -
-    getAfflictionPenalty(c, 'knowledge')
-  )
-}
+// export function getKnowledge(c: Character) {
+//   return (
+//     2 * c.characteristics.INT +
+//     skill(c, 'knowledge') -
+//     getAfflictionPenalty(c, 'knowledge')
+//   )
+// }
 
 export function getExplore(c: Character) {
   return (

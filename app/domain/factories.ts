@@ -1,11 +1,11 @@
 import z from 'zod'
 import { ArmorSchema, CampaignCharacter, CampaignCharacterSchema, BaseCharacterSchema, WeaponSchema, BaseCharacter } from './types'
-import { getSTA } from './selectors/characteristics'
+import { getSTA } from './character/lenses/characteristics'
 import { isBaseCharacter } from './utils'
 
 function addBaseValues(emptyCharacter: BaseCharacter, parsedCharacter: CharacterIngestType): BaseCharacter
-function addBaseValues(emptyCharacter: CampaignCharacter, parsedCharacter: CampaignCharacterType): CampaignCharacter
-function addBaseValues (emptyCharacter: BaseCharacter | CampaignCharacter, parsedCharacter: CharacterIngestType | CampaignCharacterType){
+function addBaseValues(emptyCharacter: CampaignCharacter, parsedCharacter: CampaignCharacterIngestType): CampaignCharacter
+function addBaseValues (emptyCharacter: BaseCharacter | CampaignCharacter, parsedCharacter: CharacterIngestType | CampaignCharacterIngestType){
 
   return {
     ...emptyCharacter,
@@ -37,7 +37,7 @@ export function makeCharacter(raw: unknown): BaseCharacter {
   const emptyCharacter: BaseCharacter =  BaseCharacterSchema.parse({ path: '',})
   if (typeof raw !== 'object' || raw === null) return emptyCharacter
 
-  const parsed = CharacterIngestSchema.safeParse(raw)
+  const parsed = CharacterIngestSchema.safeParse({...raw, type: 'base'})
   if (!parsed.success)  return emptyCharacter
 
   const merged = addBaseValues(emptyCharacter, parsed.data)
@@ -52,8 +52,8 @@ export function makeCampaignCharacter(raw: unknown): CampaignCharacter {
   if (typeof raw !== 'object' || raw === null) {
     return campaignCharacter
   }
-
-  const parsed = CampainCharacterIngestSchema.safeParse(raw)
+  
+  const parsed = CampainCharacterIngestSchema.safeParse({...raw, type: 'campaign'})
 
   if (!parsed.success) {
     return campaignCharacter
@@ -102,23 +102,21 @@ const CharacterIngestValues = {
 
 export const CharacterIngestSchema = z.object({
   path: z.string().optional(),
-  type: z.literal('base').optional(),
   ...CharacterIngestValues
 }).strip()
 
-export const ResourceIngestValues = ({
+export const ResourceIngestValues = {
   injuries: z.any().optional(),
   afflictions: z.array(z.any()).optional(),
   resources: z.any().optional(),
   hasActionSurge: z.boolean().optional(),  
-})
+};
 
 export const CampainCharacterIngestSchema = z.object({
   ...CharacterIngestValues,
   ...ResourceIngestValues,
-  type: z.literal('campaign').optional(),
-}).strip()
+}).strip();
 
 
 export type CharacterIngestType = z.infer<typeof CharacterIngestSchema>
-export type CampaignCharacterType = z.infer<typeof CampainCharacterIngestSchema>
+export type CampaignCharacterIngestType = z.infer<typeof CampainCharacterIngestSchema>

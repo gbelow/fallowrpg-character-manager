@@ -7,7 +7,7 @@ import { ArmorPanel } from './ArmorPanel';
 import { useCharacterStore } from '../stores/useCharacterStore';
 import { Character, Characteristics, Movement, Skills } from '../domain/types';
 import { useAppStore } from '../stores/useAppStore';
-import { resetSkill, resetAllSkills } from '../domain/commands/resetSkills';
+import { resetSkill, resetAllSkills } from '../domain/character/commands/resetSkills';
 import { useSkillLens } from '../hooks/useSkillLens';
 import { useMovementLens } from '../hooks/useMovementLens';
 import { useCharacteristicLens } from '../hooks/useCharacteristicLens';
@@ -24,7 +24,7 @@ function SaveBaseCharacterButton(){
   }
 
   return(
-    <input className='border rounded w-12 p-1' type='button' value={'save'} onClick={handleClick} />
+    <input className='border rounded w-20 p-1' type='button' value={'save base'} onClick={handleClick} />
   )
 }
 
@@ -173,7 +173,7 @@ export function CharacterCreator() {
           <SkillItem key={'health'} skillName='health' title='health' />
         </div>
         <div className='flex flex-row gap-2 justify-center'>
-          <SkillItem key={'knowledge'} skillName='knowledge' title='knowledge' />
+          {/* <SkillItem key={'knowledge'} skillName='knowledge' title='knowledge' /> */}
           <SkillItem key={'explore'} skillName='explore' title='explore' />
           <SkillItem key={'will'} skillName='will' title='will' />
           <SkillItem key={'persuasion'} skillName='persuasion' title='persuasion' />
@@ -181,7 +181,7 @@ export function CharacterCreator() {
           <SkillItem key={'insight'} skillName='insight' title='insight' />
           <SkillItem key={'devotion'} skillName='devotion' title='devotion' />
         </div>
-        <div className='flex flex-row gap-2 justify-center'>
+        {/* <div className='flex flex-row gap-2 justify-center'>
           <SkillItem key={'combustion'} skillName='combustion' title='combustion' />
           <SkillItem key={'eletromag'} skillName='eletromag' title='eletromag' />
           <SkillItem key={'radiation'} skillName='radiation' title='radiation' />
@@ -189,7 +189,7 @@ export function CharacterCreator() {
           <SkillItem key={'biomancy'} skillName='biomancy' title='biomancy' />
           <SkillItem key={'telepathy'} skillName='telepathy' title='telepathy' />
           <SkillItem key={'animancy'} skillName='animancy' title='animancy' />
-        </div>
+        </div> */}
 
         <TextItem aria-label='notes' keyName='notes' mode='large'/>
         {/* <textarea aria-label='notes' className='border rounded p-1 min-h-32' onChange={val => setNotes(val.target.value)} value={notes} /> */}
