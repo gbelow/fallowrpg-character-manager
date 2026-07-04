@@ -117,8 +117,7 @@ export function getSwim(c: Character) {
 
 export function getDetection(c: Character) {
   return (
-    getAwareness(c) +
-    2* skill(c, 'detection') -
+    2*getAwareness(c) +
     3 * c.hasHelm -
     getAfflictionPenalty(c, 'detection')
   )
