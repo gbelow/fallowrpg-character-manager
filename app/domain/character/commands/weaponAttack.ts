@@ -73,7 +73,7 @@ export function parseModdedValue (value: number, mod: number) {
 }
 
 export function parseAtkDamage (atk: WeaponAttack, scale: number, component: string) {
-  let energy = parseModdedValue(atk.energy, atk.STRmod)
+  const energy = parseModdedValue(atk.energy, atk.STRmod)
   const dmgScale = dmgArr[scale-1]
   const value = 
   component === "blunt" ? energy*dmgScale /*+(atk.heavyMod ? '+' + Math.floor(atk.heavyMod*STR*dmgScale) : '' )*/ :

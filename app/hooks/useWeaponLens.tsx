@@ -7,7 +7,7 @@ import { useActiveCharacter } from "./useActiveCharacter";
 export function useWeaponLens() {
   const { character, update } = useActiveCharacter();
 
-  const weapons: Record<string, Weapon> | {} = getCharacterWeapons(character)
+  const weapons: Record<string, Weapon> = getCharacterWeapons(character)
 
   const equip = (newValue: Weapon) => {
     update(equipWeapon(newValue));
