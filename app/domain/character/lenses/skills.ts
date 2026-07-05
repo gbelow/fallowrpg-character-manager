@@ -60,19 +60,18 @@ export function getReflex(c: Character) {
 export function getGrapple(c: Character) {
   const SM = getSM(c)
   return (
-    getSTR(c) -
-    10 +
+    skill(c, 'grapple') +
+    getSTR(c) - 10 +
     5 * SM +
     getMelee(c) -
-    // skill(c, 'grapple') -
     getAfflictionPenalty(c, 'grapple')
   )
 }
 
 export function getCunning(c: Character) {
   return (
+    skill(c, 'cunning') +
     getAwareness(c) -
-    skill(c, 'cunning') -
     getAfflictionPenalty(c, 'cunning')
   )
 }
@@ -117,6 +116,7 @@ export function getSwim(c: Character) {
 
 export function getDetection(c: Character) {
   return (
+    skill(c, 'detection') +
     2*getAwareness(c) +
     3 * c.hasHelm -
     getAfflictionPenalty(c, 'detection')

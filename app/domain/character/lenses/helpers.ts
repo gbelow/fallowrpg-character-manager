@@ -1,17 +1,18 @@
 import { Armor, Character, Weapon } from '../../types'
 import { dmgArr, SMArr } from '../../tables'
+import { getSize } from './characteristics'
 
 export const getSM = (c: Character): number => {
-  const size = c.characteristics.size
-  if (size < 1 || size >= SMArr.length) {
+  const size = getSize(c)
+  if (size < 1 || size > SMArr.length) {
     throw new Error(`Invalid character size: ${size}. Size must be between 0 and ${SMArr.length}.`)
   }
   return SMArr[size-1]
 }
 
 export const getDM = (c: Character): number => {
-  const size = c.characteristics.size
-  if (size < 1 || size >= SMArr.length) {
+  const size = getSize(c)
+  if (size < 1 || size > SMArr.length) {
     throw new Error(`Invalid character size: ${size}. Size must be between 0 and ${SMArr.length}.`)
   }
   return dmgArr[size-1]

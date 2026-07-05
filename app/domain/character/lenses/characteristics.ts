@@ -11,13 +11,17 @@ export function makeCharacteristicLens<T extends Character>(
     return {
       get: getter,
       set: setter ?? ((subject: T, value: number): T => {
-        const calculated = getter(subject) - subject.characteristics[characteristicName]
-        const updated = {...subject, characteristics: {...subject.characteristics, [characteristicName]: value - calculated}}
-        return updated as T;
+        const modifiers = getter(subject) - subject.characteristics[characteristicName]
+        const candidate = { ...subject, characteristics: {
+          ...subject.characteristics, [characteristicName]: value - modifiers,
+        }} as T
+        const normalized = getter(candidate) - modifiers
+        return { ...subject, characteristics: {
+          ...subject.characteristics, [characteristicName]: normalized,
+        }} as T
       })
     } 
 }
-
 
 export function getSTR(c: Character): number {
   return c.characteristics.STR
@@ -36,7 +40,7 @@ export const getINT = (c: Character) => c.characteristics.INT
 export const getSPI = (c: Character) => c.characteristics.SPI
 export const getDEX = (c: Character) => c.characteristics.DEX
 
-export const getSize = (c: Character) => c.characteristics.size
+export const getSize = (c: Character) => c.characteristics.size > 6 ? 7 : c.characteristics.size < 2 ? 1 : c.characteristics.size
 
 export const getMelee = (c: Character) => c.characteristics.melee
 export const getRanged = (c: Character) => c.characteristics.ranged
@@ -46,10 +50,5 @@ export const getConviction1 = (c: Character) => c.characteristics.conviction1
 export const getConviction2 = (c: Character) => c.characteristics.conviction2
 export const getCharisma = (c: Character) => c.characteristics.charisma
 
-// Wound thresholds are derived from STR (bulk) + base additive term, then scaled by DM.
-// Stored values in `c.characteristics.RES/TGH/INS` represent the *base* additive term.
-const EPS = 1e-9
 
-// export const getRES = (c: Character) => Math.floor(((0.5 * getSTR(c) + c.characteristics.RES) * getDM(c)) + EPS)
-export const getTGH = (c: Character) => Math.floor(((0.5 * getSTR(c) + c.characteristics.TGH) * getDM(c)) + EPS)
-// export const getINS = (c: Character) => Math.floor(((0.5 * getSTR(c) + c.characteristics.INS) * getDM(c)) + EPS)
+export const getTGH = (c: Character) => Math.floor(0.5 * getSTR(c) * getDM(c) + c.characteristics.TGH)
