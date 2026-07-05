@@ -1,5 +1,6 @@
 {
   "path": "humanoid/common",
+  "type": "base",
   "name": "Human",
   "characteristics": {
     "size": 3,
@@ -38,7 +39,6 @@
     "health": 0,
     "swim": 0,
     "climb": 0,
-    "knowledge": 0,
     "explore": 0,
     "cunning": 0,
     "will": 0,
@@ -46,6 +46,7 @@
     "deception": 0,
     "insight": 0,
     "devotion": 0,
+    "knowledge": 0,
     "combustion": 0,
     "eletromag": 0,
     "radiation": 0,
@@ -74,15 +75,12 @@
     "name": "Clothing",
     "RES": 3,
     "RESlayer": 0,
-    "poise": 0,
     "INS": 2,
     "protection": 0,
     "deflection": 3,
     "penalty": 0,
     "properties": "fiber",
-    "notes": "",
-    "prot": 0,
-    "cover": 3
+    "notes": ""
   },
   "weapons": {
     "Unarmed": {
@@ -97,11 +95,11 @@
           "STRmod": 0,
           "heavyMod": 0,
           "SHP": 0,
-          "forceMod": 1,
           "range": "short",
           "RES": 0,
           "RESmod": 0,
           "AP": 3,
+          "reload": 0,
           "deflection": 0,
           "properties": "grapple, DEF, draw"
         },
@@ -112,11 +110,11 @@
           "STRmod": 0.5,
           "heavyMod": 0,
           "SHP": 0,
-          "forceMod": 2,
           "range": "short",
           "RES": 0,
           "RESmod": 0,
           "AP": 3,
+          "reload": 0,
           "deflection": 0,
           "properties": "draw, soft, smash"
         }

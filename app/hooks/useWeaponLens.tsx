@@ -2,6 +2,7 @@ import { equipWeapon, getCharacterWeapons, unequipWeapon } from "../domain/chara
 import { AttackVariant, getAttacksList, getAttackValues, spendAttackResources } from "../domain/character/commands/weaponAttack";
 import { Weapon, WeaponAttack } from "../domain/types";
 import { isCampaignCharacter } from "../domain/utils";
+import { rollFull } from "../domain/combat/dice";
 import { useActiveCharacter } from "./useActiveCharacter";
 
 export function useWeaponLens() {
@@ -21,7 +22,8 @@ export function useWeaponLens() {
     if(!character || !isCampaignCharacter(character)) return;
     const newCharacter = update( spendAttackResources(atk));
     if(!newCharacter ) return;
-    return getAttackValues(atk, type, weapon)(newCharacter)
+    const roll = rollFull(Math.random)
+    return getAttackValues(atk, type, weapon, roll)(newCharacter)
   }
 
   const getVariantsList = (atk: WeaponAttack) => {

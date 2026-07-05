@@ -1,7 +1,7 @@
 "use server"
 
 import { Character } from './domain/types';
-import { isBaseCharacter, isCampaignCharacter } from './domain/utils';
+import { isBaseCharacter } from './domain/utils';
 import redis from './redis'
 import fs from "fs";
 import path from "path";
@@ -12,6 +12,12 @@ export type JsonValue = string | number | boolean | null | JsonObject | JsonValu
 export interface JsonObject {
   [key: string]: JsonValue;
 }
+
+// Every action returns a discriminated result instead of swallowing failures,
+// so the client can surface them (see the sonner toasts in the callers).
+export type ActionResult<T = void> =
+  | { ok: true; data: T }
+  | { ok: false; error: string };
 
 export async function loadJsonFromFolder(baseDir: string): Promise<JsonObject> {
   const result: JsonObject = {};
@@ -37,96 +43,109 @@ export async function loadJsonFromFolder(baseDir: string): Promise<JsonObject> {
 
 
 
-export async function getBasicCharList(){
-  const dataDir = path.join(process.cwd(), "app/characters");
-  const characterData = loadJsonFromFolder(dataDir);
-  return characterData
+export async function getBasicCharList(): Promise<ActionResult<JsonObject>> {
+  try {
+    const dataDir = path.join(process.cwd(), "app/characters");
+    const characterData = await loadJsonFromFolder(dataDir);
+    return { ok: true, data: characterData };
+  } catch (err) {
+    console.error('Error loading base character list:', err);
+    return { ok: false, error: 'Failed to load base characters.' };
+  }
 }
 
-export async function upsertBaseCharacter(data: Character) {
-  if(!isBaseCharacter(data)) return 
-   
-  const {id, ...character} = data 
+export async function upsertBaseCharacter(data: Character): Promise<ActionResult> {
+  if (!isBaseCharacter(data)) return { ok: false, error: 'Not a base character.' };
 
-  const targetDir = path.join('app/characters', character.path);
+  // Base characters are dev-authored blueprints; their unique name *is* their
+  // identity on disk, so the campaign uuid is intentionally dropped here.
+  const { id, ...character } = data;
+  void id;
 
-  // Ensure the directory exists
-  fs.mkdirSync(targetDir, { recursive: true });
+  try {
+    const targetDir = path.join('app/characters', character.path);
 
-  // Define the target file path
-  const filePath = path.join(targetDir, `${character.name}.json`);
+    // Ensure the directory exists
+    fs.mkdirSync(targetDir, { recursive: true });
 
-  // Write the file (pretty-printed)
-  fs.writeFileSync(filePath, JSON.stringify(character, null, 2), "utf-8");
+    // Write the file (pretty-printed) as <path>/<name>.json
+    const filePath = path.join(targetDir, `${character.name}.json`);
+    fs.writeFileSync(filePath, JSON.stringify(character, null, 2), "utf-8");
 
-  await deleteBaseCharacter(targetDir, '')
-  console.log(`✅ Created: ${filePath}`);
+    console.log(`✅ Created: ${filePath}`);
+    return { ok: true, data: undefined };
+  } catch (err) {
+    console.error('Error writing base character:', err);
+    return { ok: false, error: 'Failed to save base character.' };
+  }
 }
 
 export async function deleteBaseCharacter(
   folderPath: string,
   fileName: string
-) {
+): Promise<ActionResult> {
+  // folderPath is relative to app/characters (e.g. "topKey/midKey").
   const filePath = path.join('app/characters', folderPath, `${fileName}.json`);
 
-  if (fs.existsSync(filePath)) {
-    fs.unlinkSync(filePath);
-    console.log(`🗑️ Deleted: ${filePath}`);
-  } else {
+  try {
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
+      console.log(`🗑️ Deleted: ${filePath}`);
+      return { ok: true, data: undefined };
+    }
     console.warn(`⚠️ File not found: ${filePath}`);
+    return { ok: false, error: 'Base character file not found.' };
+  } catch (err) {
+    console.error('Error deleting base character:', err);
+    return { ok: false, error: 'Failed to delete base character.' };
   }
 }
 
 
-export async function saveCharacter(character: Character) {
+export async function saveCharacter(character: Character): Promise<ActionResult> {
   try {
     const list: {id: string, name: string}[] = (await redis.get('charList')) ?? [];
     if(!list.some(el => el.id === character.id)){
       await redis.set('charList', [...list, {id: character.id, name: character.name}]);
     }
-    
+
     await redis.set(character.id, character);
+    return { ok: true, data: undefined };
   } catch (err) {
     console.error('Error saving character to Redis:', err);
-    // Optionally, you could throw or return an error state here
+    return { ok: false, error: 'Failed to save character.' };
   }
 }
 
-export async function deleteCharacter(id: string) {
+export async function deleteCharacter(id: string): Promise<ActionResult> {
   try {
     const list: {id: string, name: string}[] = (await redis.get('charList')) ?? [];
     await redis.set('charList', list.filter(el => el.id !== id));
     await redis.del(id);
+    return { ok: true, data: undefined };
   } catch (err) {
     console.error('Error deleting character from Redis:', err);
-    // Optionally, you could throw or return an error state here
+    return { ok: false, error: 'Failed to delete character.' };
   }
 }
 
-export async function getCharacter(id: string) {
+export async function getCharacter(id: string): Promise<ActionResult<Character | null>> {
   try {
     const character: Character | null = await redis.get(id);
-    if (character) {
-      return character;
-    }
-    return null;
+    return { ok: true, data: character };
   } catch (err) {
     console.error('Error getting character from Redis:', err);
-    return null;
+    return { ok: false, error: 'Failed to load character.' };
   }
 }
 
 
-export async function getCharacterList(){
-  try{
-    const list : {id: string, name: string}[] | null = await redis.get('charList')
-    if(list != null){
-      return list
-    }
-    return []
-
-  }catch(err){
+export async function getCharacterList(): Promise<ActionResult<{id: string, name: string}[]>> {
+  try {
+    const list: {id: string, name: string}[] | null = await redis.get('charList');
+    return { ok: true, data: list ?? [] };
+  } catch (err) {
     console.error('Error getting character list from Redis:', err);
-    return []
+    return { ok: false, error: 'Failed to load character list.' };
   }
 }

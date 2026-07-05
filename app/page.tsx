@@ -5,10 +5,13 @@ import z from "zod";
 
 export default async function Home() {
   // Fetch initial data server-side for faster initial load
-  const [baseCharacterList, playerCharacterList] = await Promise.all([
+  const [baseRes, playerRes] = await Promise.all([
     getBasicCharList(),
     getCharacterList(),
   ]);
+
+  const baseCharacterList = baseRes.ok ? baseRes.data : {};
+  const playerCharacterList = playerRes.ok ? playerRes.data : [];
 
   const characterListSchema = z.object({
     id: z.string(),

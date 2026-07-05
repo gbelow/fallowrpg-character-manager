@@ -1,4 +1,3 @@
-import { makeFullRoll } from "@/app/components/utils"
 import { getSTR } from "../lenses/characteristics"
 import { dmgArr } from "../../tables"
 import { CampaignCharacter, Character, WeaponAttack } from "../../types"
@@ -55,10 +54,10 @@ export function spendAttackResources (atk: AttackVariant) {
 }
 
 
-export function getAttackValues (atk: AttackVariant , type: string, weapon: string,) {
+// Pure: the caller supplies the already-rolled value, so this stays
+// deterministic. The rng seam lives in the integration layer (useWeaponLens).
+export function getAttackValues (atk: AttackVariant , type: string, weapon: string, roll: number) {
   return((c: Character) => {
-
-    const roll = makeFullRoll()
     let val = roll - atk.penalty
     if(type=='ranged') val += c.skills.accuracy
     if(type=='melee') val += c.skills.strike

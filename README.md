@@ -123,6 +123,32 @@ app/
 
 ---
 
+## How to Change Things Safely
+
+The domain layer is authoritative, so most changes start there and flow outward. Data moves in one direction:
+
+`JSON templates (app/**/*.json)` → `Zod schemas (app/domain/types.ts)` → `factories (app/domain/factories.ts)` → `lenses + commands (app/domain/**)` → `stores/hooks` → `components`
+
+When implementing a feature or fix:
+
+1. **Identify which layer owns it** — domain (rules/derived values), UI (rendering), or persistence (I/O).
+2. **Change the domain first** — add or modify a lens (read-side) or a command (write-side).
+3. Update the ingest schemas / factories if new data fields are required.
+4. Only then wire it into the store / hook / component.
+5. Search for an existing pattern before inventing a new one.
+
+Heuristics:
+
+- Derived value or rule → a **lens** getter in `app/domain/character/lenses/**`, registered in `lenses/index.ts`.
+- User-triggered state change → a pure **command** in `app/domain/**/commands/**` returning a new aggregate.
+- Reading / writing → server actions (`app/actions.ts`) or `redis.ts`; treat persistence as I/O, not rule evaluation.
+
+Non-negotiable constraints:
+
+- All character data flows through the `Character` / `CampaignCharacter` aggregate.
+- Domain functions stay synchronous, pure (no I/O, time, or randomness unless explicitly modeled), and stable under recomputation.
+- Don't add a setter that bypasses the derived-stat invariant `floor(0.5 * STR * DM + base)` — edit the stored base term, not the derived output.
+
 ## Minimal Feature Context
 
 Game mechanics exist to **anchor abstractions**, not to showcase feature breadth.

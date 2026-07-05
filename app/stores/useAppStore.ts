@@ -1,4 +1,5 @@
 import { createStore } from "zustand/vanilla";
+import { toast } from "sonner";
 import { getBasicCharList, getCharacterList, JsonObject } from "../actions";
 import { useContext } from "react";
 import { AppStoreContext } from "./appStoreProvider";
@@ -24,21 +25,15 @@ export const createAppStore = (initialState: Partial<AppState>) =>
     setSelectedGameTab: (selectedGameTab) => set({ selectedGameTab }),
     
     updateBaseCharacterList: async () => {
-      try {
-        const baseCharacterList = await getBasicCharList()
-        set(s=> ({...s, baseCharacterList}) )
-      }catch(err){
-        console.log(err)
-      }
+      const res = await getBasicCharList()
+      if (!res.ok) { toast.error(res.error); return }
+      set(s=> ({...s, baseCharacterList: res.data}) )
     },
 
     updatePlayerCharacterList: async () => {
-      try {
-        const playerCharacterList = await getCharacterList()
-        set(s=> ({...s, playerCharacterList}) )
-      }catch(err){
-        console.log(err)
-      }
+      const res = await getCharacterList()
+      if (!res.ok) { toast.error(res.error); return }
+      set(s=> ({...s, playerCharacterList: res.data}) )
     },
 
   })

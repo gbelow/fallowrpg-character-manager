@@ -30,7 +30,7 @@ Pure, synchronous, deterministic, zero React dependencies. Two complementary pat
 - **Lenses** (`domain/character/lenses/`, `domain/combat/`) — *read-side*. A `Lens<T, V>` has `get(subject)` / `set(subject, value)`. Every derived stat (skills, characteristics, movement, gear-affected values) is computed fresh from the character via a getter. `set` inverts through the modifiers so the stored *base* value changes, never the derived value. Lens registries are aggregated in `lenses/index.ts` (`skillLenses`, `characteristicLenses`, `movementLenses`), keyed by the corresponding type. Getters compose (e.g. `getStrike` calls `getMelee` + affliction penalties).
 - **Commands** (`domain/character/commands/`, `domain/combat/commands/`) — *write-side*. Each exports a pure updater `(character) => character` (often curried, e.g. `addAffliction(key)(c)`). Combat commands operate on the combat state.
 
-Rule invariant: derived wound/stat values follow `floor((0.5 * STR + base) * DM)`. Never add a setter that bypasses this — change the base, not the derived output.
+Rule invariant: derived wound/stat values scale STR by the size damage-multiplier and add the stored base term unscaled — `floor(0.5 * STR * DM + base)` (see `getTGH`). This form keeps the base at a `+1` coefficient so the generic lens setter inverts at every size. Never add a setter that bypasses this — change the base, not the derived output. (The commented-out `getRES`/`getINS` still use the older `floor((0.5 * STR + base) * DM)`; reconcile them to the current form if you revive them.)
 
 ### Types & data ingestion (`domain/types.ts`, `domain/factories.ts`)
 
@@ -65,4 +65,4 @@ Thin, declarative, Tailwind-only (no CSS files), React 19, `'use client'` where 
 
 ## Roadmap context
 
-`nextSteps.md` (feature ideas) and `README.md` (architecture rationale & tradeoffs) hold design intent. `cline_docs/` is a memory-bank for cross-session continuity.
+`nextSteps.md` (feature ideas) and `README.md` (architecture rationale, tradeoffs, and the "how to change things safely" workflow) hold design intent.

@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import { toast } from 'sonner'
 import armors from './armors.json'
 import baseWeapons from './weapons.json'
 import { PlayPanel } from './components/PlayPanel';
@@ -86,32 +87,33 @@ export function CharacterSelector(){
   };
 
   const handleSelectPlayerClick  = async (characterId: string) => {
-    const char: Character | null = await getCharacter(characterId)
-    if(!char) return
-      handleSelectCharacterClick(char)
-      await updatePlayerCharacterList()
+    const res = await getCharacter(characterId)
+    if(!res.ok){ toast.error(res.error); return }
+    if(!res.data) return
+    handleSelectCharacterClick(res.data)
+    await updatePlayerCharacterList()
   };
 
   const handleDeletePlayerClick  = async (characterId: string) => {
-    try{
-      await deleteCharacter(characterId)
-      await updatePlayerCharacterList()
-    }catch(e){
-      console.error('Error deleting character:', e);
-    }
+    const res = await deleteCharacter(characterId)
+    if(!res.ok){ toast.error(res.error); return }
+    toast.success('Character deleted.')
+    await updatePlayerCharacterList()
   };
 
   const toggle = (key: string) => {
     setOpen((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
-  const createCharacter = (path:string) => {
-    upsertBaseCharacter( makeCharacter(path))
+  const createCharacter = async (path:string) => {
+    const res = await upsertBaseCharacter( makeCharacter(path))
+    if(!res.ok){ toast.error(res.error); return }
     updateBaseCharacterList()
   }
 
-  const handleDeleteBaseCharacter = (path:string, name:string) => {
-    deleteBaseCharacter(path, name)
+  const handleDeleteBaseCharacter = async (path:string, name:string) => {
+    const res = await deleteBaseCharacter(path, name)
+    if(!res.ok){ toast.error(res.error); return }
     updateBaseCharacterList()
   }
 

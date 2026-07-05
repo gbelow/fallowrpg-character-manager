@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { toast } from 'sonner'
 import { deleteCharacter, saveCharacter, upsertBaseCharacter } from '../actions';
 import { WeaponPanel } from './WeaponPanel';
 import { ArmorPanel } from './ArmorPanel';
@@ -17,9 +18,11 @@ function SaveBaseCharacterButton(){
   const character = useCharacterStore(s => s.character)
   const updateBaseCharacterList = useAppStore(s => s.updateBaseCharacterList)
 
-  const handleClick = () => {
+  const handleClick = async () => {
     if(!character) return
-    upsertBaseCharacter(character)
+    const res = await upsertBaseCharacter(character)
+    if(!res.ok){ toast.error(res.error); return }
+    toast.success('Base character saved.')
     updateBaseCharacterList()
   }
 
@@ -32,9 +35,11 @@ function SavePlayerCharacterButton(){
   const character = useCharacterStore(s => s.character)
   const updatePlayerCharacterList = useAppStore(s => s.updatePlayerCharacterList)
 
-  const handleClick = () => {
+  const handleClick = async () => {
     if(!character) return
-    saveCharacter(character)
+    const res = await saveCharacter(character)
+    if(!res.ok){ toast.error(res.error); return }
+    toast.success('Character saved.')
     updatePlayerCharacterList()
   }
 
@@ -48,9 +53,11 @@ function DeleteCharacterButton(){
   const updateBaseCharacterList = useAppStore(s => s.updateBaseCharacterList)
   const [showConfirm, setShowConfirm] = useState(false);
 
-  const handleDeleteCharacterClick = () => {
+  const handleDeleteCharacterClick = async () => {
     if(!character) return
-    deleteCharacter(character.name)
+    const res = await deleteCharacter(character.name)
+    if(!res.ok){ toast.error(res.error); return }
+    toast.success('Character deleted.')
     updateBaseCharacterList()
     setShowConfirm(false)
   }

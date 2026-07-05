@@ -44,8 +44,6 @@
 - save encounter
 - items, spells
 
-## extract combat logic from hooks into domain layer
-
 ## explore integration with VTTs
 
 ## improve interface - make it pretty
