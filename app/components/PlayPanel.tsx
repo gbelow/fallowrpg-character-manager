@@ -15,7 +15,7 @@ import { useCharacterCommands } from '../hooks/useCharacterCommands';
 import { useCombatCommands } from '../hooks/useCombatCommands';
 import { useAfflictionLens } from '../hooks/useAfflictionLens';
 import { useGameCommands } from '../hooks/useGameCommands';
-import { useActiveCharacterData } from '../hooks/useCharacterDataLens';
+import { useActiveCharacterData } from '../hooks/useCharacterData';
 import { useShallow } from 'zustand/shallow';
 import { injuryMap } from '../domain/tables';
 
@@ -120,6 +120,7 @@ export function PlayPanel(){
               <SimpleCharacteristic propName={'sorcery'} />
               <SimpleCharacteristic propName={'conviction1'} />
               <SimpleCharacteristic propName={'conviction2'} />
+              <SimpleCharacteristic propName={'devotion'} />
             </div>
             <div className='flex flex-row'>
               <h2 className='text-md'>Last roll:</h2>
@@ -150,7 +151,7 @@ export function PlayPanel(){
               <SimpleSkill skillName={'persuasion'} rollSkill={rollSkill}/>
               <SimpleSkill skillName={'deception'} rollSkill={rollSkill}/>
               <SimpleSkill skillName={'insight'} rollSkill={rollSkill}/>
-              <SimpleSkill skillName={'devotion'} rollSkill={rollSkill}/>
+              {/* <SimpleSkill skillName={'devotion'} rollSkill={rollSkill}/> */}
             </div>
             {/* <div className='flex flex-row gap-2 justify-center'>
               <SimpleSkill skillName={'combustion'} rollSkill={rollSkill}/>

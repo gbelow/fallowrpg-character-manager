@@ -13,6 +13,8 @@ import { useSkillLens } from '../hooks/useSkillLens';
 import { useMovementLens } from '../hooks/useMovementLens';
 import { useCharacteristicLens } from '../hooks/useCharacteristicLens';
 import { useTextLens } from '../hooks/useTextLens';
+import { useActiveCharacterData } from '../hooks/useCharacterData';
+import { useActiveCharacterDataLens } from '../hooks/useCharacterDataLens';
 
 function SaveBaseCharacterButton(){
   const character = useCharacterStore(s => s.character)
@@ -147,7 +149,7 @@ export function CharacterCreator() {
           <StatDial stat={'STR'} title={'STR'} />
           <StatDial stat={'AGI'} title={'AGI'} />
           <StatDial stat={'STA'} title={'STA'} />
-          <StatDial stat={'size'} title={'size'} />
+          <NumberDial stat={'size'} title={'size'} />
         </div>
         
         <div className='flex flex-row gap-2 justify-center'>
@@ -158,6 +160,7 @@ export function CharacterCreator() {
           <StatDial stat={'charisma'} title={'Charisma'} />
           <StatDial stat={'conviction1'} title={'Conviction1'} />
           <StatDial stat={'conviction2'} title={'Conviction2'} />
+          <StatDial stat={'devotion'} title={'Devotion'} />
         </div>
         <ResetAllSkillsButton />
         <div className='flex flex-row gap-2 justify-center'>
@@ -186,7 +189,7 @@ export function CharacterCreator() {
           <SkillItem key={'persuasion'} skillName='persuasion' title='persuasion' />
           <SkillItem key={'deception'} skillName='deception' title='deception' />
           <SkillItem key={'insight'} skillName='insight' title='insight' />
-          <SkillItem key={'devotion'} skillName='devotion' title='devotion' />
+          {/* <SkillItem key={'devotion'} skillName='devotion' title='devotion' /> */}
         </div>
         {/* <div className='flex flex-row gap-2 justify-center'>
           <SkillItem key={'combustion'} skillName='combustion' title='combustion' />
@@ -231,6 +234,18 @@ function SkillItem({ title, skillName}:{title: string, skillName: keyof Skills})
 
 function StatDial ({stat, title}:{stat: keyof Characteristics, title: string}){
   const [value, setValue] = useCharacteristicLens(stat)
+
+  return(
+    <div className='flex flex-col w-10 md:w-16 overflow-hidden'>
+      <label className='text-xs'>{title}</label>
+      <input className='p-1 border border-white rounded w-10 md:w-16 text-center' title={title} type='number' inputMode="numeric" value={value} onChange={(e) => setValue(parseInt(e.target.value))} />
+    </div>
+  )
+}
+
+function NumberDial ({stat, title}:{stat: 'size' | 'TGH', title: string}){
+  const [value, setValue] = useActiveCharacterDataLens(stat)
+
 
   return(
     <div className='flex flex-col w-10 md:w-16 overflow-hidden'>

@@ -7,17 +7,17 @@ describe('makeCharacter — defaults & discrimination', () => {
     const c = makeCharacter(null)
     expect(isBaseCharacter(c)).toBe(true)
     expect(c.type).toBe('base')
-    expect(c.characteristics.STR).toBe(10) // schema default
-    expect(c.characteristics.size).toBe(3)
+    expect(c.trainables.STR.value).toBe(10) // schema default
+    expect(c.size).toBe(3)
   })
 
   it('ingests matching fields and fills the rest with defaults', () => {
-    const c = makeCharacter({ name: 'Ana', characteristics: { STR: 15 }, skills: { strike: 4 } })
+    const c = makeCharacter({ name: 'Ana', trainables: { STR: { value: 15 }, strike: { value: 4 } } })
     expect(c.name).toBe('Ana')
-    expect(c.characteristics.STR).toBe(15)
-    expect(c.characteristics.AGI).toBe(10) // untouched -> default
-    expect(c.skills.strike).toBe(4)
-    expect(c.skills.defend).toBe(0) // untouched -> default
+    expect(c.trainables.STR.value).toBe(15)
+    expect(c.trainables.AGI.value).toBe(10) // untouched -> default
+    expect(c.trainables.strike.value).toBe(4)
+    expect(c.trainables.defend.value).toBe(0) // untouched -> default
   })
 
   it('strips unknown top-level keys', () => {

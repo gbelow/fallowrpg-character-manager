@@ -1,7 +1,6 @@
-import { CampaignCharacter, Character } from '../../types'
+import { CampaignCharacter, Character, Skills } from '../../types'
 import { SkillPenaltyTable, AFFLICTIONS as afflictionDefinitions } from '../../tables'
 import { isCampaignCharacter } from '../../utils'
-import { getSTA } from './characteristics'
 
 export function getAfflictions(character: Character){
   if(!isCampaignCharacter(character)) return []
@@ -24,7 +23,7 @@ export function getAfflictions(character: Character){
 
 export function getAfflictionPenalty(
   character: CampaignCharacter | Character,
-  skill: keyof Character['skills']
+  skill: keyof Skills
 ): number {
 
   if(!isCampaignCharacter(character)) return 0

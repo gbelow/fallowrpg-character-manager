@@ -1,48 +1,48 @@
-import { Character, Lens } from '../../types'
+import { Character, Lens, Skills } from '../../types'
 import { getSM, skill } from './helpers'
 import { getAfflictionPenalty, getAfflictions } from './afflictions'
-import { getAGI, getMelee, getRanged, getAwareness, getSorcery, getSTR, getCharisma } from './characteristics'
+import { getAGI, getMelee, getRanged, getAwareness, getSorcery, getSTR, getCharisma, getSPI, getDEX, getCON } from './characteristics'
 import { characteristicLenses } from '.'
 
 
-export function makeSkillLens<T extends Character>(
-  skillName: keyof Character['skills'],
-  getter: (c: T) => number,
-  setter?: (c: T, value: number) => T
-): Lens<T, number> {
-  return {
-    get: getter,
-    set: setter ?? ((subject: T, value: number): T => {
-      const baseValue = subject.skills[skillName];
-      const modifiers = getter(subject) - baseValue;
+// export function makeSkillLens<T extends Character>(
+//   skillName: keyof Character['skills'],
+//   getter: (c: T) => number,
+//   setter?: (c: T, value: number) => T
+// ): Lens<T, number> {
+//   return {
+//     get: getter,
+//     set: setter ?? ((subject: T, value: number): T => {
+//       const baseValue = subject.skills[skillName];
+//       const modifiers = getter(subject) - baseValue;
       
-      // We return the whole subject T, ensuring metadata (id, etc) is preserved
-      return {
-        ...subject,
-        skills: { 
-          ...subject.skills, 
-          [skillName]: value - modifiers 
-        }
-      } as T;
-    })
-  };
-}
+//       // We return the whole subject T, ensuring metadata (id, etc) is preserved
+//       return {
+//         ...subject,
+//         skills: { 
+//           ...subject.skills, 
+//           [skillName]: value - modifiers 
+//         }
+//       } as T;
+//     })
+//   };
+// }
 
 export function getStrike(c: Character) {
-  return getMelee(c) + skill(c, 'strike') - getAfflictionPenalty(c, 'strike')
+  return getMelee(c) + skill(c, 'strike').value - getAfflictionPenalty(c, 'strike')
 }
 
 export function getAccuracy(c: Character) {
   return (
     getRanged(c) -
     3 * c.hasGauntlets +
-    skill(c, 'accuracy') -
+    skill(c, 'accuracy').value -
     getAfflictionPenalty(c, 'accuracy')
   )
 }
 
 export function getDefend(c: Character) {
-  return getMelee(c) + skill(c, 'defend') - getAfflictionPenalty(c, 'defend')
+  return getMelee(c) + skill(c, 'defend').value  - getAfflictionPenalty(c, 'defend')
 }
 
 export function getReflex(c: Character) {
@@ -52,7 +52,7 @@ export function getReflex(c: Character) {
     getRanged(c) -
     3 * c.hasHelm -
     SM +
-    skill(c, 'reflex') -
+    skill(c, 'reflex').value -
     getAfflictionPenalty(c, 'reflex')
   )
 }
@@ -60,7 +60,7 @@ export function getReflex(c: Character) {
 export function getGrapple(c: Character) {
   const SM = getSM(c)
   return (
-    skill(c, 'grapple') +
+    skill(c, 'grapple').value  +
     getSTR(c) - 10 +
     5 * SM +
     getMelee(c) -
@@ -70,7 +70,7 @@ export function getGrapple(c: Character) {
 
 export function getCunning(c: Character) {
   return (
-    skill(c, 'cunning') +
+    skill(c, 'cunning').value +
     getAwareness(c) -
     getAfflictionPenalty(c, 'cunning')
   )
@@ -78,7 +78,7 @@ export function getCunning(c: Character) {
 
 export function getSD(c: Character) {
   const SM = getSM(c)
-  return -2 - SM + skill(c, 'SD') - (getAfflictions(c).includes('immobile') ? +3 : 0)
+  return -2 - SM + skill(c, 'SD').value - (getAfflictions(c).includes('immobile') ? +3 : 0)
 }
 
 // selectors/skills/physical.ts
@@ -87,7 +87,7 @@ export function getBalance(c: Character) {
   return (
     getAGI(c) -
     10 +
-    skill(c, 'balance') -
+    skill(c, 'balance').value -
     getAfflictionPenalty(c, 'balance')
   )
 }
@@ -97,7 +97,7 @@ export function getClimb(c: Character) {
   return (
     getAGI(c) -
     10 +
-    skill(c, 'climb') -
+    skill(c, 'climb').value -
     2 * SM -
     3 * c.hasGauntlets -
     getAfflictionPenalty(c, 'climb')
@@ -108,7 +108,7 @@ export function getSwim(c: Character) {
   return (
     getAGI(c) -
     10 +
-    skill(c, 'swim') -
+    skill(c, 'swim').value -
     3 * c.hasHelm -
     getAfflictionPenalty(c, 'swim')
   )
@@ -116,7 +116,7 @@ export function getSwim(c: Character) {
 
 export function getDetection(c: Character) {
   return (
-    skill(c, 'detection') +
+    skill(c, 'detection').value +
     2*getAwareness(c) +
     3 * c.hasHelm -
     getAfflictionPenalty(c, 'detection')
@@ -126,7 +126,7 @@ export function getDetection(c: Character) {
 export function getStealth(c: Character) {
   const SM = getSM(c)
   return (
-    skill(c, 'stealth') -
+    skill(c, 'stealth').value -
     3 * SM -
     getAfflictionPenalty(c, 'stealth')
   )
@@ -134,21 +134,22 @@ export function getStealth(c: Character) {
 
 export function getPrestidigitation(c: Character) {
   return (
-    c.characteristics.DEX -
+    getDEX(c) -
     3 * c.hasGauntlets +
-    skill(c, 'prestidigitation') -
+    skill(c, 'prestidigitation').value -
     getAfflictionPenalty(c, 'prestidigitation')
   )
 }
 
 export function getHealth(c: Character) {
-  return c.characteristics.CON + skill(c, 'health') - getAfflictionPenalty(c, 'health')
+  return getCON(c)
+   + skill(c, 'health').value - getAfflictionPenalty(c, 'health')
 }
 
 // export function getKnowledge(c: Character) {
 //   return (
 //     2 * c.characteristics.INT +
-//     skill(c, 'knowledge') -
+//     skill(c, 'knowledge').value -
 //     getAfflictionPenalty(c, 'knowledge')
 //   )
 // }
@@ -156,37 +157,33 @@ export function getHealth(c: Character) {
 export function getExplore(c: Character) {
   return (
     getAwareness(c) +
-    skill(c, 'explore') -
+    skill(c, 'explore').value -
     getAfflictionPenalty(c, 'explore')
   )
 }
 
 export function getWill(c: Character) {
-  return skill(c, 'will') - getAfflictionPenalty(c, 'will')
+  return skill(c, 'will').value + getSPI(c) - getAfflictionPenalty(c, 'will')
 }
 
 export function getPersuasion(c: Character) {
-  return getCharisma(c) + skill(c, 'persuasion') - getAfflictionPenalty(c, 'persuasion')
+  return getCharisma(c) + skill(c, 'persuasion').value - getAfflictionPenalty(c, 'persuasion')
 }
 
 export function getDeception(c: Character) {
-  return getCharisma(c) + skill(c, 'deception') - getAfflictionPenalty(c, 'deception')
+  return getCharisma(c) + skill(c, 'deception').value - getAfflictionPenalty(c, 'deception')
 }
 
 export function getInsight(c: Character) {
-  return getCharisma(c) + skill(c, 'insight') - getAfflictionPenalty(c, 'insight')
-}
-
-export function getDevotion(c: Character) {
-  return characteristicLenses.SPI.get(c) + skill(c, 'devotion')
+  return getCharisma(c) + skill(c, 'insight').value - getAfflictionPenalty(c, 'insight')
 }
 
 const magic =
   (school: string) =>
   (c: Character) =>
     getSorcery(c) +
-    skill(c, school as keyof Character['skills']) -
-    getAfflictionPenalty(c, school as keyof Character['skills'])
+    skill(c, school as keyof Skills).value -
+    getAfflictionPenalty(c, school as keyof Skills)
 
 export const getCombustion = magic('combustion')
 export const getEletromag = magic('eletromag')

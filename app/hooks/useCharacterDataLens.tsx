@@ -1,16 +1,20 @@
-import { isCampaignCharacter } from "../domain/utils";
+import { miscLenses } from "../domain/character/lenses";
 import { useActiveCharacter } from "./useActiveCharacter";
 
-export function useActiveCharacterData() {
-  const { character } = useActiveCharacter();
+export function useActiveCharacterDataLens(prop: 'size' | 'TGH') {
+  
+  const lens = miscLenses[prop]
 
-  if (character && isCampaignCharacter(character)) {
-    return { 
-      fightName: character.fightName, 
-      hasActionSurge: character.hasActionSurge, 
-      notes: character.notes 
-    };
-  }
+  const { character, update } = useActiveCharacter();
 
-  return { fightName: "", hasActionSurge: false, notes: character?.notes };
+  // Selector optimization: Only re-renders if the Lens output changes,
+  // regardless of which store triggered the update.
+  const value = character ? lens.get(character) : 0;
+
+  const setValue = (newValue: number) => {
+    
+    update((c) => lens.set(c, newValue));
+  };
+
+  return [value, setValue] as const;
 }

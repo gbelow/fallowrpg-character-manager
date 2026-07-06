@@ -4,14 +4,16 @@ import { makeCharacter } from '../domain/factories'
 import { ArmorSchema } from '../domain/types'
 import { useActiveCharacter } from '../hooks/useActiveCharacter'
 import { useArmorLens } from '../hooks/useArmorLens'
+import { useActiveCharacterData } from '../hooks/useCharacterData'
 import { useCharacteristicLens } from '../hooks/useCharacteristicLens'
 
 export function ArmorPanel(){
   const [armor] = useArmorLens()
+  const {TGH} = useActiveCharacterData()
 
   const fallback = makeCharacter('')
   // const effectiveRES = useCharacteristicLens('RES')[0] ?? fallback.characteristics.RES
-  const effectiveTGH = useCharacteristicLens('TGH')[0] ?? fallback.characteristics.TGH
+  const effectiveTGH = TGH ?? fallback.TGH
   // const effectiveINS = useCharacteristicLens('INS')[0] ?? fallback.characteristics.INS
 
   return(

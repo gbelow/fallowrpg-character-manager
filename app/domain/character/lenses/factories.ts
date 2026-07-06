@@ -1,4 +1,4 @@
-import { CampaignCharacter, Character, Injuries, Resources, Wound } from "../../types";
+import { CampaignCharacter, Character, Injuries, Lens, Resources, Trainables, Wound } from "../../types";
 
 export function makeTextLens(keyName: keyof Character){
   return {
@@ -32,4 +32,44 @@ export function makeInjuryLens (){
       return ({...character, injuries: updatedInjuries})
     },
   }
+}
+
+export function makeSimpleLens<T extends Character> (
+  propertyName: 'size' | 'TGH', 
+  getter: (c: T) => number, 
+  setter?: (c: T, value: number) => T): Lens<T, number> {
+  return {
+    get: getter,
+    set: setter ?? ((subject: T, value: number): T => {
+      const baseValue = subject[propertyName];
+      const modifiers = getter(subject) - (parseInt(baseValue+'') || 0);
+      
+      return {
+        ...subject,
+          [propertyName]: value - modifiers
+      } as T;
+    })
+  };
+}
+
+export function makeTrainableValueLens<T extends Character>(
+  trainableName: keyof Trainables,
+  getter: (c: T) => number,
+  setter?: (c: T, value: number) => T
+): Lens<T, number> {
+  return {
+    get: getter,
+    set: setter ?? ((subject: T, value: number): T => {
+      const baseValue = subject.trainables[trainableName].value;
+      const modifiers = getter(subject) - baseValue;
+
+      return {
+        ...subject,
+        trainables: { 
+          ...subject.trainables, 
+          [trainableName]: {...subject.trainables[trainableName], value: value - modifiers }
+        }
+      } as T;
+    })
+  };
 }

@@ -35,7 +35,7 @@ describe('command purity', () => {
   it('resetSkill does not mutate the input', () => {
     const c = makeCharacter({ skills: { strike: 5 } })
     resetSkill('strike')(c)
-    expect(c.skills.strike).toBe(5)
+    expect(c.trainables.strike.value).toBe(5)
   })
 })
 
@@ -76,13 +76,13 @@ describe('resetSkills', () => {
   it('resetSkill zeroes one skill and leaves the rest', () => {
     const c = makeCharacter({ skills: { strike: 5, defend: 4 } })
     const after = resetSkill('strike')(c)
-    expect(after.skills.strike).toBe(0)
-    expect(after.skills.defend).toBe(4)
+    expect(after.trainables.strike.value).toBe(0)
+    expect(after.trainables.defend.value).toBe(4)
   })
 
   it('resetAllSkills zeroes every skill', () => {
     const c = makeCharacter({ skills: { strike: 5, defend: 4, reflex: 3 } })
     const after = resetAllSkills()(c)
-    expect(Object.values(after.skills).every((v) => v === 0)).toBe(true)
+    expect(Object.values(after.trainables).every((v) => v.value === 0)).toBe(true)
   })
 })

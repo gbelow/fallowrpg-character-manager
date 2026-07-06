@@ -20,41 +20,87 @@ export const ArmorSchema = z.object({
 
 export type Armor = z.infer<typeof ArmorSchema>
 
+export const TrainableTypeSchema = z.enum(['skill', 'attribute', 'talent', 'proficiency'])
+export type TrainableType = z.infer<typeof TrainableTypeSchema>
+
+export const TrainableSchema = z.object({
+  value: z.number().default(0),
+  name: z.string().default(''),
+  XP: z.number().default(0),
+  talent: z.string().default(''),
+  type: TrainableTypeSchema.default('skill'),
+}).strip()
+export type Trainable = z.infer<typeof TrainableSchema>
+
+// small helper so the group schemas aren't a wall of repeated defaults
+const trainable = (type: TrainableType, value = 0) =>
+  TrainableSchema.default({ value, name: '', XP: 0, talent: '', type })
+
+// ── groups (each is a subset type on its own) ───────────
 export const SkillsSchema = z.object({
-  strike: num.default(0),
-  defend: num.default(0),
-  reflex: num.default(0),
-  accuracy: num.default(0),
-  grapple: num.default(0),
-  SD: num.default(0),
+  strike: trainable('skill'),
+  defend: trainable('skill'),
+  reflex: trainable('skill'),
+  accuracy: trainable('skill'),
+  grapple: trainable('skill'),
+  SD: trainable('skill'),
+  stealth: trainable('skill'),
+  prestidigitation: trainable('skill'),
+  balance: trainable('skill'),
+  detection: trainable('skill'),
+  health: trainable('skill'),
+  swim: trainable('skill'),
+  climb: trainable('skill'),
+  explore: trainable('skill'),
+  cunning: trainable('skill'),
+  will: trainable('skill'),
+  persuasion: trainable('skill'),
+  deception: trainable('skill'),
+  insight: trainable('skill'),
+}).strip()
+export type Skills = z.infer<typeof SkillsSchema>
 
-  stealth: num.default(0),
-  prestidigitation: num.default(0),
-  balance: num.default(0),
-  detection: num.default(0),
-  health: num.default(0),
-  swim: num.default(0),
-  climb: num.default(0),
+export const AttributesSchema = z.object({
+  STR: trainable('attribute', 10),
+  AGI: trainable('attribute', 10),
+  STA: trainable('attribute', 10),
+}).strip()
+export type Attributes = z.infer<typeof AttributesSchema>
 
-  // knowledge: num.default(0),
-  explore: num.default(0),
-  cunning: num.default(0),
-  will: num.default(0),
-  persuasion: num.default(0),
-  deception: num.default(0),
-  insight: num.default(0),
-  devotion: num.default(0),
+export const TalentsSchema = z.object({
+  CON: trainable('talent'),
+  INT: trainable('talent'),
+  SPI: trainable('talent'),
+  DEX: trainable('talent'),
+}).strip()
+export type Talents = z.infer<typeof TalentsSchema>
 
-  // combustion: num.default(0),
-  // eletromag: num.default(0),
-  // radiation: num.default(0),
-  // entropy: num.default(0),
-  // biomancy: num.default(0),
-  // telepathy: num.default(0),
-  // animancy: num.default(0),
+export const ProficienciesSchema = z.object({
+  melee: trainable('proficiency'),
+  ranged: trainable('proficiency'),
+  awareness: trainable('proficiency'),
+  sorcery: trainable('proficiency'),
+  conviction1: trainable('proficiency'),
+  conviction2: trainable('proficiency'),
+  devotion: trainable('proficiency'),
+  charisma: trainable('proficiency'),
 }).strip()
 
-export type Skills = z.infer<typeof SkillsSchema>
+export type Proficiencies = z.infer<typeof ProficienciesSchema>
+
+// ── merged whole ────────────────────────────────────────
+export const TrainablesSchema = SkillsSchema
+  .merge(AttributesSchema)
+  .merge(TalentsSchema)
+  .merge(ProficienciesSchema)
+
+export type Trainables = z.infer<typeof TrainablesSchema>
+
+export const CharacteristicsSchema = AttributesSchema
+  .merge(TalentsSchema)
+  .merge(ProficienciesSchema)
+
+export type Characteristics = z.infer<typeof CharacteristicsSchema>
 
 export const MovementSchema = z.object({
   basic: num.default(1),
@@ -166,38 +212,6 @@ export const CharacterAfflictionsSchema =
 export type CharacterAfflictions =
   z.infer<typeof CharacterAfflictionsSchema>
 
-
-
-export const CharacteristicsSchema = z.object({
-  size: z.number().default(3),
-
-  STR: z.number().default(10),
-  AGI: z.number().default(10),
-  STA: z.number().default(10),
-
-  CON: z.number().default(0),
-  INT: z.number().default(0),
-  SPI: z.number().default(0),
-  DEX: z.number().default(0),
-
-  melee: z.number().default(0),
-  ranged: z.number().default(0),
-  awareness: z.number().default(0),
-  sorcery: z.number().default(0),
-  conviction1: z.number().default(0),
-  conviction2: z.number().default(0),
-  devotion: z.number().default(0),
-  charisma: z.number().default(0),
-
-  // Base additive terms for derived wound thresholds.
-  // Effective values are computed in selectors from: floor((0.5 * STR + base) * DM)
-  // RES: z.number().default(0),
-  // INS: z.number().default(0),
-  TGH: z.number().default(0),
-}).strip()
-
-export type Characteristics = z.infer<typeof CharacteristicsSchema>
-
 export type AfflictionKey = keyof typeof AFFLICTIONS
 
 const AfflictionKeySchema =
@@ -216,12 +230,15 @@ export const CampaignValuesSchema = z.object({
 
 export type CampaignValues = z.infer<typeof CampaignValuesSchema>
 
-const CharacterValues = {  
+const CharacterValues = {
   id: z.string().default(() => crypto.randomUUID()),
   name: z.string().default(''),
 
-  characteristics: CharacteristicsSchema.partial().default({}).transform(v => CharacteristicsSchema.parse(v)),
-  skills: SkillsSchema.partial().default({}).transform(v => SkillsSchema.parse(v)),
+  trainables: TrainablesSchema.partial().default({}).transform(v => TrainablesSchema.parse(v)),
+  // characteristics: CharacteristicsSchema.partial().default({}).transform(v => CharacteristicsSchema.parse(v)),
+  size: z.number().default(3),
+  TGH: z.number().default(0),
+  // skills: SkillsSchema.partial().default({}).transform(v => SkillsSchema.parse(v)),
   movement: MovementSchema.partial().default({}).transform(v => MovementSchema.parse(v)),
   
   hasGauntlets: z.number().default(0),

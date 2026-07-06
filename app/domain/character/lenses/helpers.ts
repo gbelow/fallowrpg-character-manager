@@ -1,6 +1,6 @@
-import { Armor, Character, Weapon } from '../../types'
+import { Armor, Character, Skills, Weapon } from '../../types'
 import { dmgArr, SMArr } from '../../tables'
-import { getSize } from './characteristics'
+import { getSize } from './misc'
 
 export const getSM = (c: Character): number => {
   const size = getSize(c)
@@ -61,5 +61,5 @@ export function scaleWeapon(weapon: Weapon, scale: number): Weapon {
   return weap
 }
 
-export const skill = (c: Character, key: keyof Character['skills']) => c.skills[key as keyof Character['skills']] ?? 0
+export const skill = (c: Character, key: keyof Skills) => c.trainables[key as keyof Skills] ?? 0
 

@@ -1,4 +1,4 @@
-import z from 'zod'
+import z, { size } from 'zod'
 import { ArmorSchema, CampaignCharacter, CampaignCharacterSchema, BaseCharacterSchema, WeaponSchema, BaseCharacter } from './types'
 import { getSTA } from './character/lenses/characteristics'
 import { isBaseCharacter } from './utils'
@@ -12,13 +12,9 @@ function addBaseValues (emptyCharacter: BaseCharacter | CampaignCharacter, parse
     ...parsedCharacter,
     
     // deep merge the important nested objects
-    characteristics: {
-      ...emptyCharacter.characteristics,
-      ...parsedCharacter.characteristics,
-    },
-    skills: {
-      ...emptyCharacter.skills,
-      ...parsedCharacter.skills,
+    trainables: {
+      ...emptyCharacter.trainables,
+      ...parsedCharacter.trainables,
     },
     movement: {
       ...emptyCharacter.movement,
@@ -86,8 +82,9 @@ const CharacterIngestValues = {
   id: z.string().optional(),
   name: z.string().optional(),
 
-  characteristics: z.record(z.string(), z.any()).optional(),
-  skills: z.record(z.string(), z.any()).optional(),
+  trainables: z.record(z.string(), z.any()).optional(),
+  size: z.number().optional(),
+  TGH: z.number().optional(),
   movement: z.record(z.string(), safeNumber).optional(),
 
   hasGauntlets: z.number().optional(),

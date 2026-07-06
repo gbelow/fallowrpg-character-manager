@@ -1,12 +1,12 @@
 import { describe, it, expect } from 'vitest'
 import { getSM, getDM } from './helpers'
-import { getTGH } from './characteristics'
+import { getTGH } from './misc'
 import { SMArr, dmgArr } from '../../tables'
 import { makeCharacter } from '../../factories'
 import type { Character } from '../../types'
 
-function ofSize(size: number, extra: Partial<Character['characteristics']> = {}): Character {
-  return makeCharacter({ characteristics: { size, ...extra } })
+function ofSize(size: number, STR?: number, TGH?: number): Character {
+  return makeCharacter({ size, trainables: {STR: { value: STR }}, TGH })
 }
 
 // Size maps to a size-modifier (SM) and a damage-multiplier (DM) via table
@@ -51,11 +51,11 @@ describe('getTGH — floor(0.5*STR*DM + base)', () => {
     [5, 12], // DM 2   -> 12
     [6, 18], // DM 3   -> 18
   ])('size=%i -> %i', (size, expected) => {
-    expect(getTGH(ofSize(size, { STR: 12, TGH: 0 }))).toBe(expected)
+    expect(getTGH(ofSize(size,  12, 0 ))).toBe(expected)
   })
 
   it('adds the stored base term after scaling (unscaled base)', () => {
     // size 4 -> DM 1.5; floor(0.5*10*1.5 + 2) = floor(9.5) = 9
-    expect(getTGH(ofSize(4, { STR: 10, TGH: 2 }))).toBe(9)
+    expect(getTGH(ofSize(4, 10, 2 ))).toBe(9)
   })
 })

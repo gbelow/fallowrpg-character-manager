@@ -2,6 +2,7 @@ import { getSTR } from "../lenses/characteristics"
 import { dmgArr } from "../../tables"
 import { CampaignCharacter, Character, WeaponAttack } from "../../types"
 import { updateSTA } from "./bleed"
+import { getAccuracy, getStrike } from "../lenses/skills"
 
 export type AttackVariant = {
   type: string
@@ -59,8 +60,8 @@ export function spendAttackResources (atk: AttackVariant) {
 export function getAttackValues (atk: AttackVariant , type: string, weapon: string, roll: number) {
   return((c: Character) => {
     let val = roll - atk.penalty
-    if(type=='ranged') val += c.skills.accuracy
-    if(type=='melee') val += c.skills.strike
+    if(type=='ranged') val += getAccuracy(c)
+    if(type=='melee') val += getStrike(c)
 
     return{atk: val, type: type, weapon, blunt: atk.blunt, cut: atk.cut}
   })

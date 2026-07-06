@@ -1,5 +1,7 @@
 # IDEAS TO DO
 
+## character creation calculator
+
 ## add convictions 
 - selection within the options
 - auto add abilities
@@ -47,6 +49,8 @@
 ## explore integration with VTTs
 
 ## improve interface - make it pretty
+- add indicators that a value is altered by a temporary effect
+- align things
 
 ## add performance report to break me
 

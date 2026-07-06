@@ -12,15 +12,20 @@ import type { Characteristics, Movement, Skills } from '../../types'
 // broken inversion cannot accidentally pass by echoing an unchanged number.
 function subject() {
   return makeCharacter({
-    characteristics: {
-      STR: 12, AGI: 11, STA: 13, CON: 4, INT: 3, SPI: 2, DEX: 5,
-      size: 3, melee: 2, ranged: 1, awareness: 3, sorcery: 1, charisma: 2,
-      conviction1: 1, conviction2: 1, TGH: 0,
-    },
-    skills: {
-      strike: 3, defend: 2, reflex: 1, accuracy: 4, SD: 2, stealth: 1,
-      prestidigitation: 2, balance: 1, health: 3, swim: 1, climb: 2,
-      explore: 1, will: 2, persuasion: 1, deception: 1, insight: 1, devotion: 1,
+    size: 3,
+    TGH: 0,
+    trainables: {
+      STR: { value: 12 }, AGI: { value: 11 }, STA: { value: 13 },
+      CON: { value: 4 }, INT: { value: 3 }, SPI: { value: 2 }, DEX: { value: 5 },
+      melee: { value: 2 }, ranged: { value: 1 }, awareness: { value: 3 },
+      sorcery: { value: 1 }, charisma: { value: 2 },
+      conviction1: { value: 1 }, conviction2: { value: 1 },
+      strike: { value: 3 }, defend: { value: 2 }, reflex: { value: 1 },
+      accuracy: { value: 4 }, SD: { value: 2 }, stealth: { value: 1 },
+      prestidigitation: { value: 2 }, balance: { value: 1 }, health: { value: 3 },
+      swim: { value: 1 }, climb: { value: 2 }, explore: { value: 1 },
+      will: { value: 2 }, persuasion: { value: 1 }, deception: { value: 1 },
+      insight: { value: 1 }, devotion: { value: 1 },
     },
   })
 }
@@ -54,29 +59,14 @@ describe('lens inversion — skills', () => {
 // })
 
 describe('lens inversion — characteristics', () => {
-  // "devotion" reuses getDevotion (SPI + skills.devotion) and never reads the
-  // stored characteristics.devotion, so it cannot round-trip. Left as-is for now
-  // (it needs dedicated treatment later), so it stays a documented exception.
-  const nonInvertible: (keyof Characteristics)[] = ['devotion']
-  const invertible = (Object.keys(characteristicLenses) as (keyof Characteristics)[])
-    .filter((k) => !nonInvertible.includes(k))
+  // Merging skills + characteristics into a single `trainables` map fixed
+  // "devotion": getDevotion (SPI + trainables.devotion) and the generic setter
+  // now read and write the SAME stored base, so it round-trips like the rest.
+  const invertible = Object.keys(characteristicLenses) as (keyof Characteristics)[]
 
   it.each(invertible)('set → get round-trips for "%s"', (name) => {
     const lens = characteristicLenses[name]
     expect(lens.get(lens.set(subject(), TARGET))).toBe(TARGET)
-  })
-
-  it.fails('set → get round-trips for "devotion" (KNOWN: getter ignores stored base)', () => {
-    const lens = characteristicLenses.devotion
-    expect(lens.get(lens.set(subject(), TARGET))).toBe(TARGET)
-  })
-
-  // TGH now uses floor(0.5*STR*DM + base) — the base term is unscaled, so the
-  // generic setter inverts at every size, not just DM=1.
-  it('set → get round-trips for "TGH" at DM != 1', () => {
-    const larger = makeCharacter({ characteristics: { STR: 11, size: 4, TGH: 0 } })
-    const lens = characteristicLenses.TGH
-    expect(lens.get(lens.set(larger, TARGET))).toBe(TARGET)
   })
 })
 
