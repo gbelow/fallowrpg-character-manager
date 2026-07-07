@@ -18,6 +18,7 @@ import { useGameCommands } from '../hooks/useGameCommands';
 import { useActiveCharacterData } from '../hooks/useCharacterData';
 import { useShallow } from 'zustand/shallow';
 import { injuryMap } from '../domain/tables';
+import { useTrainableNameLens } from '../hooks/useTrainableNameLens';
 
 
 export function PlayPanel(){
@@ -127,40 +128,40 @@ export function PlayPanel(){
               <span className='px-4'>{rolledSkill.name} : {rolledSkill.value}</span>
             </div>
             <div className='flex flex-row gap-2 justify-center'>
-              <SimpleSkill skillName={'strike'} rollSkill={rollSkill}/>
-              <SimpleSkill skillName={'accuracy'} rollSkill={rollSkill}/>
-              <SimpleSkill skillName={'defend'} rollSkill={rollSkill}/>
-              <SimpleSkill skillName={'reflex'} rollSkill={rollSkill}/>
-              <SimpleSkill skillName={'grapple'} rollSkill={rollSkill}/>
-              <SimpleSkill skillName={'cunning'} rollSkill={rollSkill}/>
-              <SimpleSkill skillName={'SD'} rollSkill={rollSkill}/>
+              <SimpleSkill skillId={'strike'} rollSkill={rollSkill}/>
+              <SimpleSkill skillId={'accuracy'} rollSkill={rollSkill}/>
+              <SimpleSkill skillId={'defend'} rollSkill={rollSkill}/>
+              <SimpleSkill skillId={'reflex'} rollSkill={rollSkill}/>
+              <SimpleSkill skillId={'grapple'} rollSkill={rollSkill}/>
+              <SimpleSkill skillId={'cunning'} rollSkill={rollSkill}/>
+              <SimpleSkill skillId={'SD'} rollSkill={rollSkill}/>
             </div>
             <div className='flex flex-row gap-2 justify-center'>
-              <SimpleSkill skillName={'balance'} rollSkill={rollSkill}/>
-              <SimpleSkill skillName={'climb'} rollSkill={rollSkill}/>
-              <SimpleSkill skillName={'detection'} rollSkill={rollSkill}/>
-              <SimpleSkill skillName={'stealth'} rollSkill={rollSkill}/>
-              <SimpleSkill skillName={'prestidigitation'} rollSkill={rollSkill}/>
-              <SimpleSkill skillName={'health'} rollSkill={rollSkill}/>
-              <SimpleSkill skillName={'swim'} rollSkill={rollSkill}/>
+              <SimpleSkill skillId={'balance'} rollSkill={rollSkill}/>
+              <SimpleSkill skillId={'climb'} rollSkill={rollSkill}/>
+              <SimpleSkill skillId={'detection'} rollSkill={rollSkill}/>
+              <SimpleSkill skillId={'stealth'} rollSkill={rollSkill}/>
+              <SimpleSkill skillId={'prestidigitation'} rollSkill={rollSkill}/>
+              <SimpleSkill skillId={'health'} rollSkill={rollSkill}/>
+              <SimpleSkill skillId={'swim'} rollSkill={rollSkill}/>
             </div>
             <div className='flex flex-row gap-2 justify-center'>
-              {/* <SimpleSkill skillName={'knowledge'} rollSkill={rollSkill}/> */}
-              <SimpleSkill skillName={'explore'} rollSkill={rollSkill}/>
-              <SimpleSkill skillName={'will'} rollSkill={rollSkill}/>
-              <SimpleSkill skillName={'persuasion'} rollSkill={rollSkill}/>
-              <SimpleSkill skillName={'deception'} rollSkill={rollSkill}/>
-              <SimpleSkill skillName={'insight'} rollSkill={rollSkill}/>
-              {/* <SimpleSkill skillName={'devotion'} rollSkill={rollSkill}/> */}
+              {/* <SimpleSkill skillId={'knowledge'} rollSkill={rollSkill}/> */}
+              <SimpleSkill skillId={'explore'} rollSkill={rollSkill}/>
+              <SimpleSkill skillId={'will'} rollSkill={rollSkill}/>
+              <SimpleSkill skillId={'persuasion'} rollSkill={rollSkill}/>
+              <SimpleSkill skillId={'deception'} rollSkill={rollSkill}/>
+              <SimpleSkill skillId={'insight'} rollSkill={rollSkill}/>
+              {/* <SimpleSkill skillId={'devotion'} rollSkill={rollSkill}/> */}
             </div>
             {/* <div className='flex flex-row gap-2 justify-center'>
-              <SimpleSkill skillName={'combustion'} rollSkill={rollSkill}/>
-              <SimpleSkill skillName={'eletromag'} rollSkill={rollSkill}/>
-              <SimpleSkill skillName={'radiation'} rollSkill={rollSkill}/>
-              <SimpleSkill skillName={'entropy'} rollSkill={rollSkill}/>
-              <SimpleSkill skillName={'biomancy'} rollSkill={rollSkill}/>
-              <SimpleSkill skillName={'telepathy'} rollSkill={rollSkill}/>
-              <SimpleSkill skillName={'animancy'} rollSkill={rollSkill}/>
+              <SimpleSkill skillId={'combustion'} rollSkill={rollSkill}/>
+              <SimpleSkill skillId={'eletromag'} rollSkill={rollSkill}/>
+              <SimpleSkill skillId={'radiation'} rollSkill={rollSkill}/>
+              <SimpleSkill skillId={'entropy'} rollSkill={rollSkill}/>
+              <SimpleSkill skillId={'biomancy'} rollSkill={rollSkill}/>
+              <SimpleSkill skillId={'telepathy'} rollSkill={rollSkill}/>
+              <SimpleSkill skillId={'animancy'} rollSkill={rollSkill}/>
             </div> */}
             <textarea aria-label='notes' className='border rounded p-1 min-h-32 w-84 md:w-full justify-center ' value={notes} readOnly/>
             <button type='button' className='border rounded p-2' onClick={savePlayerCharacter}>Save</button>
@@ -268,11 +269,12 @@ function SimpleCharacteristic({propName}: {propName: keyof Characteristics}){
   )
 }
 
-function SimpleSkill({skillName, rollSkill}: {skillName: keyof Skills, rollSkill?: (name:string, value:number)=> void}){
-  const [value] = useSkillLens(skillName)
+function SimpleSkill({skillId, rollSkill}: {skillId: keyof Skills, rollSkill?: (name:string, value:number)=> void}){
+  const [value] = useSkillLens(skillId)
+  const [name] = useTrainableNameLens(skillId)
   return(
-    <div className='flex flex-col border rounded text-center p-1 w-10 md:w-16 overflow-hidden text-xs' onClick={() => rollSkill ? rollSkill(skillName, value) : null}>
-      <span>{skillName.slice(0,10)}</span>
+    <div className='flex flex-col border rounded text-center p-1 w-10 md:w-16 overflow-hidden text-xs' onClick={() => rollSkill ? rollSkill(name, value) : null}>
+      <span>{name.slice(0,10)}</span>
       <span>{value}</span>
     </div>
   )

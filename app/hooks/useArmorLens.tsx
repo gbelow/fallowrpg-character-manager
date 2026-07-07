@@ -1,5 +1,4 @@
 import { equipArmor } from "../domain/character/commands";
-import { makeTextLens } from "../domain/character/lenses/factories";
 import { Armor, ArmorSchema, Character, Skills } from "../domain/types";
 import { useActiveCharacter } from "./useActiveCharacter";
 

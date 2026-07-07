@@ -33,57 +33,57 @@ export const TrainableSchema = z.object({
 export type Trainable = z.infer<typeof TrainableSchema>
 
 // small helper so the group schemas aren't a wall of repeated defaults
-const trainable = (type: TrainableType, value = 0) =>
-  TrainableSchema.default({ value, name: '', XP: 0, talent: '', type })
+const trainable = (type: TrainableType, value = 0, name: string) =>
+  TrainableSchema.default({ value, name, XP: 0, talent: '', type })
 
 // ── groups (each is a subset type on its own) ───────────
 export const SkillsSchema = z.object({
-  strike: trainable('skill'),
-  defend: trainable('skill'),
-  reflex: trainable('skill'),
-  accuracy: trainable('skill'),
-  grapple: trainable('skill'),
-  SD: trainable('skill'),
-  stealth: trainable('skill'),
-  prestidigitation: trainable('skill'),
-  balance: trainable('skill'),
-  detection: trainable('skill'),
-  health: trainable('skill'),
-  swim: trainable('skill'),
-  climb: trainable('skill'),
-  explore: trainable('skill'),
-  cunning: trainable('skill'),
-  will: trainable('skill'),
-  persuasion: trainable('skill'),
-  deception: trainable('skill'),
-  insight: trainable('skill'),
+  strike: trainable('skill', 0, 'Strike'),
+  defend: trainable('skill', 0, 'Defend'),
+  reflex: trainable('skill', 0, 'Reflex'),
+  accuracy: trainable('skill', 0, 'Accuracy'),
+  grapple: trainable('skill', 0, 'Grapple'),
+  SD: trainable('skill', 0, 'SD'),
+  stealth: trainable('skill', 0, 'Stealth'),
+  prestidigitation: trainable('skill', 0, 'Prestidigitation'),
+  balance: trainable('skill', 0, 'Balance'),
+  detection: trainable('skill', 0, 'Detection'),
+  health: trainable('skill', 0, 'Health'),
+  swim: trainable('skill', 0, 'Swim'),
+  climb: trainable('skill', 0, 'Climb'),
+  explore: trainable('skill', 0, 'Explore'),
+  cunning: trainable('skill', 0, 'Cunning'),
+  will: trainable('skill', 0, 'Will'),
+  persuasion: trainable('skill', 0, 'Persuasion'),
+  deception: trainable('skill', 0, 'Deception'),
+  insight: trainable('skill', 0, 'Insight'),
 }).strip()
 export type Skills = z.infer<typeof SkillsSchema>
 
 export const AttributesSchema = z.object({
-  STR: trainable('attribute', 10),
-  AGI: trainable('attribute', 10),
-  STA: trainable('attribute', 10),
+  STR: trainable('attribute', 10, 'Strength'),
+  AGI: trainable('attribute', 10, 'Agility'),
+  STA: trainable('attribute', 10, 'Stamina'),
 }).strip()
 export type Attributes = z.infer<typeof AttributesSchema>
 
 export const TalentsSchema = z.object({
-  CON: trainable('talent'),
-  INT: trainable('talent'),
-  SPI: trainable('talent'),
-  DEX: trainable('talent'),
+  CON: trainable('talent', 0, 'Constitution'),
+  INT: trainable('talent', 0, 'Intelligence'),
+  SPI: trainable('talent', 0, 'Spirit'),
+  DEX: trainable('talent', 0, 'Dexterity'),
 }).strip()
 export type Talents = z.infer<typeof TalentsSchema>
 
 export const ProficienciesSchema = z.object({
-  melee: trainable('proficiency'),
-  ranged: trainable('proficiency'),
-  awareness: trainable('proficiency'),
-  sorcery: trainable('proficiency'),
-  conviction1: trainable('proficiency'),
-  conviction2: trainable('proficiency'),
-  devotion: trainable('proficiency'),
-  charisma: trainable('proficiency'),
+  melee: trainable('proficiency', 0, 'Melee'),
+  ranged: trainable('proficiency', 0, 'Ranged'),
+  awareness: trainable('proficiency', 0, 'Awareness'),
+  sorcery: trainable('proficiency', 0, 'Sorcery'),
+  conviction1: trainable('proficiency', 0, 'Conviction 1'),
+  conviction2: trainable('proficiency', 0, 'Conviction 2'),
+  devotion: trainable('proficiency', 0, 'Devotion'),
+  charisma: trainable('proficiency', 0, 'Charisma'),
 }).strip()
 
 export type Proficiencies = z.infer<typeof ProficienciesSchema>
@@ -275,8 +275,7 @@ export type Character = BaseCharacter | CampaignCharacter
 export type CharacterUpdater = (c: Character) => Character
 export type CampaignCharacterUpdater = (c: Character) => CampaignCharacter
 
-// T must at least satisfy the Character shape
-export interface Lens<T extends Character, V> {
+export interface Lens<T, V> {
   get: (subject: T) => V;
   set: (subject: T, value: V) => T;
 }

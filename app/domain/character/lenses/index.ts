@@ -1,6 +1,6 @@
-import { Character, Characteristics, Lens, Movement, Skills } from "../../types";
+import { Character, Characteristics, Lens, Movement, Skills, Trainable, Trainables } from "../../types";
 import { getAGI, getAwareness, getCharisma, getCON, getConviction1, getConviction2, getDevotion, getDEX, getINT, getMelee, getRanged, getSorcery, getSPI, getSTA, getSTR } from "./characteristics";
-import { makeSimpleLens, makeTrainableValueLens } from "./factories";
+import { makeInvertingLens, makeTrainableValueLens } from "./factories";
 import { getSize, getTGH } from "./misc";
 import { getBasicMovement, getCarefulMovement, getCrawlMovement, getFastSwimMovement, getJumpMovement, getRunMovement, getStandMovement, getSwimMovement, makeMovementLens } from "./movement";
 import {
@@ -72,6 +72,6 @@ export const movementLenses: Record<keyof Movement, Lens<Character, number>> = {
 }
 
 export const miscLenses = {
-  size: makeSimpleLens("size", getSize),
-  TGH: makeSimpleLens("TGH", getTGH),
+  size: makeInvertingLens("size", getSize),
+  TGH: makeInvertingLens("TGH", getTGH),
 }

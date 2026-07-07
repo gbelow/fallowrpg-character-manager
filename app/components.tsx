@@ -105,7 +105,7 @@ export function CharacterSelector(){
   };
 
   const createCharacter = async (path:string) => {
-    const res = await upsertBaseCharacter( makeCharacter(path))
+    const res = await upsertBaseCharacter( makeCharacter( {}, path))
     if(!res.ok){ toast.error(res.error); return }
     updateBaseCharacterList()
   }

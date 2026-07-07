@@ -29,8 +29,8 @@ function addBaseValues (emptyCharacter: BaseCharacter | CampaignCharacter, parse
   }
 }
 
-export function makeCharacter(raw: unknown): BaseCharacter {
-  const emptyCharacter: BaseCharacter =  BaseCharacterSchema.parse({ path: '',})
+export function makeCharacter(raw: unknown, path?: string): BaseCharacter {
+  const emptyCharacter: BaseCharacter =  BaseCharacterSchema.parse({ path: path || '',})
   if (typeof raw !== 'object' || raw === null) return emptyCharacter
 
   const parsed = CharacterIngestSchema.safeParse({...raw, type: 'base'})

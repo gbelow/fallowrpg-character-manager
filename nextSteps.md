@@ -3,7 +3,7 @@
 ## character creation calculator
 
 ## add convictions 
-- selection within the options
+- selection within the options -- DONE
 - auto add abilities
 
 ## add knowledges

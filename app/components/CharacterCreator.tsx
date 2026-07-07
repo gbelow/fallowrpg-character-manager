@@ -6,7 +6,7 @@ import { deleteCharacter, saveCharacter, upsertBaseCharacter } from '../actions'
 import { WeaponPanel } from './WeaponPanel';
 import { ArmorPanel } from './ArmorPanel';
 import { useCharacterStore } from '../stores/useCharacterStore';
-import { Character, Characteristics, Movement, Skills } from '../domain/types';
+import { Characteristics, Movement, Skills } from '../domain/types';
 import { useAppStore } from '../stores/useAppStore';
 import { resetSkill, resetAllSkills } from '../domain/character/commands';
 import { useSkillLens } from '../hooks/useSkillLens';
@@ -252,10 +252,10 @@ function ConvictionDial ({trainableName, fallbackTitle}:{trainableName: 'convict
   return(
     <div className='flex flex-col w-16 md:w-24 overflow-hidden'>
       <label className='text-xs truncate'>
-        <select className='p-1 mt-1 border border-white rounded w-16 md:w-24 text-center' title={fallbackTitle} value={name} onChange={(e) => setName(e.target.value)}>
-          <option value=''></option>
+        <select className='p-1 mt-1 border border-white rounded w-16 md:w-24 text-center bg-black text-white' title={fallbackTitle} value={name} onChange={(e) => setName(e.target.value)}>
+          <option className='bg-black text-white' value=''></option>
           {Object.values(CONVICTIONS).map(conviction => (
-            <option key={conviction.id} value={conviction.name}>{conviction.name}</option>
+            <option className='bg-black text-white' key={conviction.id} value={conviction.name}>{conviction.name}</option>
           ))}
         </select>
       </label>
@@ -277,7 +277,7 @@ function NumberDial ({stat, title}:{stat: 'size' | 'TGH', title: string}){
 }
 
 
-const TextItem = ({keyName, mode}:{keyName: keyof Character, mode: 'normal' | 'large'}) => {
+const TextItem = ({keyName, mode}:{keyName: 'name' | 'notes', mode: 'normal' | 'large'}) => {
   const [value, setValue] = useTextLens(keyName)
 
   return(

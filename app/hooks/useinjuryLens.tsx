@@ -1,17 +1,19 @@
 import { getInjuryPenalty } from "../domain/character/lenses/afflictions";
-import { makeInjuryLens } from "../domain/character/lenses/factories";
-import { CampaignValuesSchema, Injuries, Wound } from "../domain/types";
+import { composeLens, propLens } from "../domain/character/lenses/factories";
+import { CampaignCharacter, CampaignValuesSchema, Injuries } from "../domain/types";
 import { isCampaignCharacter } from "../domain/utils";
 import { useActiveCharacter } from "./useActiveCharacter";
 
 export function useInjuryLens() {
-  const lens = makeInjuryLens();
+  const injuryLens = propLens<CampaignCharacter, 'injuries'>('injuries')
+  
   const { character, update } = useActiveCharacter();
   
-  const injuries = character && isCampaignCharacter(character) ? lens.get(character) : CampaignValuesSchema.parse({}).injuries;
+  const injuries = character && isCampaignCharacter(character) ? injuryLens.get(character) : CampaignValuesSchema.parse({}).injuries;
 
-  const setInjury = (keyName: keyof Injuries, newValue: number | Wound) => {
-    update((c) => isCampaignCharacter(c) ? lens.set(c, keyName, newValue) : c);
+  const setInjury = (keyName: keyof Injuries, newValue: number | number[]) => {
+    const injuryValueLens = composeLens(injuryLens, propLens<Injuries, keyof Injuries>(keyName));
+    update((c) => isCampaignCharacter(c) ? injuryValueLens.set(c, newValue) : c);
   };
 
   const isCharacterDead = () =>{

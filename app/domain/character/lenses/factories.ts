@@ -1,37 +1,29 @@
-import { CampaignCharacter, Character, Injuries, Lens, Resources, Trainables, Wound } from "../../types";
+import { CampaignCharacter, Character, Lens, Resources, Trainable, Trainables } from "../../types";
 
-export function makeTextLens(keyName: keyof Character){
-  return {
-    get: (character: Character) => {
-      return character[keyName]
-    },
-    set: (character: Character, value: string) => {
-      return ({...character, [keyName]: value})
-    }
-  }
+// ---- composable core ----
+// A Lens's default setter is always a plain, unmodified write to its own
+// subject's field — inversion (writing through derived modifiers) is a
+// concern layered on top by makeInvertingSetter, not a property of focusing.
+
+export function composeLens<A, B, C>(l1: Lens<A, B>, l2: Lens<B, C>): Lens<A, C>;
+export function composeLens<A, B, C, D>(l1: Lens<A, B>, l2: Lens<B, C>, l3: Lens<C, D>): Lens<A, D>;
+export function composeLens<A, B, C, D, E>(l1: Lens<A, B>, l2: Lens<B, C>, l3: Lens<C, D>, l4: Lens<D, E>): Lens<A, E>;
+export function composeLens(...lenses: Array<Lens<any, any>>): Lens<any, any> {
+  return lenses.reduce((outer, inner) => ({
+    get: (a: any) => inner.get(outer.get(a)),
+    set: (a: any, value: any) => outer.set(a, inner.set(outer.get(a), value)),
+  }));
 }
 
-export function makeResourceLens(keyName: keyof Resources){
+export function propLens<T, K extends keyof T>(key: K): Lens<T, T[K]> {
   return {
-    get: (character: CampaignCharacter) => {
-      return character.resources[keyName]
-    },
-    set: (character: CampaignCharacter, value: number) => {
-      return ({...character, resources:{...character.resources, [keyName]: value}})
-    }
-  }
+    get: (t) => t[key],
+    set: (t, value) => ({ ...t, [key]: value }),
+  };
 }
 
-export function makeInjuryLens (){
-  return {
-    get: (character: CampaignCharacter) => {
-      return character.injuries
-    },
-    set: (character: CampaignCharacter, keyName: keyof Injuries,  value: number | Wound) => {
-      const updatedInjuries = {...character.injuries, [keyName]: value}
-      return ({...character, injuries: updatedInjuries})
-    },
-  }
+export function makeResourceLens(keyName: keyof Resources): Lens<CampaignCharacter, number> {
+  return composeLens(propLens<CampaignCharacter, 'resources'>('resources'), propLens<Resources, keyof Resources>(keyName));
 }
 
 function makeInvertingSetter<T extends Character>(
@@ -46,52 +38,31 @@ function makeInvertingSetter<T extends Character>(
 }
 
 
-export function makeSimpleLens<T extends Character> (
-  propertyName: 'size' | 'TGH', 
-  getter: (c: T) => number, 
+export function makeInvertingLens<T extends Character> (
+  propertyName: 'size' | 'TGH',
+  getter: (c: T) => number,
   setter?: (c: T, value: number) => T): Lens<T, number> {
+  const baseLens = propLens<T, 'size' | 'TGH'>(propertyName);
   return {
     get: getter,
-    set: setter ?? makeInvertingSetter(
-      getter,
-      (c: T) => c[propertyName],
-      (c: T, base: number) => ({ ...c, [propertyName]: base }) as T
-    )
+    set: setter ?? makeInvertingSetter(getter, baseLens.get, baseLens.set)
   };
 }
 
-export function makeTrainableNameLens<T extends Character>(
-  trainableName: keyof Trainables
-): Lens<T, string> {
-  return {
-    get: (c: T) => c.trainables[trainableName].name,
-    set: (c: T, value: string) => ({
-      ...c,
-      trainables: {
-        ...c.trainables,
-        [trainableName]: { ...c.trainables[trainableName], name: value }
-      }
-    }) as T
-  };
-}
 
 export function makeTrainableValueLens<T extends Character>(
   trainableName: keyof Trainables,
   getter: (c: T) => number,
   setter?: (c: T, value: number) => T
 ): Lens<T, number> {
+  const baseLens = composeLens(
+    propLens<T, 'trainables'>('trainables'),
+    propLens<Trainables, keyof Trainables>(trainableName),
+    propLens<Trainable, 'value'>('value')
+  );
+
   return {
     get: getter,
-    set: setter ?? makeInvertingSetter(
-      getter,
-      (c: T) => c.trainables[trainableName].value ?? 0,
-      (c: T, base: number) => ({
-        ...c,
-        trainables: {
-          ...c.trainables,
-          [trainableName]: { ...c.trainables[trainableName], value: base }
-        }
-      }) as T
-    )
+    set: setter ?? makeInvertingSetter(getter, baseLens.get, baseLens.set)
   };
 }

@@ -2,66 +2,248 @@
   "path": "humanoid/experts",
   "type": "base",
   "name": "Berserker",
-  "characteristics": {
-    "size": 3,
-    "STR": 14,
-    "AGI": 12,
-    "STA": 14,
-    "CON": 4,
-    "INT": 0,
-    "SPI": 3,
-    "DEX": 2,
-    "melee": 2,
-    "ranged": 1,
-    "awareness": 0,
-    "sorcery": 0,
-    "conviction1": 0,
-    "conviction2": 0,
-    "devotion": 0,
-    "charisma": 0,
-    "TGH": 0,
-    "RES": 0,
-    "INS": 0,
-    "detection": 2,
-    "spellcast": 0
+  "trainables": {
+    "strike": {
+      "value": 2,
+      "name": "Strike",
+      "XP": 0,
+      "talent": "",
+      "type": "skill"
+    },
+    "defend": {
+      "value": 1,
+      "name": "Defend",
+      "XP": 0,
+      "talent": "",
+      "type": "skill"
+    },
+    "reflex": {
+      "value": 0,
+      "name": "Reflex",
+      "XP": 0,
+      "talent": "",
+      "type": "skill"
+    },
+    "accuracy": {
+      "value": 0,
+      "name": "Accuracy",
+      "XP": 0,
+      "talent": "",
+      "type": "skill"
+    },
+    "grapple": {
+      "value": 0,
+      "name": "Grapple",
+      "XP": 0,
+      "talent": "",
+      "type": "skill"
+    },
+    "SD": {
+      "value": 0,
+      "name": "SD",
+      "XP": 0,
+      "talent": "",
+      "type": "skill"
+    },
+    "stealth": {
+      "value": 0,
+      "name": "Stealth",
+      "XP": 0,
+      "talent": "",
+      "type": "skill"
+    },
+    "prestidigitation": {
+      "value": 0,
+      "name": "Prestidigitation",
+      "XP": 0,
+      "talent": "",
+      "type": "skill"
+    },
+    "balance": {
+      "value": 0,
+      "name": "Balance",
+      "XP": 0,
+      "talent": "",
+      "type": "skill"
+    },
+    "detection": {
+      "value": 0,
+      "name": "Detection",
+      "XP": 0,
+      "talent": "",
+      "type": "skill"
+    },
+    "health": {
+      "value": 0,
+      "name": "Health",
+      "XP": 0,
+      "talent": "",
+      "type": "skill"
+    },
+    "swim": {
+      "value": 0,
+      "name": "Swim",
+      "XP": 0,
+      "talent": "",
+      "type": "skill"
+    },
+    "climb": {
+      "value": 0,
+      "name": "Climb",
+      "XP": 0,
+      "talent": "",
+      "type": "skill"
+    },
+    "explore": {
+      "value": 0,
+      "name": "Explore",
+      "XP": 0,
+      "talent": "",
+      "type": "skill"
+    },
+    "cunning": {
+      "value": 0,
+      "name": "Cunning",
+      "XP": 0,
+      "talent": "",
+      "type": "skill"
+    },
+    "will": {
+      "value": 0,
+      "name": "Will",
+      "XP": 0,
+      "talent": "",
+      "type": "skill"
+    },
+    "persuasion": {
+      "value": 0,
+      "name": "Persuasion",
+      "XP": 0,
+      "talent": "",
+      "type": "skill"
+    },
+    "deception": {
+      "value": 0,
+      "name": "Deception",
+      "XP": 0,
+      "talent": "",
+      "type": "skill"
+    },
+    "insight": {
+      "value": 0,
+      "name": "Insight",
+      "XP": 0,
+      "talent": "",
+      "type": "skill"
+    },
+    "STR": {
+      "value": 14,
+      "name": "Strength",
+      "XP": 0,
+      "talent": "",
+      "type": "attribute"
+    },
+    "AGI": {
+      "value": 13,
+      "name": "Agility",
+      "XP": 0,
+      "talent": "",
+      "type": "attribute"
+    },
+    "STA": {
+      "value": 13,
+      "name": "Stamina",
+      "XP": 0,
+      "talent": "",
+      "type": "attribute"
+    },
+    "CON": {
+      "value": 4,
+      "name": "Constitution",
+      "XP": 0,
+      "talent": "",
+      "type": "talent"
+    },
+    "INT": {
+      "value": 0,
+      "name": "Intelligence",
+      "XP": 0,
+      "talent": "",
+      "type": "talent"
+    },
+    "SPI": {
+      "value": 2,
+      "name": "Spirit",
+      "XP": 0,
+      "talent": "",
+      "type": "talent"
+    },
+    "DEX": {
+      "value": 2,
+      "name": "Dexterity",
+      "XP": 0,
+      "talent": "",
+      "type": "talent"
+    },
+    "melee": {
+      "value": 2,
+      "name": "Melee",
+      "XP": 0,
+      "talent": "",
+      "type": "proficiency"
+    },
+    "ranged": {
+      "value": 2,
+      "name": "Ranged",
+      "XP": 0,
+      "talent": "",
+      "type": "proficiency"
+    },
+    "awareness": {
+      "value": 2,
+      "name": "Awareness",
+      "XP": 0,
+      "talent": "",
+      "type": "proficiency"
+    },
+    "sorcery": {
+      "value": 0,
+      "name": "Sorcery",
+      "XP": 0,
+      "talent": "",
+      "type": "proficiency"
+    },
+    "conviction1": {
+      "value": 0,
+      "name": "Ferocity",
+      "XP": 0,
+      "talent": "",
+      "type": "proficiency"
+    },
+    "conviction2": {
+      "value": 0,
+      "name": "Fatalism",
+      "XP": 0,
+      "talent": "",
+      "type": "proficiency"
+    },
+    "devotion": {
+      "value": 0,
+      "name": "Devotion",
+      "XP": 0,
+      "talent": "",
+      "type": "proficiency"
+    },
+    "charisma": {
+      "value": 1,
+      "name": "Charisma",
+      "XP": 0,
+      "talent": "",
+      "type": "proficiency"
+    }
   },
-  "skills": {
-    "strike": 3,
-    "defend": 2,
-    "reflex": 0,
-    "accuracy": 0,
-    "grapple": 3,
-    "SD": 0,
-    "stealth": 0,
-    "prestidigitation": 0,
-    "balance": 2,
-    "detection": 0,
-    "health": 0,
-    "swim": 0,
-    "climb": 2,
-    "knowledge": 0,
-    "explore": 0,
-    "cunning": 0,
-    "will": 6,
-    "persuasion": 0,
-    "deception": 0,
-    "insight": 0,
-    "devotion": 0,
-    "combustion": 0,
-    "eletromag": 0,
-    "radiation": 0,
-    "entropy": 0,
-    "biomancy": 0,
-    "telepathy": 0,
-    "animancy": 0,
-    "strength": 0,
-    "charm": 0,
-    "stress": 6,
-    "acting": 0,
-    "sneak": 0,
-    "detect": 0,
-    "sense": 0
-  },
+  "size": 3,
+  "TGH": 0,
   "movement": {
     "basic": 1,
     "careful": 0.5,
@@ -72,58 +254,23 @@
     "fast swim": 0.5,
     "stand": 0
   },
-  "hasGauntlets": 1,
+  "hasGauntlets": 0,
   "hasHelm": 0,
   "armor": {
     "name": "Brigandine",
     "RES": 15,
     "RESlayer": 0,
+    "poise": 0,
     "INS": 8,
     "protection": 6,
     "deflection": 6,
     "penalty": 2,
     "properties": "metallic",
-    "notes": ""
+    "notes": "",
+    "prot": 6,
+    "cover": 6
   },
-  "weapons": {
-    "Greatsword": {
-      "name": "Greatsword",
-      "penalty": 0,
-      "scale": 3,
-      "attacks": [
-        {
-          "type": "melee",
-          "handed": "two",
-          "energy": 12,
-          "STRmod": 0,
-          "heavyMod": 1,
-          "SHP": 1.5,
-          "range": "long I",
-          "RES": 30,
-          "RESmod": 0,
-          "AP": 3,
-          "reload": 0,
-          "deflection": 0,
-          "properties": "sweep, DEF, heavy I-II, bladed"
-        },
-        {
-          "type": "melee",
-          "handed": "two",
-          "energy": 8,
-          "STRmod": 0,
-          "heavyMod": 0.5,
-          "SHP": 2,
-          "range": "long I",
-          "RES": 20,
-          "RESmod": 0,
-          "AP": 3,
-          "reload": 0,
-          "deflection": 0,
-          "properties": "piercing, heavy I, braced"
-        }
-      ]
-    }
-  },
+  "weapons": {},
   "containers": {},
   "notes": ""
 }
