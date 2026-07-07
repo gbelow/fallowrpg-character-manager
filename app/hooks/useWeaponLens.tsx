@@ -1,5 +1,12 @@
-import { equipWeapon, getCharacterWeapons, unequipWeapon } from "../domain/character/commands/equipWeapon";
-import { AttackVariant, getAttacksList, getAttackValues, spendAttackResources } from "../domain/character/commands/weaponAttack";
+import {
+  equipWeapon,
+  getCharacterWeapons,
+  unequipWeapon,
+  AttackVariant,
+  getAttacksList,
+  getAttackValues,
+  spendAttackResources,
+} from "../domain/character/commands";
 import { Weapon, WeaponAttack } from "../domain/types";
 import { isCampaignCharacter } from "../domain/utils";
 import { rollFull } from "../domain/combat/dice";

@@ -1,15 +1,13 @@
 'use client'
-import { putGauntlets, putHelm } from '../domain/character/commands/equipArmor'
+import { putGauntlets, putHelm } from '../domain/character/commands'
 import { makeCharacter } from '../domain/factories'
-import { ArmorSchema } from '../domain/types'
 import { useActiveCharacter } from '../hooks/useActiveCharacter'
 import { useArmorLens } from '../hooks/useArmorLens'
-import { useActiveCharacterData } from '../hooks/useCharacterData'
-import { useCharacteristicLens } from '../hooks/useCharacteristicLens'
+import { useActiveCharacterDataLens } from '../hooks/useCharacterDataLens'
 
 export function ArmorPanel(){
   const [armor] = useArmorLens()
-  const {TGH} = useActiveCharacterData()
+  const [TGH] = useActiveCharacterDataLens('TGH')
 
   const fallback = makeCharacter('')
   // const effectiveRES = useCharacteristicLens('RES')[0] ?? fallback.characteristics.RES

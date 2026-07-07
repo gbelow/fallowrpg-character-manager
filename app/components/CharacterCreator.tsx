@@ -8,7 +8,7 @@ import { ArmorPanel } from './ArmorPanel';
 import { useCharacterStore } from '../stores/useCharacterStore';
 import { Character, Characteristics, Movement, Skills } from '../domain/types';
 import { useAppStore } from '../stores/useAppStore';
-import { resetSkill, resetAllSkills } from '../domain/character/commands/resetSkills';
+import { resetSkill, resetAllSkills } from '../domain/character/commands';
 import { useSkillLens } from '../hooks/useSkillLens';
 import { useMovementLens } from '../hooks/useMovementLens';
 import { useCharacteristicLens } from '../hooks/useCharacteristicLens';

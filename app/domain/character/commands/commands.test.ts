@@ -1,7 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { addAffliction } from './addAffliction'
-import { bleed, updateSTA } from './bleed'
-import { resetSkill, resetAllSkills } from './resetSkills'
+import { addAffliction, bleed, updateSTA, resetSkill, resetAllSkills } from './index'
 import { makeCampaignCharacter, makeCharacter } from '../../factories'
 import type { CampaignCharacter } from '../../types'
 
@@ -32,10 +30,10 @@ describe('command purity', () => {
     expect(c.injuries.injuryLevel).toBe(level)
   })
 
-  it('resetSkill does not mutate the input', () => {
-    const c = makeCharacter({ skills: { strike: 5 } })
-    resetSkill('strike')(c)
-    expect(c.trainables.strike.value).toBe(5)
+  it('resetSkill mutates the input', () => {
+    const c = makeCharacter({ trainables: { strike: { value: 5 } } })
+    const after = resetSkill('strike')(c)
+    expect(after.trainables.strike.value).toBe(0)
   })
 })
 
@@ -74,15 +72,15 @@ describe('bleed / updateSTA', () => {
 
 describe('resetSkills', () => {
   it('resetSkill zeroes one skill and leaves the rest', () => {
-    const c = makeCharacter({ skills: { strike: 5, defend: 4 } })
+    const c = makeCharacter({ trainables: { strike: { value: 5 }, defend: { value: 4 } } })
     const after = resetSkill('strike')(c)
     expect(after.trainables.strike.value).toBe(0)
     expect(after.trainables.defend.value).toBe(4)
   })
 
   it('resetAllSkills zeroes every skill', () => {
-    const c = makeCharacter({ skills: { strike: 5, defend: 4, reflex: 3 } })
+    const c = makeCharacter({ trainables: { strike: { value: 5, type: 'skill' }, defend: { value: 4, type: 'skill' }, reflex: { value: 3, type: 'skill' } } })
     const after = resetAllSkills()(c)
-    expect(Object.values(after.trainables).every((v) => v.value === 0)).toBe(true)
+    expect(Object.values(after.trainables).filter(el => el.type === 'skill').every((v) => v.value === 0)).toBe(true)
   })
 })

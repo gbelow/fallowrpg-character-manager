@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useCharacteristicLens } from "../hooks/useCharacteristicLens";
 import { useWeaponLens } from "../hooks/useWeaponLens";
 import { WeaponAttack } from "../domain/types";
-import { parseAtkDamage } from "../domain/character/commands/weaponAttack";
+import { parseAtkDamage } from "../domain/character/commands";
 
 
 export function WeaponPanel(){

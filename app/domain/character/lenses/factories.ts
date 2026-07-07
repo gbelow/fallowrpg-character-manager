@@ -34,21 +34,29 @@ export function makeInjuryLens (){
   }
 }
 
+function makeInvertingSetter<T extends Character>(
+  getter: (c: T) => number,
+  readBase: (c: T) => number,
+  writeBase: (c: T, base: number) => T,
+): (subject: T, value: number) => T {
+  return (subject: T, value: number): T => {
+    const modifiers = getter(subject) - readBase(subject);
+    return writeBase(subject, value - modifiers);
+  };
+}
+
+
 export function makeSimpleLens<T extends Character> (
   propertyName: 'size' | 'TGH', 
   getter: (c: T) => number, 
   setter?: (c: T, value: number) => T): Lens<T, number> {
   return {
     get: getter,
-    set: setter ?? ((subject: T, value: number): T => {
-      const baseValue = subject[propertyName];
-      const modifiers = getter(subject) - (parseInt(baseValue+'') || 0);
-      
-      return {
-        ...subject,
-          [propertyName]: value - modifiers
-      } as T;
-    })
+    set: setter ?? makeInvertingSetter(
+      getter,
+      (c: T) => c[propertyName],
+      (c: T, base: number) => ({ ...c, [propertyName]: base }) as T
+    )
   };
 }
 
@@ -59,17 +67,16 @@ export function makeTrainableValueLens<T extends Character>(
 ): Lens<T, number> {
   return {
     get: getter,
-    set: setter ?? ((subject: T, value: number): T => {
-      const baseValue = subject.trainables[trainableName].value;
-      const modifiers = getter(subject) - baseValue;
-
-      return {
-        ...subject,
-        trainables: { 
-          ...subject.trainables, 
-          [trainableName]: {...subject.trainables[trainableName], value: value - modifiers }
+    set: setter ?? makeInvertingSetter(
+      getter,
+      (c: T) => c.trainables[trainableName].value ?? 0,
+      (c: T, base: number) => ({
+        ...c,
+        trainables: {
+          ...c.trainables,
+          [trainableName]: { ...c.trainables[trainableName], value: base }
         }
-      } as T;
-    })
+      }) as T
+    )
   };
 }

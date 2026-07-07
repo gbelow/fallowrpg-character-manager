@@ -1,4 +1,4 @@
-import { addAffliction } from "../domain/character/commands/addAffliction";
+import { addAffliction } from "../domain/character/commands";
 import { getAfflictions } from "../domain/character/lenses/afflictions";
 import { AfflictionKey } from "../domain/types";
 import { isCampaignCharacter } from "../domain/utils";
