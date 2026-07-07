@@ -15,6 +15,8 @@ import { useCharacteristicLens } from '../hooks/useCharacteristicLens';
 import { useTextLens } from '../hooks/useTextLens';
 import { useActiveCharacterData } from '../hooks/useCharacterData';
 import { useActiveCharacterDataLens } from '../hooks/useCharacterDataLens';
+import { useTrainableNameLens } from '../hooks/useTrainableNameLens';
+import { CONVICTIONS } from '../domain/tables';
 
 function SaveBaseCharacterButton(){
   const character = useCharacterStore(s => s.character)
@@ -158,8 +160,8 @@ export function CharacterCreator() {
           <StatDial stat={'awareness'} title={'Awareness'} />
           <StatDial stat={'sorcery'} title={'Sorcery'} />
           <StatDial stat={'charisma'} title={'Charisma'} />
-          <StatDial stat={'conviction1'} title={'Conviction1'} />
-          <StatDial stat={'conviction2'} title={'Conviction2'} />
+          <ConvictionDial trainableName={'conviction1'} fallbackTitle={'Conviction1'} />
+          <ConvictionDial trainableName={'conviction2'} fallbackTitle={'Conviction2'} />
           <StatDial stat={'devotion'} title={'Devotion'} />
         </div>
         <ResetAllSkillsButton />
@@ -239,6 +241,25 @@ function StatDial ({stat, title}:{stat: keyof Characteristics, title: string}){
     <div className='flex flex-col w-10 md:w-16 overflow-hidden'>
       <label className='text-xs'>{title}</label>
       <input className='p-1 border border-white rounded w-10 md:w-16 text-center' title={title} type='number' inputMode="numeric" value={value} onChange={(e) => setValue(parseInt(e.target.value))} />
+    </div>
+  )
+}
+
+function ConvictionDial ({trainableName, fallbackTitle}:{trainableName: 'conviction1' | 'conviction2', fallbackTitle: string}){
+  const [value, setValue] = useCharacteristicLens(trainableName)
+  const [name, setName] = useTrainableNameLens(trainableName)
+
+  return(
+    <div className='flex flex-col w-16 md:w-24 overflow-hidden'>
+      <label className='text-xs truncate'>
+        <select className='p-1 mt-1 border border-white rounded w-16 md:w-24 text-center' title={fallbackTitle} value={name} onChange={(e) => setName(e.target.value)}>
+          <option value=''></option>
+          {Object.values(CONVICTIONS).map(conviction => (
+            <option key={conviction.id} value={conviction.name}>{conviction.name}</option>
+          ))}
+        </select>
+      </label>
+      <input className='p-1 border border-white rounded w-10 md:w-16 mx-auto text-center' title={fallbackTitle} type='number' inputMode="numeric" value={value} onChange={(e) => setValue(parseInt(e.target.value))} />
     </div>
   )
 }

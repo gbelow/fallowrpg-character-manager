@@ -60,6 +60,21 @@ export function makeSimpleLens<T extends Character> (
   };
 }
 
+export function makeTrainableNameLens<T extends Character>(
+  trainableName: keyof Trainables
+): Lens<T, string> {
+  return {
+    get: (c: T) => c.trainables[trainableName].name,
+    set: (c: T, value: string) => ({
+      ...c,
+      trainables: {
+        ...c.trainables,
+        [trainableName]: { ...c.trainables[trainableName], name: value }
+      }
+    }) as T
+  };
+}
+
 export function makeTrainableValueLens<T extends Character>(
   trainableName: keyof Trainables,
   getter: (c: T) => number,
