@@ -4,7 +4,7 @@ import { useActiveCharacter } from "./useActiveCharacter";
 export function useActiveCharacterData() {
   const { character } = useActiveCharacter();
   
-  let resp = { fightName: "", hasActionSurge: false, notes: "" }
+  const resp = { fightName: "", hasActionSurge: false, notes: "" }
   if(!character || !isCampaignCharacter(character)) return resp
 
   resp.fightName = character.fightName ?? '';

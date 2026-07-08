@@ -7,7 +7,6 @@ import {
   getStrike, getAccuracy, getDefend, getReflex, getGrapple, getCunning, getSD,
   getBalance, getClimb, getSwim, getPrestidigitation, getHealth, 
   getExplore, getWill,
-  getCombustion, getEletromag, getRadiation, getEntropy, getBiomancy, getTelepathy, getAnimancy,
   getStealth,
   getPersuasion,
   getInsight,

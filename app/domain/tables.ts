@@ -72,6 +72,27 @@ export const AFFLICTIONS = {
   sick: { health: 2, controlable: true},
 }
 
+export const magic_types = {
+  alchemy: {proficiency: 'sorcery', skill: 'alchemy'},
+  animancy: { proficiency: 'sorcery', skill: 'animancy'},
+  biomancy: {proficiency: 'sorcery', skill: 'biomancy'},
+  divine: {proficiency: 'sorcery', skill: 'devotion'},
+  miracle: {proficiency: 'devotion', skill: 'devotion'},
+}
+
+export const knowledges = [
+  'alchemy',
+  'animancy',
+  'biomancy',
+  'architecture',
+  'geography',
+  'chemstry',
+  'physics',
+  'medicine',
+  'smithing',
+  'survival',
+]
+
 
 export const CONVICTIONS = {
   adaptation: {

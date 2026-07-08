@@ -6,6 +6,7 @@ export { restCharacter } from "./rest"
 export { actionSurge } from "./actionSurge"
 export { equipArmor, unequipArmor, putGauntlets, putHelm } from "./equipArmor"
 export { resetSkill, resetAllSkills } from "./resetSkills"
+export { removeKnowledge, addKnowledge } from "./knowledge"
 
 export {
   getAttacksList,

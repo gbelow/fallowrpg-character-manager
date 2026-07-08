@@ -15,7 +15,7 @@ export function composeLens(...lenses: Array<Lens<any, any>>): Lens<any, any> {
   }));
 }
 
-export function propLens<T, K extends keyof T>(key: K): Lens<T, T[K]> {
+export function makePropLens<T, K extends keyof T>(key: K): Lens<T, T[K]> {
   return {
     get: (t) => t[key],
     set: (t, value) => ({ ...t, [key]: value }),
@@ -23,7 +23,7 @@ export function propLens<T, K extends keyof T>(key: K): Lens<T, T[K]> {
 }
 
 export function makeResourceLens(keyName: keyof Resources): Lens<CampaignCharacter, number> {
-  return composeLens(propLens<CampaignCharacter, 'resources'>('resources'), propLens<Resources, keyof Resources>(keyName));
+  return composeLens(makePropLens<CampaignCharacter, 'resources'>('resources'), makePropLens<Resources, keyof Resources>(keyName));
 }
 
 function makeInvertingSetter<T extends Character>(
@@ -42,7 +42,7 @@ export function makeInvertingLens<T extends Character> (
   propertyName: 'size' | 'TGH',
   getter: (c: T) => number,
   setter?: (c: T, value: number) => T): Lens<T, number> {
-  const baseLens = propLens<T, 'size' | 'TGH'>(propertyName);
+  const baseLens = makePropLens<T, 'size' | 'TGH'>(propertyName);
   return {
     get: getter,
     set: setter ?? makeInvertingSetter(getter, baseLens.get, baseLens.set)
@@ -56,13 +56,23 @@ export function makeTrainableValueLens<T extends Character>(
   setter?: (c: T, value: number) => T
 ): Lens<T, number> {
   const baseLens = composeLens(
-    propLens<T, 'trainables'>('trainables'),
-    propLens<Trainables, keyof Trainables>(trainableName),
-    propLens<Trainable, 'value'>('value')
+    makePropLens<T, 'trainables'>('trainables'),
+    makePropLens<Trainables, keyof Trainables>(trainableName),
+    makePropLens<Trainable, 'value'>('value')
   );
 
   return {
     get: getter,
     set: setter ?? makeInvertingSetter(getter, baseLens.get, baseLens.set)
   };
+}
+
+export function makeTrainableNameLens<T extends Character>(
+  trainableName: keyof Trainables
+): Lens<T, string> {
+  return composeLens(
+    makePropLens<T, 'trainables'>('trainables'),
+    makePropLens<Trainables, keyof Trainables>(trainableName),
+    makePropLens<Trainable, 'name'>('name')
+  );
 }

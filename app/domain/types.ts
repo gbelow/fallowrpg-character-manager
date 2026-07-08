@@ -20,7 +20,7 @@ export const ArmorSchema = z.object({
 
 export type Armor = z.infer<typeof ArmorSchema>
 
-export const TrainableTypeSchema = z.enum(['skill', 'attribute', 'talent', 'proficiency'])
+export const TrainableTypeSchema = z.enum(['skill', 'attribute', 'talent', 'proficiency', 'knowledge'])
 export type TrainableType = z.infer<typeof TrainableTypeSchema>
 
 export const TrainableSchema = z.object({
@@ -87,6 +87,14 @@ export const ProficienciesSchema = z.object({
 }).strip()
 
 export type Proficiencies = z.infer<typeof ProficienciesSchema>
+
+// Knowledges are open-ended (players can invent arbitrary ones, e.g. a
+// specific town or how to ride a specific animal), so the key set can't be a
+// closed schema like the other trainable groups — it's a plain string-keyed
+// map, kept off the closed TrainablesSchema union. Missing keys default to 0
+// via getKnowledgeValue, same as an untrained fixed skill would.
+export const KnowledgesSchema = z.record(z.string(), TrainableSchema).default({})
+export type Knowledges = z.infer<typeof KnowledgesSchema>
 
 // ── merged whole ────────────────────────────────────────
 export const TrainablesSchema = SkillsSchema
@@ -235,6 +243,7 @@ const CharacterValues = {
   name: z.string().default(''),
 
   trainables: TrainablesSchema.partial().default({}).transform(v => TrainablesSchema.parse(v)),
+  knowledges: KnowledgesSchema,
   // characteristics: CharacteristicsSchema.partial().default({}).transform(v => CharacteristicsSchema.parse(v)),
   size: z.number().default(3),
   TGH: z.number().default(0),

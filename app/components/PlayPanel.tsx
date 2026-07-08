@@ -253,7 +253,6 @@ function SimpleResource({rssName}: {rssName: keyof Resources}){
         <input type='button' className='border rounded-full w-4 h-4 font-bold text-center align-center justify-center ' aria-label={rssName} value={'+'} onClick={() => setValue(value+1)} />
         <input type='button' className='border rounded-full w-4 h-4 font-bold text-center align-center justify-center ' aria-label={rssName} value={'-'} onClick={() => rssName == 'STA' ? updateSTA(value-1) : setValue(value-1)} />
       </div>
-      {/* <input type='number' inputMode="numeric" aria-label={name} value={value} onChange={(val) => setRss(val.target.value)} /> */}
     </div>
   )
 }
@@ -261,9 +260,10 @@ function SimpleResource({rssName}: {rssName: keyof Resources}){
 
 function SimpleCharacteristic({propName}: {propName: keyof Characteristics}){
   const [value] = useCharacteristicLens(propName)
+  const [name] = useTrainableNameLens(propName)
   return(
     <div className='flex flex-col border rounded text-center p-1 w-10 md:w-16 overflow-hidden text-xs' >
-      <span>{propName.slice(0,10)}</span>
+      <span>{name.slice(0,10)}</span>
       <span>{value}</span>
     </div>
   )
