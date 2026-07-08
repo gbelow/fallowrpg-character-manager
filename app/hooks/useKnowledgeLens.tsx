@@ -1,4 +1,4 @@
-import { removeKnowledge } from "../domain/character/commands";
+import { addKnowledge, removeKnowledge } from "../domain/character/commands";
 import { knowledgesLens, makeKnowledgeLens } from "../domain/character/lenses/knowledge";
 import { Knowledges } from "../domain/types";
 import { useActiveCharacter } from "./useActiveCharacter";
@@ -14,9 +14,13 @@ export function useKnowledgeLens() {
     update((c) => makeKnowledgeLens(name).set(c, value));
   };
 
+  const add = (name: string) => {
+    update(addKnowledge(name));
+  };
+
   const remove = (name: string) => {
     update(removeKnowledge(name));
   };
 
-  return { knowledges, getValue, setValue, remove } as const;
+  return { knowledges, getValue, setValue, add, remove } as const;
 }

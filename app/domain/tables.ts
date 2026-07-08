@@ -80,7 +80,7 @@ export const magic_types = {
   miracle: {proficiency: 'devotion', skill: 'devotion'},
 }
 
-export const knowledges = [
+export const knowledges_list = [
   'alchemy',
   'animancy',
   'biomancy',

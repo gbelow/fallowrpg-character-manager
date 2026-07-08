@@ -19,6 +19,7 @@ import { useActiveCharacterData } from '../hooks/useCharacterData';
 import { useShallow } from 'zustand/shallow';
 import { injuryMap } from '../domain/tables';
 import { useTrainableNameLens } from '../hooks/useTrainableNameLens';
+import { useKnowledgeLens } from '../hooks/useKnowledgeLens';
 
 
 export function PlayPanel(){
@@ -163,6 +164,7 @@ export function PlayPanel(){
               <SimpleSkill skillId={'telepathy'} rollSkill={rollSkill}/>
               <SimpleSkill skillId={'animancy'} rollSkill={rollSkill}/>
             </div> */}
+            <KnowledgesPanel />
             <textarea aria-label='notes' className='border rounded p-1 min-h-32 w-84 md:w-full justify-center ' value={notes} readOnly/>
             <button type='button' className='border rounded p-2' onClick={savePlayerCharacter}>Save</button>
           </div>
@@ -274,6 +276,31 @@ function SimpleSkill({skillId, rollSkill}: {skillId: keyof Skills, rollSkill?: (
   const [name] = useTrainableNameLens(skillId)
   return(
     <div className='flex flex-col border rounded text-center p-1 w-10 md:w-16 overflow-hidden text-xs' onClick={() => rollSkill ? rollSkill(name, value) : null}>
+      <span>{name.slice(0,10)}</span>
+      <span>{value}</span>
+    </div>
+  )
+}
+
+function KnowledgesPanel(){
+  const { knowledges } = useKnowledgeLens()
+  console.log('knowledges', knowledges)
+  const names = Object.keys(knowledges)
+
+  if(!names.length) return null
+
+  return(
+    <div className='flex flex-row gap-2 justify-center flex-wrap'>
+      {names.map(name => <SimpleKnowledge key={name} name={name} />)}
+    </div>
+  )
+}
+
+function SimpleKnowledge({name}: {name: string}){
+  const { getValue } = useKnowledgeLens()
+  const value = getValue(name)
+  return(
+    <div className='flex flex-col border rounded text-center p-1 w-10 md:w-16 overflow-hidden text-xs' >
       <span>{name.slice(0,10)}</span>
       <span>{value}</span>
     </div>

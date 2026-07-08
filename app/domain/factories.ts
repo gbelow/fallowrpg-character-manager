@@ -2,6 +2,7 @@ import z, { size } from 'zod'
 import { ArmorSchema, CampaignCharacter, CampaignCharacterSchema, BaseCharacterSchema, WeaponSchema, BaseCharacter } from './types'
 import { getSTA } from './character/lenses/characteristics'
 import { isBaseCharacter } from './utils'
+import { knowledgesLens } from './character/lenses/knowledge'
 
 function addBaseValues(emptyCharacter: BaseCharacter, parsedCharacter: CharacterIngestType): BaseCharacter
 function addBaseValues(emptyCharacter: CampaignCharacter, parsedCharacter: CampaignCharacterIngestType): CampaignCharacter
@@ -83,6 +84,7 @@ const CharacterIngestValues = {
   name: z.string().optional(),
 
   trainables: z.record(z.string(), z.any()).optional(),
+  knowledges: z.record(z.string(), z.any()).optional(),
   size: z.number().optional(),
   TGH: z.number().optional(),
   movement: z.record(z.string(), safeNumber).optional(),

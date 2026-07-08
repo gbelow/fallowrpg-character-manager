@@ -16,7 +16,8 @@ import { useTextLens } from '../hooks/useTextLens';
 import { useActiveCharacterData } from '../hooks/useCharacterData';
 import { useActiveCharacterDataLens } from '../hooks/useCharacterDataLens';
 import { useTrainableNameLens } from '../hooks/useTrainableNameLens';
-import { CONVICTIONS } from '../domain/tables';
+import { useKnowledgeLens } from '../hooks/useKnowledgeLens';
+import { CONVICTIONS, knowledges_list } from '../domain/tables';
 
 function SaveBaseCharacterButton(){
   const character = useCharacterStore(s => s.character)
@@ -203,6 +204,8 @@ export function CharacterCreator() {
           <SkillItem key={'animancy'} skillName='animancy' title='animancy' />
         </div> */}
 
+        <KnowledgePanel />
+
         <TextItem aria-label='notes' keyName='notes' mode='large'/>
         {/* <textarea aria-label='notes' className='border rounded p-1 min-h-32' onChange={val => setNotes(val.target.value)} value={notes} /> */}
         <div className='flex flex-row gap-2 justify-center'>
@@ -230,6 +233,55 @@ function SkillItem({ title, skillName}:{title: string, skillName: keyof Skills})
       <label className='text-xs'>{title.slice(0,10)}</label>
       <input className='p-1 border border-white rounded w-10 md:w-16 text-center' title={title} type='number' inputMode="numeric" value={value} onChange={(e) => setValue(parseInt(e.target.value))} />
       <button type='button' className='text-xs bg-gray-800 border' onClick={resetValue}>Reset</button>
+    </div>
+  )
+}
+
+function KnowledgePanel(){
+  const { knowledges, add } = useKnowledgeLens()
+  const [selected, setSelected] = useState('')
+  const [customName, setCustomName] = useState('')
+
+  const existingNames = Object.keys(knowledges)
+  const availableDefaults = knowledges_list.filter(name => !existingNames.includes(name))
+
+  const handleAdd = () => {
+    const name = customName.trim() || selected
+    if(!name || existingNames.includes(name)) return
+    add(name)
+    setSelected('')
+    setCustomName('')
+  }
+
+  return(
+    <div className='flex flex-col gap-2 items-center'>
+      <div className='flex flex-row gap-2 justify-center items-center'>
+        <select className='p-1 border border-white rounded bg-black text-white' title='knowledge' value={selected} onChange={(e) => setSelected(e.target.value)}>
+          <option className='bg-black text-white' value=''>-- knowledge --</option>
+          {availableDefaults.map(name => (
+            <option className='bg-black text-white' key={name} value={name}>{name}</option>
+          ))}
+        </select>
+        <input className='p-1 border border-white rounded w-32 text-center' type='text' placeholder='custom name' value={customName} onChange={(e) => setCustomName(e.target.value)} />
+        <button type='button' className='border rounded px-2 py-1' onClick={handleAdd}>Add</button>
+      </div>
+      <div className='flex flex-row flex-wrap gap-2 justify-center'>
+        {existingNames.map(name => (
+          <KnowledgeItem key={name} name={name} />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function KnowledgeItem({ name }:{ name: string }){
+  const { getValue, setValue, remove } = useKnowledgeLens()
+
+  return(
+    <div className='flex flex-col w-16 overflow-hidden'>
+      <label className='text-xs truncate' title={name}>{name}</label>
+      <input className='p-1 border border-white rounded w-16 text-center' title={name} type='number' inputMode="numeric" value={getValue(name)} onChange={(e) => setValue(name, parseInt(e.target.value))} />
+      <button type='button' className='text-xs bg-gray-800 border' onClick={() => remove(name)}>Remove</button>
     </div>
   )
 }
