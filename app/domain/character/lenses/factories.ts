@@ -5,14 +5,27 @@ import { CampaignCharacter, Character, Lens, Resources, Trainable, Trainables } 
 // subject's field — inversion (writing through derived modifiers) is a
 // concern layered on top by makeInvertingSetter, not a property of focusing.
 
+function compose2<A, B, C>(outer: Lens<A, B>, inner: Lens<B, C>): Lens<A, C> {
+  return {
+    get: (a) => inner.get(outer.get(a)),
+    set: (a, value) => outer.set(a, inner.set(outer.get(a), value)),
+  };
+}
+
 export function composeLens<A, B, C>(l1: Lens<A, B>, l2: Lens<B, C>): Lens<A, C>;
 export function composeLens<A, B, C, D>(l1: Lens<A, B>, l2: Lens<B, C>, l3: Lens<C, D>): Lens<A, D>;
 export function composeLens<A, B, C, D, E>(l1: Lens<A, B>, l2: Lens<B, C>, l3: Lens<C, D>, l4: Lens<D, E>): Lens<A, E>;
-export function composeLens(...lenses: Array<Lens<any, any>>): Lens<any, any> {
-  return lenses.reduce((outer, inner) => ({
-    get: (a: any) => inner.get(outer.get(a)),
-    set: (a: any, value: any) => outer.set(a, inner.set(outer.get(a), value)),
-  }));
+export function composeLens<A, B, C, D, E>(
+  l1: Lens<A, B>,
+  l2: Lens<B, C>,
+  l3?: Lens<C, D>,
+  l4?: Lens<D, E>
+): Lens<A, B> | Lens<A, C> | Lens<A, D> | Lens<A, E> {
+  const l12 = compose2(l1, l2);
+  if (!l3) return l12;
+  const l123 = compose2(l12, l3);
+  if (!l4) return l123;
+  return compose2(l123, l4);
 }
 
 export function makePropLens<T, K extends keyof T>(key: K): Lens<T, T[K]> {
