@@ -2,31 +2,7 @@ import { Character, Lens, Skills } from '../../types'
 import { getSM, skill } from './helpers'
 import { getAfflictionPenalty, getAfflictions } from './afflictions'
 import { getAGI, getMelee, getRanged, getAwareness, getSorcery, getSTR, getCharisma, getSPI, getDEX, getCON } from './characteristics'
-import { characteristicLenses } from '.'
 
-
-// export function makeSkillLens<T extends Character>(
-//   skillName: keyof Character['skills'],
-//   getter: (c: T) => number,
-//   setter?: (c: T, value: number) => T
-// ): Lens<T, number> {
-//   return {
-//     get: getter,
-//     set: setter ?? ((subject: T, value: number): T => {
-//       const baseValue = subject.skills[skillName];
-//       const modifiers = getter(subject) - baseValue;
-      
-//       // We return the whole subject T, ensuring metadata (id, etc) is preserved
-//       return {
-//         ...subject,
-//         skills: { 
-//           ...subject.skills, 
-//           [skillName]: value - modifiers 
-//         }
-//       } as T;
-//     })
-//   };
-// }
 
 export function getStrike(c: Character) {
   return getMelee(c) + skill(c, 'strike').value - getAfflictionPenalty(c, 'strike')
@@ -80,8 +56,6 @@ export function getSD(c: Character) {
   const SM = getSM(c)
   return -2 - SM + skill(c, 'SD').value - (getAfflictions(c).includes('immobile') ? +3 : 0)
 }
-
-// selectors/skills/physical.ts
 
 export function getBalance(c: Character) {
   return (

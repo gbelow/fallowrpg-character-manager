@@ -1,9 +1,10 @@
-import { Character, Characteristics, Lens, Movement, Skills, Trainable, Trainables } from "../../types";
+import { Character, Characteristics, Lens, Movement, Senses, Skills, Trainable, Trainables } from "../../types";
 import { getAGI, getAwareness, getCharisma, getCON, getConviction1, getConviction2, getDevotion, getDEX, getINT, getMelee, getRanged, getSorcery, getSPI, getSTA, getSTR } from "./characteristics";
 import { makeInvertingLens, makeTrainableValueLens } from "./factories";
 import { getAlchemy, getAnimancy, getBiomancy, getDivine, getMiracle } from "./magic";
 import { getSize, getTGH } from "./misc";
 import { getBasicMovement, getCarefulMovement, getCrawlMovement, getFastSwimMovement, getJumpMovement, getRunMovement, getStandMovement, getSwimMovement, makeMovementLens } from "./movement";
+import { makeSenseActiveLens, makeSenseBonusLens, makeSenseHasSenseLens, makeSenseRangePenaltyLens } from "./senses";
 import {
   getStrike, getAccuracy, getDefend, getReflex, getGrapple, getCunning, getSD,
   getBalance, getClimb, getSwim, getPrestidigitation, getHealth, 
@@ -65,6 +66,44 @@ export const movementLenses: Record<keyof Movement, Lens<Character, number>> = {
   crawl: makeMovementLens("crawl", getCrawlMovement),
   jump: makeMovementLens("jump", getJumpMovement),
   run: makeMovementLens("run", getRunMovement)
+}
+
+export const senseLenses: Record<keyof Senses, {
+  rangePenalty: Lens<Character, number>
+  bonus: Lens<Character, number>
+  active: Lens<Character, boolean>
+  hasSense: Lens<Character, boolean>
+}> = {
+  vision: {
+    rangePenalty: makeSenseRangePenaltyLens("vision"),
+    bonus: makeSenseBonusLens("vision"),
+    active: makeSenseActiveLens("vision"),
+    hasSense: makeSenseHasSenseLens("vision"),
+  },
+  hearing: {
+    rangePenalty: makeSenseRangePenaltyLens("hearing"),
+    bonus: makeSenseBonusLens("hearing"),
+    active: makeSenseActiveLens("hearing"),
+    hasSense: makeSenseHasSenseLens("hearing"),
+  },
+  smell: {
+    rangePenalty: makeSenseRangePenaltyLens("smell"),
+    bonus: makeSenseBonusLens("smell"),
+    active: makeSenseActiveLens("smell"),
+    hasSense: makeSenseHasSenseLens("smell"),
+  },
+  touch: {
+    rangePenalty: makeSenseRangePenaltyLens("touch"),
+    bonus: makeSenseBonusLens("touch"),
+    active: makeSenseActiveLens("touch"),
+    hasSense: makeSenseHasSenseLens("touch"),
+  },
+  synesthesia: {
+    rangePenalty: makeSenseRangePenaltyLens("synesthesia"),
+    bonus: makeSenseBonusLens("synesthesia"),
+    active: makeSenseActiveLens("synesthesia"),
+    hasSense: makeSenseHasSenseLens("synesthesia"),
+  },
 }
 
 export const miscLenses = {

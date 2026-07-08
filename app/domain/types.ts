@@ -225,6 +225,26 @@ export type AfflictionKey = keyof typeof AFFLICTIONS
 const AfflictionKeySchema =
   z.enum(Object.keys(AFFLICTIONS) as [AfflictionKey, ...AfflictionKey[]])
 
+export const SenseSchema = z.object({
+  name: z.string().default(''),
+  rangePenalty: z.number().default(5),
+  bonus: z.number().default(0),
+  active: z.boolean().default(true),
+  hasSense: z.boolean().default(true),
+}).strip()
+
+export type Sense = z.infer<typeof SenseSchema>
+
+export const SensesSchema = z.object({
+  vision: SenseSchema.default({ name: 'Vision', active: true, rangePenalty: 2, bonus: 0, hasSense: true }),
+  hearing: SenseSchema.default({ name: 'Hearing', active: false, rangePenalty: 5, bonus: 0, hasSense: true }),
+  smell: SenseSchema.default({ name: 'Smell', active: false, rangePenalty: 5, bonus: 0, hasSense: true }),
+  touch: SenseSchema.default({ name: 'Touch', active: true, rangePenalty: 100, bonus: 0, hasSense: true }),
+  synesthesia: SenseSchema.default({ name: 'Synesthesia', active: true, rangePenalty: 100, bonus: 0, hasSense: false }),
+}).strip()
+
+export type Senses = z.infer<typeof SensesSchema>
+
 const CampaignValues = {
   injuries: InjuriesSchema.partial().default({}).transform(v => InjuriesSchema.parse(v)),
   afflictions: z.array(AfflictionKeySchema).default([]),
@@ -244,10 +264,9 @@ const CharacterValues = {
 
   trainables: TrainablesSchema.partial().default({}).transform(v => TrainablesSchema.parse(v)),
   knowledges: KnowledgesSchema,
-  // characteristics: CharacteristicsSchema.partial().default({}).transform(v => CharacteristicsSchema.parse(v)),
   size: z.number().default(3),
   TGH: z.number().default(0),
-  // skills: SkillsSchema.partial().default({}).transform(v => SkillsSchema.parse(v)),
+  senses: SensesSchema.partial().default({}).transform(v => SensesSchema.parse(v)),
   movement: MovementSchema.partial().default({}).transform(v => MovementSchema.parse(v)),
   
   hasGauntlets: z.number().default(0),
