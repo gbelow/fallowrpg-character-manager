@@ -7,14 +7,18 @@
 - auto add abilities
 
 ## add knowledges
-- allow adding random knowledges
+- allow adding random knowledges -- DONE
 
 ## magic
 - interface: toggleable?
-- intuitive, three knowledges, divine and miracles - add mental penalties
+- intuitive, three knowledges, divine and miracles - add mental penalties - DONE
 
 ## XP tracking
-- on skills, knowledges, abilities, spells
+- on skills, DONE
+- knowledges, DONE
+- abilities,
+- spells
+- interface 
 
 ## add senses
 - list senses and bonus

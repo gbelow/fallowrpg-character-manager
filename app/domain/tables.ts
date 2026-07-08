@@ -28,13 +28,6 @@ export const SkillPenaltyTable = {
     "will",
     "insight",
     "cunning",
-    // "combustion",
-    // "eletromag",
-    // "radiation",
-    // "entropy",
-    // "biomancy",
-    // "telepathy",
-    // "animancy",
   ],
   "health":[
     "health"

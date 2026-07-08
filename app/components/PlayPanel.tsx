@@ -284,7 +284,6 @@ function SimpleSkill({skillId, rollSkill}: {skillId: keyof Skills, rollSkill?: (
 
 function KnowledgesPanel(){
   const { knowledges } = useKnowledgeLens()
-  console.log('knowledges', knowledges)
   const names = Object.keys(knowledges)
 
   if(!names.length) return null

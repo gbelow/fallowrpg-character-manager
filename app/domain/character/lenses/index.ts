@@ -1,6 +1,7 @@
 import { Character, Characteristics, Lens, Movement, Skills, Trainable, Trainables } from "../../types";
 import { getAGI, getAwareness, getCharisma, getCON, getConviction1, getConviction2, getDevotion, getDEX, getINT, getMelee, getRanged, getSorcery, getSPI, getSTA, getSTR } from "./characteristics";
 import { makeInvertingLens, makeTrainableValueLens } from "./factories";
+import { getAlchemy, getAnimancy, getBiomancy, getDivine, getMiracle } from "./magic";
 import { getSize, getTGH } from "./misc";
 import { getBasicMovement, getCarefulMovement, getCrawlMovement, getFastSwimMovement, getJumpMovement, getRunMovement, getStandMovement, getSwimMovement, makeMovementLens } from "./movement";
 import {
@@ -38,7 +39,6 @@ export const skillLenses: Record<keyof Skills, Lens<Character, number>> = {
 };
 
 export const characteristicLenses: Record<keyof Characteristics, Lens<Character, number>> = {
-  // size: makeTrainableValueLens("size", getSize),
   STR: makeTrainableValueLens("STR", getSTR),
   AGI: makeTrainableValueLens("AGI", getAGI),
   STA: makeTrainableValueLens("STA", getSTA),
@@ -54,9 +54,6 @@ export const characteristicLenses: Record<keyof Characteristics, Lens<Character,
   conviction1: makeTrainableValueLens("conviction1", getConviction1),
   conviction2: makeTrainableValueLens("conviction2", getConviction2),
   charisma: makeTrainableValueLens("charisma", getCharisma),
-  // TGH: makeTrainableValueLens("TGH", getTGH),
-  // RES: makeTrainableValueLens("RES", getRES),
-  // INS: makeTrainableValueLens("INS", getINS),
 }
 
 export const movementLenses: Record<keyof Movement, Lens<Character, number>> = {
@@ -73,4 +70,12 @@ export const movementLenses: Record<keyof Movement, Lens<Character, number>> = {
 export const miscLenses = {
   size: makeInvertingLens("size", getSize),
   TGH: makeInvertingLens("TGH", getTGH),
+}
+
+export const magicGetters = {
+  alchemy: (c: Character) => getAlchemy(c),
+  animancy: (c: Character) => getAnimancy(c),
+  biomancy: (c: Character) => getBiomancy(c),
+  divine: (c: Character) => getDivine(c),
+  miracle: (c: Character) => getMiracle(c),
 }

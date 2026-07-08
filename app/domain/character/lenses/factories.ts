@@ -39,7 +39,7 @@ export function makeResourceLens(keyName: keyof Resources): Lens<CampaignCharact
   return composeLens(makePropLens<CampaignCharacter, 'resources'>('resources'), makePropLens<Resources, keyof Resources>(keyName));
 }
 
-function makeInvertingSetter<T extends Character>(
+export function makeInvertingSetter<T extends Character>(
   getter: (c: T) => number,
   readBase: (c: T) => number,
   writeBase: (c: T, base: number) => T,

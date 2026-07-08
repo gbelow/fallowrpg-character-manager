@@ -1,5 +1,5 @@
-import { CampaignCharacter, Character, Skills } from '../../types'
-import { SkillPenaltyTable, AFFLICTIONS as afflictionDefinitions } from '../../tables'
+import { AfflictionItem, CampaignCharacter, Character, Skills } from '../../types'
+import { AFFLICTIONS, SkillPenaltyTable, AFFLICTIONS as afflictionDefinitions } from '../../tables'
 import { isCampaignCharacter } from '../../utils'
 
 export function getAfflictions(character: Character){
@@ -83,4 +83,9 @@ export function getIT(c: CampaignCharacter){
   const afflictions = getAfflictions(c)
   const pen = afflictions.filter(el => el === 'malnourished' || el === 'weakened' || el === 'thirsty' || el === 'dehydrated').length + (afflictions.includes('sick') ? 2 : 0)
   return c.injuries.injuryThreshold - pen
+}
+
+export function getMentalAfflictionPenalty(c: Character): number {
+  if(!isCampaignCharacter(c)) return 0
+  return c.afflictions.map(el=> AFFLICTIONS[el]).reduce((total: number, affliction: AfflictionItem) => total + (affliction.mental ?? 0), 0)
 }
