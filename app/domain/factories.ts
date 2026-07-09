@@ -1,5 +1,5 @@
 import z, { size } from 'zod'
-import { ArmorSchema, CampaignCharacter, CampaignCharacterSchema, BaseCharacterSchema, WeaponSchema, BaseCharacter } from './types'
+import { ArmorSchema, CampaignCharacter, CampaignCharacterSchema, BaseCharacterSchema, WeaponSchema, ContainerSchema, BaseCharacter } from './types'
 import { getSTA } from './character/lenses/characteristics'
 import { isBaseCharacter } from './utils'
 import { knowledgesLens } from './character/lenses/knowledge'
@@ -94,7 +94,7 @@ const CharacterIngestValues = {
 
   armor: ArmorSchema.optional(),
   weapons: z.record(z.string(), WeaponSchema).optional(),
-  containers: z.record(z.string(), z.any()).optional(),
+  containers: z.record(z.string(), ContainerSchema).optional(),
 
   notes: z.string().optional(), 
 }

@@ -157,17 +157,30 @@ export const WeaponSchema = z.object({
 export type Weapon = z.infer<typeof WeaponSchema>
 
 export const ItemSchema = z.object({
-  size: num.default(0),
-  name: str.default(''),
+  id: str.default(() => crypto.randomUUID()),
+  name: str.default(''), // with no refId, this + description is all that says what the item is
   description: str.default(''),
+  type: str.default('misc'), // which catalog refId resolves in, e.g. 'weapon' -> weapons.json, 'armor' -> armors.json
+  amount: num.default(1),
+  bulk: num.default(0), // 0 small · 1 medium · 2 large · 3+ cargo
+  refId: str.default(''), // key into the type's catalog; empty means this item is pure flavor, no linked object
 }).strip()
 
 export type Item = z.infer<typeof ItemSchema>
 
+export const ContainerKindSchema = z.enum(['belt', 'backpack', 'transport'])
+export type ContainerKind = z.infer<typeof ContainerKindSchema>
+
 export const ContainerSchema = z.object({
   name: str.default(''),
-  capacity: num.default(0),
+  kind: ContainerKindSchema.default('backpack'),
+  numSlots: num.default(0),
+  slotBulk: num.default(0), // bulk ladder position one slot accepts
   penalty: num.default(0),
+  liftThreshold: z.object({ // narrow per-container exception (e.g. Large Backpack's "STR 15 or size 4" footnote) — most containers omit this
+    STR: num.optional(),
+    size: num.optional(),
+  }).optional(),
   items: z.array(ItemSchema).default([]),
 }).strip()
 

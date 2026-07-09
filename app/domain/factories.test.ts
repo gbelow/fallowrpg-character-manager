@@ -31,6 +31,17 @@ describe('makeCharacter — defaults & discrimination', () => {
     expect(c.armor.RES).toBe(5)
     expect((c.armor as Record<string, unknown>).madeUp).toBeUndefined()
   })
+
+  it('parses ingested containers/items through their schemas, generating item ids', () => {
+    const c = makeCharacter({
+      containers: {
+        belt: { name: 'Belt', numSlots: 4, slotBulk: 0, items: [{ name: 'Coin', amount: 5 }] },
+      },
+    })
+    expect(c.containers.belt.name).toBe('Belt')
+    expect(c.containers.belt.items[0].id).toBeTruthy()
+    expect(c.containers.belt.items[0].amount).toBe(5)
+  })
 })
 
 describe('makeCampaignCharacter', () => {
