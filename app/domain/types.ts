@@ -366,8 +366,12 @@ const CharacterValues = {
 
 
 export const BaseCharacterSchema = z.object({
-  
-  path: z.string(),
+
+  // Free-form category labels used only to group characters in the sidebar.
+  // The first tag is the top-level group, the second the sub-group, and so on;
+  // a character may carry any number of tags (including none -> "untagged").
+  // This is the only categorization mechanism — there are no folders on disk.
+  tags: z.array(z.string()).default([]),
   type: z.literal('base').default('base'),
   ...CharacterValues
 }).strip()

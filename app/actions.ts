@@ -20,22 +20,19 @@ export type ActionResult<T = void> =
   | { ok: false; error: string };
 
 export async function loadJsonFromFolder(baseDir: string): Promise<JsonObject> {
+  // Flat directory of <name>.json files — categorization lives inside each
+  // file's `tags`, not in folder nesting, so there is nothing to recurse into.
   const result: JsonObject = {};
 
   const entries = fs.readdirSync(baseDir, { withFileTypes: true });
 
   for (const entry of entries) {
+    if (!entry.isFile() || !entry.name.endsWith(".json")) continue
+    // Remove .json extension; the bare name is the character's identity on disk.
+    const key = path.basename(entry.name, ".json");
     const fullPath = path.join(baseDir, entry.name);
-
-    if (entry.isDirectory()) {
-      // Recursively load subfolders
-      result[entry.name] = await loadJsonFromFolder(fullPath);
-    } else if (entry.isFile() && entry.name.endsWith(".json")) {
-      // Remove .json extension
-      const key = path.basename(entry.name, ".json");
-      const content = JSON.parse(fs.readFileSync(fullPath, "utf-8")) as JsonValue;
-      result[key] = content;
-    }
+    const content = JSON.parse(fs.readFileSync(fullPath, "utf-8")) as JsonValue;
+    result[key] = content;
   }
 
   return result;
@@ -45,7 +42,7 @@ export async function loadJsonFromFolder(baseDir: string): Promise<JsonObject> {
 
 export async function getBasicCharList(): Promise<ActionResult<JsonObject>> {
   try {
-    const dataDir = path.join(process.cwd(), "app/characters");
+    const dataDir = path.join(process.cwd(), "app/assets/characters");
     const characterData = await loadJsonFromFolder(dataDir);
     return { ok: true, data: characterData };
   } catch (err) {
@@ -56,6 +53,7 @@ export async function getBasicCharList(): Promise<ActionResult<JsonObject>> {
 
 export async function upsertBaseCharacter(data: Character): Promise<ActionResult> {
   if (!isBaseCharacter(data)) return { ok: false, error: 'Not a base character.' };
+  if (!data.name.trim()) return { ok: false, error: 'Base characters need a name.' };
 
   // Base characters are dev-authored blueprints; their unique name *is* their
   // identity on disk, so the campaign uuid is intentionally dropped here.
@@ -63,12 +61,11 @@ export async function upsertBaseCharacter(data: Character): Promise<ActionResult
   void id;
 
   try {
-    const targetDir = path.join('app/characters', character.path);
-
-    // Ensure the directory exists
+    // Flat layout: <name>.json directly under app/assets/characters. There is
+    // no folder path — categorization is carried by the `tags` field.
+    const targetDir = path.join('app/assets/characters');
     fs.mkdirSync(targetDir, { recursive: true });
 
-    // Write the file (pretty-printed) as <path>/<name>.json
     const filePath = path.join(targetDir, `${character.name}.json`);
     fs.writeFileSync(filePath, JSON.stringify(character, null, 2), "utf-8");
 
@@ -80,12 +77,8 @@ export async function upsertBaseCharacter(data: Character): Promise<ActionResult
   }
 }
 
-export async function deleteBaseCharacter(
-  folderPath: string,
-  fileName: string
-): Promise<ActionResult> {
-  // folderPath is relative to app/characters (e.g. "topKey/midKey").
-  const filePath = path.join('app/characters', folderPath, `${fileName}.json`);
+export async function deleteBaseCharacter(name: string): Promise<ActionResult> {
+  const filePath = path.join('app/assets/characters', `${name}.json`);
 
   try {
     if (fs.existsSync(filePath)) {

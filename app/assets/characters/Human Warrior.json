@@ -1,5 +1,4 @@
 {
-  "path": "humanoid/proficient",
   "name": "Human Warrior",
   "characteristics": {
     "size": 3,
@@ -191,5 +190,9 @@
     }
   },
   "containers": {},
-  "notes": ""
+  "notes": "",
+  "tags": [
+    "humanoid",
+    "proficient"
+  ]
 }

@@ -1,6 +1,6 @@
 import { Armor, ArmorSchema, Item, Weapon, WeaponSchema } from '../../types'
-import weaponsCatalog from '../../../weapons.json'
-import armorsCatalog from '../../../armors.json'
+import weaponsCatalog from '../../../assets/weapons.json'
+import armorsCatalog from '../../../assets/armors.json'
 
 // resolves what a refId'd item actually is, so e.g. a weapon sitting in a
 // backpack can be equipped as the real thing rather than staying a wrapper

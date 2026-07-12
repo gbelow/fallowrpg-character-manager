@@ -1,5 +1,4 @@
 {
-  "path": "humanoid/experts",
   "name": "ThunderSwordsman",
   "characteristics": {
     "size": 3,
@@ -144,5 +143,9 @@
     }
   },
   "containers": {},
-  "notes": ""
+  "notes": "",
+  "tags": [
+    "humanoid",
+    "experts"
+  ]
 }

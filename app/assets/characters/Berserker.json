@@ -1,17 +1,20 @@
 {
-  "path": "humanoid/experts",
+  "tags": [
+    "humanoid",
+    "experts"
+  ],
   "type": "base",
-  "name": "ChampionKnight",
+  "name": "Berserker",
   "trainables": {
     "strike": {
-      "value": 3,
+      "value": 2,
       "name": "Strike",
       "XP": 0,
       "talent": "",
       "type": "skill"
     },
     "defend": {
-      "value": 2,
+      "value": 1,
       "name": "Defend",
       "XP": 0,
       "talent": "",
@@ -60,7 +63,7 @@
       "type": "skill"
     },
     "balance": {
-      "value": 2,
+      "value": 0,
       "name": "Balance",
       "XP": 0,
       "talent": "",
@@ -81,14 +84,14 @@
       "type": "skill"
     },
     "swim": {
-      "value": 2,
+      "value": 0,
       "name": "Swim",
       "XP": 0,
       "talent": "",
       "type": "skill"
     },
     "climb": {
-      "value": 2,
+      "value": 0,
       "name": "Climb",
       "XP": 0,
       "talent": "",
@@ -102,7 +105,7 @@
       "type": "skill"
     },
     "cunning": {
-      "value": 2,
+      "value": 0,
       "name": "Cunning",
       "XP": 0,
       "talent": "",
@@ -137,28 +140,28 @@
       "type": "skill"
     },
     "STR": {
-      "value": 10,
+      "value": 14,
       "name": "Strength",
       "XP": 0,
       "talent": "",
       "type": "attribute"
     },
     "AGI": {
-      "value": 10,
+      "value": 13,
       "name": "Agility",
       "XP": 0,
       "talent": "",
       "type": "attribute"
     },
     "STA": {
-      "value": 10,
+      "value": 13,
       "name": "Stamina",
       "XP": 0,
       "talent": "",
       "type": "attribute"
     },
     "CON": {
-      "value": 0,
+      "value": 4,
       "name": "Constitution",
       "XP": 0,
       "talent": "",
@@ -172,21 +175,21 @@
       "type": "talent"
     },
     "SPI": {
-      "value": 0,
+      "value": 2,
       "name": "Spirit",
       "XP": 0,
       "talent": "",
       "type": "talent"
     },
     "DEX": {
-      "value": 0,
+      "value": 2,
       "name": "Dexterity",
       "XP": 0,
       "talent": "",
       "type": "talent"
     },
     "melee": {
-      "value": 4,
+      "value": 2,
       "name": "Melee",
       "XP": 0,
       "talent": "",
@@ -215,14 +218,14 @@
     },
     "conviction1": {
       "value": 0,
-      "name": "Conviction 1",
+      "name": "Ferocity",
       "XP": 0,
       "talent": "",
       "type": "proficiency"
     },
     "conviction2": {
       "value": 0,
-      "name": "Conviction 2",
+      "name": "Fatalism",
       "XP": 0,
       "talent": "",
       "type": "proficiency"
@@ -235,15 +238,61 @@
       "type": "proficiency"
     },
     "charisma": {
-      "value": 0,
+      "value": 1,
       "name": "Charisma",
       "XP": 0,
       "talent": "",
       "type": "proficiency"
     }
   },
+  "knowledges": {
+    "biomancy": {
+      "value": 2,
+      "name": "biomancy",
+      "XP": 0,
+      "talent": "",
+      "type": "knowledge"
+    }
+  },
   "size": 3,
   "TGH": 0,
+  "senses": {
+    "vision": {
+      "name": "Vision",
+      "active": true,
+      "rangePenalty": 2,
+      "bonus": 0,
+      "hasSense": true
+    },
+    "hearing": {
+      "name": "Hearing",
+      "active": false,
+      "rangePenalty": 5,
+      "bonus": 0,
+      "hasSense": true
+    },
+    "smell": {
+      "name": "Smell",
+      "active": false,
+      "rangePenalty": 5,
+      "bonus": 0,
+      "hasSense": true
+    },
+    "touch": {
+      "name": "Touch",
+      "active": true,
+      "rangePenalty": 100,
+      "bonus": 0,
+      "hasSense": true
+    },
+    "synesthesia": {
+      "name": "Synesthesia",
+      "active": true,
+      "rangePenalty": 100,
+      "bonus": 0,
+      "hasSense": false
+    }
+  },
   "movement": {
     "basic": 1,
     "careful": 0.5,
@@ -254,88 +303,21 @@
     "fast swim": 0.5,
     "stand": 0
   },
-  "hasGauntlets": 1,
-  "hasHelm": 1,
+  "hasGauntlets": 0,
+  "hasHelm": 0,
   "armor": {
-    "name": "Full Armor",
-    "RES": 30,
+    "name": "Brigandine",
+    "RES": 15,
     "RESlayer": 0,
-    "INS": 10,
-    "protection": 0,
-    "deflection": 0,
-    "penalty": 3,
-    "properties": "",
+    "INS": 8,
+    "protection": 6,
+    "deflection": 6,
+    "penalty": 2,
+    "properties": "metallic",
     "notes": ""
   },
-  "weapons": {
-    "Halberd": {
-      "name": "Halberd",
-      "penalty": 0,
-      "scale": 3,
-      "attacks": [
-        {
-          "type": "melee",
-          "handed": "two",
-          "energy": 0,
-          "STRmod": 0,
-          "heavyMod": 0.5,
-          "SHP": 0,
-          "range": "long I",
-          "RES": 50,
-          "RESmod": 0,
-          "AP": 3,
-          "reload": 0,
-          "deflection": 0,
-          "properties": ""
-        },
-        {
-          "type": "melee",
-          "handed": "two",
-          "energy": 0,
-          "STRmod": 1,
-          "heavyMod": 0,
-          "SHP": 0,
-          "range": "long I",
-          "RES": 50,
-          "RESmod": 0,
-          "AP": 3,
-          "reload": 0,
-          "deflection": 0,
-          "properties": ""
-        },
-        {
-          "type": "melee",
-          "handed": "two",
-          "energy": 0,
-          "STRmod": 0,
-          "heavyMod": 0,
-          "SHP": 0,
-          "range": "short",
-          "RES": 15,
-          "RESmod": 0,
-          "AP": 3,
-          "reload": 0,
-          "deflection": 0,
-          "properties": ""
-        },
-        {
-          "type": "melee",
-          "handed": "two",
-          "energy": 0,
-          "STRmod": 0,
-          "heavyMod": 1,
-          "SHP": 0,
-          "range": "long I",
-          "RES": 50,
-          "RESmod": 0,
-          "AP": 4,
-          "reload": 0,
-          "deflection": 0,
-          "properties": ""
-        }
-      ]
-    }
-  },
+  "weapons": {},
   "containers": {},
+  "abilities": [],
   "notes": ""
 }

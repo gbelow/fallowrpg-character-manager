@@ -1,5 +1,4 @@
 {
-  "path": "animals/normal",
   "name": "Lobo",
   "size": 3,
   "attributes": {
@@ -117,5 +116,9 @@
     "animancy": 0
   },
   "notes": "",
-  "packItems": ""
+  "packItems": "",
+  "tags": [
+    "animals",
+    "normal"
+  ]
 }

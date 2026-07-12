@@ -30,8 +30,8 @@ function addBaseValues (emptyCharacter: BaseCharacter | CampaignCharacter, parse
   }
 }
 
-export function makeCharacter(raw: unknown, path?: string): BaseCharacter {
-  const emptyCharacter: BaseCharacter =  BaseCharacterSchema.parse({ path: path || '',})
+export function makeCharacter(raw: unknown, tags?: string[]): BaseCharacter {
+  const emptyCharacter: BaseCharacter =  BaseCharacterSchema.parse({ tags: tags ?? [] })
   if (typeof raw !== 'object' || raw === null) return emptyCharacter
 
   const parsed = CharacterIngestSchema.safeParse({...raw, type: 'base'})
@@ -100,7 +100,7 @@ const CharacterIngestValues = {
 }
 
 export const CharacterIngestSchema = z.object({
-  path: z.string().optional(),
+  tags: z.array(z.string()).optional(),
   ...CharacterIngestValues
 }).strip()
 

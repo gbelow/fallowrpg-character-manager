@@ -1,5 +1,4 @@
 {
-  "path": "humanoid/proficient",
   "name": "HumanBarbarian",
   "characteristics": {
     "size": 3,
@@ -239,5 +238,9 @@
     }
   },
   "containers": {},
-  "notes": ""
+  "notes": "",
+  "tags": [
+    "humanoid",
+    "proficient"
+  ]
 }

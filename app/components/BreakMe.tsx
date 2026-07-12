@@ -12,13 +12,10 @@ export function BreakMe(){
   const [renders, setRerenders] = useState(0)
 
   const loadRandomCharacters = (n: number) => {
+    // baseCharacterList is now a flat { name: character } record, so its values
+    // are the characters directly — no nested folders to flatten through.
     const randomChars = Object.values(baseCharacterList)
       .filter(el => el !== null && typeof el === 'object')
-      .map(el => Object.values(el as object))
-      .flat()
-      .filter(el => el !== null && typeof el === 'object')
-      .map(el => Object.values(el as object))
-      .flat()
 
     for(let i = 0; i < n; i++){
       const randomChar = randomChars[Math.floor(Math.random() * randomChars.length)]

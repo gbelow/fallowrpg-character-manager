@@ -1,29 +1,24 @@
 {
-  "path": "humanoid/common",
-  "type": "base",
-  "name": "Human",
+  "name": "Ogre",
   "characteristics": {
-    "size": 3,
-    "STR": 10,
+    "size": 5,
+    "STR": 12,
     "AGI": 10,
-    "STA": 10,
+    "STA": 11,
     "CON": 0,
     "INT": 0,
     "SPI": 0,
     "DEX": 0,
     "melee": 0,
     "ranged": 0,
-    "awareness": 0,
-    "sorcery": 0,
+    "detection": 0,
+    "spellcast": 0,
     "conviction1": 0,
     "conviction2": 0,
     "devotion": 0,
-    "charisma": 0,
-    "TGH": 0,
-    "detection": 0,
-    "spellcast": 0,
     "RES": 0,
-    "INS": 0
+    "INS": 0,
+    "TGH": 0
   },
   "skills": {
     "strike": 0,
@@ -35,10 +30,11 @@
     "stealth": 0,
     "prestidigitation": 0,
     "balance": 0,
-    "detection": 0,
+    "strength": 0,
     "health": 0,
     "swim": 0,
     "climb": 0,
+    "knowledge": 0,
     "explore": 0,
     "cunning": 0,
     "will": 0,
@@ -46,7 +42,6 @@
     "deception": 0,
     "insight": 0,
     "devotion": 0,
-    "knowledge": 0,
     "combustion": 0,
     "eletromag": 0,
     "radiation": 0,
@@ -54,10 +49,12 @@
     "biomancy": 0,
     "telepathy": 0,
     "animancy": 0,
-    "strength": 0,
     "charm": 0,
     "stress": 0,
-    "acting": 0
+    "acting": 0,
+    "sneak": -9,
+    "detect": 0,
+    "sense": 0
   },
   "movement": {
     "basic": 1,
@@ -73,54 +70,59 @@
   "hasHelm": 0,
   "armor": {
     "name": "Clothing",
-    "RES": 3,
-    "RESlayer": 0,
-    "INS": 2,
-    "protection": 0,
-    "deflection": 3,
+    "RES": 6,
+    "TGH": 0,
+    "INS": 4,
+    "prot": 0,
+    "cover": 2,
     "penalty": 0,
-    "properties": "fiber",
-    "notes": ""
+    "type": "cloth"
   },
   "weapons": {
-    "Unarmed": {
-      "name": "Unarmed",
+    "ShortSword": {
+      "name": "ShortSword",
       "penalty": 0,
-      "scale": 3,
+      "scale": 5,
       "attacks": [
         {
           "type": "melee",
-          "handed": "small",
-          "energy": 0,
+          "handed": "one",
+          "impact": 16,
           "STRmod": 0,
           "heavyMod": 0,
-          "SHP": 0,
+          "penMod": 2,
           "range": "short",
-          "RES": 0,
+          "RES": 100,
           "RESmod": 0,
+          "TGH": 40,
+          "TGHmod": 0,
           "AP": 3,
-          "reload": 0,
           "deflection": 0,
-          "properties": "grapple, DEF, draw"
+          "props": "precise, draw"
         },
         {
           "type": "melee",
-          "handed": "small",
-          "energy": 0,
-          "STRmod": 0.5,
-          "heavyMod": 0,
-          "SHP": 0,
+          "handed": "one",
+          "impact": 20,
+          "STRmod": 0,
+          "heavyMod": 0.5,
+          "penMod": 1,
           "range": "short",
-          "RES": 0,
+          "RES": 100,
           "RESmod": 0,
+          "TGH": 30,
+          "TGHmod": 0,
           "AP": 3,
-          "reload": 0,
           "deflection": 0,
-          "properties": "draw, soft, smash"
+          "props": "sweep, draw, DEF, heavy I"
         }
       ]
     }
   },
   "containers": {},
-  "notes": ""
+  "notes": "",
+  "tags": [
+    "humanoid",
+    "giant"
+  ]
 }

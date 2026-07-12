@@ -1,15 +1,16 @@
 'use client'
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { toast } from 'sonner'
-import armors from './armors.json'
-import baseWeapons from './weapons.json'
+import armors from './assets/armors.json'
+import baseWeapons from './assets/weapons.json'
 import { PlayPanel } from './components/PlayPanel';
 import { CharacterCreator } from './components/CharacterCreator';
 import { scaleWeapon } from './domain/character/lenses/helpers';
-import { upsertBaseCharacter, deleteBaseCharacter, getCharacter, deleteCharacter } from './actions';
+import { upsertBaseCharacter, deleteBaseCharacter, getCharacter, deleteCharacter, JsonObject } from './actions';
 import { useAppStore } from './stores/useAppStore';
 import { makeCharacter } from './domain/factories';
-import { Armor, Character, Weapon, WeaponSchema } from './domain/types';
+import { groupByTags, TreeNode } from './domain/character/grouping';
+import { Armor, BaseCharacter, Character, Weapon, WeaponSchema } from './domain/types';
 import { useCharacterStore } from './stores/useCharacterStore';
 import { equipArmor, equipWeapon } from './domain/character/commands';
 import { useCombatStore } from './stores/useCombatStore';
@@ -70,6 +71,85 @@ export function WeaponSelector(){
 }
 
 
+type NodeHandlers = {
+  open: { [key: string]: boolean }
+  toggle: (key: string) => void
+  selectedGameTab: string
+  onSelect: (character: Character) => void
+  onCreate: (tags: string[]) => void
+  onDelete: (name: string) => void
+}
+
+function nodeKey(node: TreeNode): string {
+  return node.type === 'character' ? node.character.name : node.tags.join('/')
+}
+
+// Recursive renderer over the tag-derived tree. Depth drives styling: the
+// top-level group is bold/dark, nested groups lighter — but the structure is
+// otherwise uniform, so it handles any tag depth.
+function CharacterTreeNode({ node, depth, handlers }: {
+  node: TreeNode
+  depth: number
+  handlers: NodeHandlers
+}) {
+  if (node.type === 'character') {
+    return (
+      <div className="flex flex-row p-1 bg-gray-600 rounded cursor-pointer hover:bg-gray-500">
+        <input
+          type={'button'}
+          className='text-center w-full hover:bg-gray-500 p-1'
+          value={node.character.name}
+          aria-label={node.character.name}
+          onClick={() => handlers.onSelect(node.character)}
+        />
+        {handlers.selectedGameTab === 'edit' ? (
+          <button
+            className="w-6 text-left font-semibold p-1 bg-red-500 rounded"
+            onClick={() => handlers.onDelete(node.character.name)}
+          >
+            -
+          </button>
+        ) : null}
+      </div>
+    )
+  }
+
+  const key = node.tags.join('/')
+  const isOpen = !!handlers.open[key]
+  const isTop = depth === 0
+
+  return (
+    <div className="mb-2">
+      <div className="flex flex-row mb-1 gap-1">
+        <button
+          onClick={() => handlers.toggle(key)}
+          className={`w-full text-left p-1 rounded ${isTop ? 'font-bold bg-gray-800' : 'font-semibold bg-gray-700'}`}
+        >
+          {node.label}
+        </button>
+        <button
+          className="w-6 text-left font-semibold p-1 bg-gray-700 rounded"
+          onClick={() => handlers.onCreate(node.tags)}
+        >
+          +
+        </button>
+      </div>
+      {isOpen && (
+        <div className="ml-4 mt-1 space-y-1">
+          {node.children.map(child => (
+            <CharacterTreeNode
+              key={nodeKey(child)}
+              node={child}
+              depth={depth + 1}
+              handlers={handlers}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
 export function CharacterSelector(){
 
   const [open, setOpen] = useState<{ [key: string]: boolean }>({});
@@ -78,8 +158,8 @@ export function CharacterSelector(){
   const  loadCharacter = useCharacterStore((state) => state.loadCharacter)
   const  addCharacter = useCombatStore((state) => state.loadCharacter)
   const { baseCharacterList, updateBaseCharacterList, playerCharacterList, updatePlayerCharacterList } = useAppStore((s)=> s )
-  
-  
+
+
   const handleSelectCharacterClick = (character: Character) => {
     if (selectedGameTab == 'edit') loadCharacter(character)
     if (selectedGameTab == 'play') addCharacter(character)
@@ -104,92 +184,50 @@ export function CharacterSelector(){
     setOpen((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
-  const createCharacter = async (path:string) => {
-    const res = await upsertBaseCharacter( makeCharacter( {}, path))
+  const createCharacter = async (tags: string[]) => {
+    const res = await upsertBaseCharacter( makeCharacter( {}, tags))
     if(!res.ok){ toast.error(res.error); return }
     updateBaseCharacterList()
   }
 
-  const handleDeleteBaseCharacter = async (path:string, name:string) => {
-    const res = await deleteBaseCharacter(path, name)
+  const handleDeleteBaseCharacter = async (name: string) => {
+    const res = await deleteBaseCharacter(name)
     if(!res.ok){ toast.error(res.error); return }
     updateBaseCharacterList()
   }
 
-  
+  // The flat list from disk is parsed through the domain factory so the sidebar
+  // groups by the schema-authoritative `tags` (with defaults applied) rather
+  // than trusting raw JSON shape.
+  const characters = useMemo<BaseCharacter[]>(
+    () => Object.values(baseCharacterList)
+      .filter((v): v is JsonObject => v !== null && typeof v === 'object' && !Array.isArray(v))
+      .map(v => makeCharacter(v)),
+    [baseCharacterList]
+  )
+  const tree = useMemo(() => groupByTags(characters), [characters])
+
+  const handlers: NodeHandlers = {
+    open,
+    toggle,
+    selectedGameTab,
+    onSelect: handleSelectCharacterClick,
+    onCreate: createCharacter,
+    onDelete: handleDeleteBaseCharacter,
+  }
 
   return (
     <div className="bg-gray-900 text-white p-2">
       {
-        baseCharacterList && Object.entries(baseCharacterList).sort((a,b) => a[0] > b[0] ? 1 : -1).map(([topKey, sub]) => (
-          <div key={topKey} className="mb-2">
-            {/* Top level */}
-            <button
-              onClick={() => toggle(topKey)}
-              className="w-full text-left font-bold p-2 bg-gray-800 rounded"
-            >
-              {topKey}
-            </button>
-            {open[topKey] && (
-              <div className=" ml-4 mt-1">
-                {sub ? Object.entries(sub).sort((a,b) => a[0] > b[0] ? 1 : -1).map(([midKey, chars]) => (
-                  <div key={midKey} className='pb-1'>
-                    <div key={midKey} className="flex flex-row mb-1 gap-1">
-                      {/* Second level */}
-                      <button
-                        onClick={() => {
-                          const char = chars as Character
-                          if(char.name ){
-                            handleSelectCharacterClick(char)
-                          }else{
-                            toggle(`${topKey}-${midKey}`)
-                          }
-                        }}
-                        className="w-full text-left font-semibold p-1 bg-gray-700 rounded"
-                      >
-                        {midKey}
-                      </button >
-                      <button className="w-6 text-left font-semibold p-1 bg-gray-700 rounded" onClick={() => createCharacter(topKey+'/'+midKey)}>
-                        +
-                      </button>
-                    </div>
-                    <div>
-                      {open[`${topKey}-${midKey}`] && (
-                        <div className="ml-4 mt-1 space-y-1">
-                          {Object.entries(chars).sort((a,b) => a[0] > b[0] ? 1 : -1).map(([charKey, charVal]) => {
-                            const val = charVal as Character
-                            return(
-                              <div
-                                key={charKey}
-                                className="flex flex-row p-1 bg-gray-600 rounded cursor-pointer hover:bg-gray-500"
-                              >
-                                <input type={'button'} key={charKey} className='text-center w-full hover:bg-gray-500 p-1 ' value={charKey} aria-label={charKey} onClick={() => handleSelectCharacterClick(val)}/>
-                                {/* {charKey} */}
-                                {
-                                  selectedGameTab == 'edit' ?
-                                  <button className="w-6 text-left font-semibold p-1 bg-red-500 rounded" onClick={() => handleDeleteBaseCharacter(topKey+'/'+midKey, charKey)}>
-                                    -
-                                  </button>
-                                  : null
-                                }
-                              </div>
-                            )
-                          })}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )): null}
-              </div>
-            )}
-          </div>
+        tree.map(node => (
+          <CharacterTreeNode key={nodeKey(node)} node={node} depth={0} handlers={handlers} />
         ))
       }
       {
         <div>
           <input type={'button'} key={'oplay'} className='w-full font-bold bg-gray-800 rounded hover:bg-gray-500 p-1 text-left' value={'PCs'} aria-label={'oplay'} onClick={() => setOpenCampaignChars(!openCampaignChars)}/>
           {
-            openCampaignChars && playerCharacterList.sort().map(el => 
+            openCampaignChars && playerCharacterList.sort().map(el =>
               <div
                 key={el.id}
                 className="flex flex-row p-1 bg-gray-600 rounded cursor-pointer hover:bg-gray-500 ml-2"
