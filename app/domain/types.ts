@@ -258,11 +258,81 @@ export const SensesSchema = z.object({
 
 export type Senses = z.infer<typeof SensesSchema>
 
+export const CostSchema = z.object({
+  AP: num.default(0),
+  STA: num.default(0),
+  exhaustion: num.default(0),
+  IL: num.default(0), // causes loss or gain of attribute
+}).strip()
+
+export type Cost = z.infer<typeof CostSchema>
+
+export const BuffSchema = z.object({
+  name: str.default(''),
+  target: str.default(''), // what value does it target
+  operation: str.default('+'), // +, *, set
+  value: num.default(0),
+}).strip()
+
+export type Buff = z.infer<typeof BuffSchema>
+
+export const SuppressionSchema = z.object({
+  name: str.default(''),
+  target: str.default(''), // rule/hook id whose effect is blocked entirely, e.g. 'affliction:hunger'
+}).strip()
+
+export type Suppression = z.infer<typeof SuppressionSchema>
+
+export const FlashSchema = z.object({
+  message: str.default(''),
+  color: str.default(''),
+}).strip()
+
+export type Flash = z.infer<typeof FlashSchema>
+
+export const TriggerSchema = z.enum(['instant', 'end_round', 'toggle'])
+export type Trigger = z.infer<typeof TriggerSchema>
+
+const EffectBase = {
+  id: z.string().default(() => crypto.randomUUID()),
+  name: str.default(''),
+  trigger: TriggerSchema.default('instant'),
+}
+
+export const EffectSchema = z.discriminatedUnion('type', [
+  z.object({ ...EffectBase, type: z.literal('cost'), effect: CostSchema }).strip(),
+  z.object({ ...EffectBase, type: z.literal('buff'), effect: BuffSchema }).strip(),
+  z.object({ ...EffectBase, type: z.literal('suppression'), effect: SuppressionSchema }).strip(),
+  z.object({ ...EffectBase, type: z.literal('flash'), effect: FlashSchema }).strip(),
+])
+
+export type Effect = z.infer<typeof EffectSchema>
+
+export const ActivationSchema = z.enum(['passive', 'active', 'toggle'])
+export type Activation = z.infer<typeof ActivationSchema>
+
+export const AbilityTargetSchema = z.enum(['self', 'other'])
+export type AbilityTarget = z.infer<typeof AbilityTargetSchema>
+
+export const AbilitySchema = z.object({
+  name: str.default(''),
+  activation: ActivationSchema.default('passive'), // passive: always contributes its effects · active: fires once, pays cost · toggle: fires on, contributes effects until toggled off
+  cost: CostSchema,
+  description: str.default(''),
+  talent: str.default(''),
+  XPcost: num.default(6),
+  target: AbilityTargetSchema.default('self'),
+  effect: z.array(EffectSchema).default([]),
+}).strip()
+
+export type Ability = z.infer<typeof AbilitySchema>
+
 const CampaignValues = {
   injuries: InjuriesSchema.partial().default({}).transform(v => InjuriesSchema.parse(v)),
   afflictions: z.array(AfflictionKeySchema).default([]),
   resources: ResourcesSchema.partial().default({}).transform(v => ResourcesSchema.parse(v)),
   hasActionSurge: z.boolean().default(false),
+  activeEffects: z.array(EffectSchema).default([]),
 }
 
 export const CampaignValuesSchema = z.object({
@@ -288,6 +358,8 @@ const CharacterValues = {
   armor: ArmorSchema.partial().default({}).transform(v => ArmorSchema.parse(v)),
   weapons: z.record(z.string(), WeaponSchema).default({}),
   containers: z.record(z.string(), ContainerSchema).default({}),
+
+  abilities: z.array(str).default([]), // learned ability names, keyed into the abilities catalog
 
   notes: z.string().default(''),
 }

@@ -25,9 +25,11 @@
 - decide interface
 
 ## add items
-- containers: penalty, slots, slot types
-- items: name, simple text descriptor
-- allow editing items
+- containers: penalty, slots, slot types -- DONE
+- items: name, simple text descriptor - DONE 
+- add interface
+- add items list
+- create new item  
 
 ## add abilities 
 - system to overrule base mechanics and compose multiple abilities
@@ -55,6 +57,7 @@
 ## improve interface - make it pretty
 - add indicators that a value is altered by a temporary effect
 - align things
+- add a panel to explain what each skill does and add any abilities that improve an associated action
 
 ## add performance report to break me
 
