@@ -314,12 +314,19 @@ export type Activation = z.infer<typeof ActivationSchema>
 export const AbilityTargetSchema = z.enum(['self', 'other'])
 export type AbilityTarget = z.infer<typeof AbilityTargetSchema>
 
+export const TalentSchema = z.object({
+  level: num.default(1),
+  property: z.enum(['CON', 'DEX', 'INT', 'SPI'])
+})
+
+export type Talent = z.infer<typeof TalentSchema>
+
 export const AbilitySchema = z.object({
   name: str.default(''),
   activation: ActivationSchema.default('passive'), // passive: always contributes its effects · active: fires once, pays cost · toggle: fires on, contributes effects until toggled off
   cost: CostSchema,
   description: str.default(''),
-  talent: str.default(''),
+  talent: z.array(TalentSchema),
   XPcost: num.default(6),
   target: AbilityTargetSchema.default('self'),
   effect: z.array(EffectSchema).default([]),
