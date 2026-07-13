@@ -7,14 +7,18 @@ import { getBasicMovement, getCarefulMovement, getCrawlMovement, getFastSwimMove
 import { makeSenseActiveLens, makeSenseBonusLens, makeSenseHasSenseLens, makeSenseRangePenaltyLens } from "./senses";
 import {
   getStrike, getAccuracy, getDefend, getReflex, getGrapple, getCunning, getSD,
-  getBalance, getClimb, getSwim, getPrestidigitation, getHealth, 
+  getBalance, getClimb, getSwim, getPrestidigitation, getHealth,
   getExplore, getWill,
   getStealth,
   getPersuasion,
   getInsight,
   getDeception,
   getDetection,
+  skillTermGetters, Term, sumTerms,
 } from "./skills";
+
+export { skillTermGetters, sumTerms }
+export type { Term }
 
 export const skillLenses: Record<keyof Skills, Lens<Character, number>> = {
   strike: makeTrainableValueLens("strike", getStrike),

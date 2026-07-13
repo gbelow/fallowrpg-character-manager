@@ -185,7 +185,12 @@ export function CharacterSelector(){
   };
 
   const createCharacter = async (tags: string[]) => {
-    const res = await upsertBaseCharacter( makeCharacter( {}, tags))
+    // The name is a base character's identity on disk, so it can't be blank —
+    // prompt for one. `tags` already carries the group path the `+` was clicked
+    // in, so the new character lands in that folder.
+    const name = window.prompt('Character name')?.trim()
+    if (!name) return
+    const res = await upsertBaseCharacter(makeCharacter({ name }, tags))
     if(!res.ok){ toast.error(res.error); return }
     updateBaseCharacterList()
   }

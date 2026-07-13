@@ -10,6 +10,7 @@ import { Characteristics, Movement, Skills } from '../domain/types';
 import { useAppStore } from '../stores/useAppStore';
 import { resetSkill, resetAllSkills } from '../domain/character/commands';
 import { useSkillLens } from '../hooks/useSkillLens';
+import { SkillTooltip } from './SkillTooltip';
 import { useMovementLens } from '../hooks/useMovementLens';
 import { useCharacteristicLens } from '../hooks/useCharacteristicLens';
 import { useTextLens } from '../hooks/useTextLens';
@@ -222,18 +223,20 @@ export function CharacterCreator() {
   )
 }
 
-function SkillItem({ title, skillName}:{title: string, skillName: keyof Skills}){ 
+function SkillItem({ title, skillName}:{title: string, skillName: keyof Skills}){
   const updateCharacter = useCharacterStore(s => s.updateCharacter)
-  const [ value, setValue] = useSkillLens(skillName)
-  const resetValue = () => 
-    updateCharacter(resetSkill( skillName)) 
+  const [ value, setValue, terms] = useSkillLens(skillName)
+  const resetValue = () =>
+    updateCharacter(resetSkill( skillName))
 
   return(
-    <div className='flex flex-col w-10 md:w-16 overflow-hidden'>
-      <label className='text-xs'>{title.slice(0,10)}</label>
-      <input className='p-1 border border-white rounded w-10 md:w-16 text-center' title={title} type='number' inputMode="numeric" value={value} onChange={(e) => setValue(parseInt(e.target.value))} />
-      <button type='button' className='text-xs bg-gray-800 border' onClick={resetValue}>Reset</button>
-    </div>
+    <SkillTooltip terms={terms} total={value}>
+      <div className='flex flex-col w-10 md:w-16 overflow-hidden'>
+        <label className='text-xs'>{title.slice(0,10)}</label>
+        <input className='p-1 border border-white rounded w-10 md:w-16 text-center' title={title} type='number' inputMode="numeric" value={value} onChange={(e) => setValue(parseInt(e.target.value))} />
+        <button type='button' className='text-xs bg-gray-800 border' onClick={resetValue}>Reset</button>
+      </div>
+    </SkillTooltip>
   )
 }
 

@@ -32,12 +32,15 @@
 - create new item  
 
 ## add abilities 
-- system to overrule base mechanics and compose multiple abilities
+- import from rulebook
+- system to overrule base mechanics and compose multiple abilities -- DONE
 - how to browse list and add to char
 - how to list char abilities
 - clickable abilities use rss automatically
+- add tooltip to skills to show how abilities change them
 
 ## spells
+- importing from rulebook
 - browse list
 - spells editor
 - click spells to use
@@ -46,18 +49,16 @@
 - exploration turn apply wear
 - rest value calculated automatically
 
-## moving all data to redis
+## saving assets to redis
 - categorizing character types for sidebar navigation
-- differentiate base and user char
+- getting chars per user
 - save encounter
 - items, spells
 
 ## explore integration with VTTs
 
 ## improve interface - make it pretty
-- add indicators that a value is altered by a temporary effect
-- align things
-- add a panel to explain what each skill does and add any abilities that improve an associated action
+- in ui-design-patterns.md
 
 ## add performance report to break me
 

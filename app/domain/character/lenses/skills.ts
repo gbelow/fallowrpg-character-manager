@@ -1,123 +1,187 @@
-import { Character, Lens, Skills } from '../../types'
+import { Character, Skills } from '../../types'
 import { getSM, skill } from './helpers'
 import { getAfflictionPenalty, getAfflictions } from './afflictions'
 import { getAGI, getMelee, getRanged, getAwareness, getSorcery, getSTR, getCharisma, getSPI, getDEX, getCON } from './characteristics'
 
 
+// ---- read-side projection for breakdowns ----
+// Each skill getter is derived from its `*Terms` array via `sumTerms`, so the
+// displayed value and the per-term tooltip breakdown can never drift. `Term`
+// is a read projection (not persisted/ingested), so it lives here rather than
+// in types.ts.
+export type Term = { label: string; value: number }
+
+export const sumTerms = (terms: Term[]): number => terms.reduce((s, t) => s + t.value, 0)
+
+export function getStrikeTerms(c: Character): Term[] {
+  return [
+    { label: 'melee', value: getMelee(c) },
+    { label: 'strike', value: skill(c, 'strike').value },
+    { label: 'affliction', value: -getAfflictionPenalty(c, 'strike') },
+  ]
+}
 export function getStrike(c: Character) {
-  return getMelee(c) + skill(c, 'strike').value - getAfflictionPenalty(c, 'strike')
+  return sumTerms(getStrikeTerms(c))
 }
 
+export function getAccuracyTerms(c: Character): Term[] {
+  return [
+    { label: 'ranged', value: getRanged(c) },
+    { label: 'gear', value: -3 * c.hasGauntlets },
+    { label: 'accuracy', value: skill(c, 'accuracy').value },
+    { label: 'affliction', value: -getAfflictionPenalty(c, 'accuracy') },
+  ]
+}
 export function getAccuracy(c: Character) {
-  return (
-    getRanged(c) -
-    3 * c.hasGauntlets +
-    skill(c, 'accuracy').value -
-    getAfflictionPenalty(c, 'accuracy')
-  )
+  return sumTerms(getAccuracyTerms(c))
 }
 
+export function getDefendTerms(c: Character): Term[] {
+  return [
+    { label: 'melee', value: getMelee(c) },
+    { label: 'defend', value: skill(c, 'defend').value },
+    { label: 'affliction', value: -getAfflictionPenalty(c, 'defend') },
+  ]
+}
 export function getDefend(c: Character) {
-  return getMelee(c) + skill(c, 'defend').value  - getAfflictionPenalty(c, 'defend')
+  return sumTerms(getDefendTerms(c))
 }
 
+export function getReflexTerms(c: Character): Term[] {
+  const SM = getSM(c)
+  return [
+    { label: 'awareness', value: getAwareness(c) },
+    { label: 'ranged', value: getRanged(c) },
+    { label: 'gear', value: -3 * c.hasHelm },
+    { label: 'size', value: -SM },
+    { label: 'reflex', value: skill(c, 'reflex').value },
+    { label: 'affliction', value: -getAfflictionPenalty(c, 'reflex') },
+  ]
+}
 export function getReflex(c: Character) {
-  const SM = getSM(c)
-  return (
-    getAwareness(c) +
-    getRanged(c) -
-    3 * c.hasHelm -
-    SM +
-    skill(c, 'reflex').value -
-    getAfflictionPenalty(c, 'reflex')
-  )
+  return sumTerms(getReflexTerms(c))
 }
 
+export function getGrappleTerms(c: Character): Term[] {
+  const SM = getSM(c)
+  return [
+    { label: 'grapple', value: skill(c, 'grapple').value },
+    { label: 'STR', value: getSTR(c) - 10 },
+    { label: 'size', value: 5 * SM },
+    { label: 'melee', value: getMelee(c) },
+    { label: 'affliction', value: -getAfflictionPenalty(c, 'grapple') },
+  ]
+}
 export function getGrapple(c: Character) {
-  const SM = getSM(c)
-  return (
-    skill(c, 'grapple').value  +
-    getSTR(c) - 10 +
-    5 * SM +
-    getMelee(c) -
-    getAfflictionPenalty(c, 'grapple')
-  )
+  return sumTerms(getGrappleTerms(c))
 }
 
+export function getCunningTerms(c: Character): Term[] {
+  return [
+    { label: 'cunning', value: skill(c, 'cunning').value },
+    { label: 'awareness', value: getAwareness(c) },
+    { label: 'affliction', value: -getAfflictionPenalty(c, 'cunning') },
+  ]
+}
 export function getCunning(c: Character) {
-  return (
-    skill(c, 'cunning').value +
-    getAwareness(c) -
-    getAfflictionPenalty(c, 'cunning')
-  )
+  return sumTerms(getCunningTerms(c))
 }
 
+export function getSDTerms(c: Character): Term[] {
+  const SM = getSM(c)
+  return [
+    { label: 'base', value: -2 },
+    { label: 'size', value: -SM },
+    { label: 'SD', value: skill(c, 'SD').value },
+    { label: 'immobile', value: getAfflictions(c).includes('immobile') ? -3 : 0 },
+  ]
+}
 export function getSD(c: Character) {
-  const SM = getSM(c)
-  return -2 - SM + skill(c, 'SD').value - (getAfflictions(c).includes('immobile') ? +3 : 0)
+  return sumTerms(getSDTerms(c))
 }
 
+export function getBalanceTerms(c: Character): Term[] {
+  return [
+    { label: 'AGI', value: getAGI(c) - 10 },
+    { label: 'balance', value: skill(c, 'balance').value },
+    { label: 'affliction', value: -getAfflictionPenalty(c, 'balance') },
+  ]
+}
 export function getBalance(c: Character) {
-  return (
-    getAGI(c) -
-    10 +
-    skill(c, 'balance').value -
-    getAfflictionPenalty(c, 'balance')
-  )
+  return sumTerms(getBalanceTerms(c))
 }
 
+export function getClimbTerms(c: Character): Term[] {
+  const SM = getSM(c)
+  return [
+    { label: 'AGI', value: getAGI(c) - 10 },
+    { label: 'climb', value: skill(c, 'climb').value },
+    { label: 'size', value: -2 * SM },
+    { label: 'gear', value: -3 * c.hasGauntlets },
+    { label: 'affliction', value: -getAfflictionPenalty(c, 'climb') },
+  ]
+}
 export function getClimb(c: Character) {
-  const SM = getSM(c)
-  return (
-    getAGI(c) -
-    10 +
-    skill(c, 'climb').value -
-    2 * SM -
-    3 * c.hasGauntlets -
-    getAfflictionPenalty(c, 'climb')
-  )
+  return sumTerms(getClimbTerms(c))
 }
 
+export function getSwimTerms(c: Character): Term[] {
+  return [
+    { label: 'AGI', value: getAGI(c) - 10 },
+    { label: 'swim', value: skill(c, 'swim').value },
+    { label: 'gear', value: -3 * c.hasHelm },
+    { label: 'affliction', value: -getAfflictionPenalty(c, 'swim') },
+  ]
+}
 export function getSwim(c: Character) {
-  return (
-    getAGI(c) -
-    10 +
-    skill(c, 'swim').value -
-    3 * c.hasHelm -
-    getAfflictionPenalty(c, 'swim')
-  )
+  return sumTerms(getSwimTerms(c))
 }
 
+export function getDetectionTerms(c: Character): Term[] {
+  return [
+    { label: 'detection', value: skill(c, 'detection').value },
+    { label: 'awareness', value: 2 * getAwareness(c) },
+    { label: 'gear', value: 3 * c.hasHelm },
+    { label: 'affliction', value: -getAfflictionPenalty(c, 'detection') },
+  ]
+}
 export function getDetection(c: Character) {
-  return (
-    skill(c, 'detection').value +
-    2*getAwareness(c) +
-    3 * c.hasHelm -
-    getAfflictionPenalty(c, 'detection')
-  )
+  return sumTerms(getDetectionTerms(c))
 }
 
-export function getStealth(c: Character) {
+export function getStealthTerms(c: Character): Term[] {
   const SM = getSM(c)
-  return (
-    skill(c, 'stealth').value -
-    3 * SM -
-    getAfflictionPenalty(c, 'stealth')
-  )
+  return [
+    { label: 'stealth', value: skill(c, 'stealth').value },
+    { label: 'size', value: -3 * SM },
+    { label: 'affliction', value: -getAfflictionPenalty(c, 'stealth') },
+  ]
+}
+export function getStealth(c: Character) {
+  return sumTerms(getStealthTerms(c))
 }
 
+export function getPrestidigitationTerms(c: Character): Term[] {
+  return [
+    { label: 'DEX', value: getDEX(c) },
+    { label: 'gear', value: -3 * c.hasGauntlets },
+    { label: 'prestidigitation', value: skill(c, 'prestidigitation').value },
+    { label: 'affliction', value: -getAfflictionPenalty(c, 'prestidigitation') },
+  ]
+}
 export function getPrestidigitation(c: Character) {
-  return (
-    getDEX(c) -
-    3 * c.hasGauntlets +
-    skill(c, 'prestidigitation').value -
-    getAfflictionPenalty(c, 'prestidigitation')
-  )
+  return sumTerms(getPrestidigitationTerms(c))
 }
 
+export function getHealthTerms(c: Character): Term[] {
+  return [
+    { label: 'CON', value: getCON(c) },
+    { label: 'health', value: skill(c, 'health').value },
+    { label: 'affliction', value: -getAfflictionPenalty(c, 'health') },
+  ]
+}
 export function getHealth(c: Character) {
-  return getCON(c)
-   + skill(c, 'health').value - getAfflictionPenalty(c, 'health')
+  return sumTerms(getHealthTerms(c))
 }
 
 // export function getKnowledge(c: Character) {
@@ -128,36 +192,74 @@ export function getHealth(c: Character) {
 //   )
 // }
 
+export function getExploreTerms(c: Character): Term[] {
+  return [
+    { label: 'awareness', value: getAwareness(c) },
+    { label: 'explore', value: skill(c, 'explore').value },
+    { label: 'affliction', value: -getAfflictionPenalty(c, 'explore') },
+  ]
+}
 export function getExplore(c: Character) {
-  return (
-    getAwareness(c) +
-    skill(c, 'explore').value -
-    getAfflictionPenalty(c, 'explore')
-  )
+  return sumTerms(getExploreTerms(c))
 }
 
+export function getWillTerms(c: Character): Term[] {
+  return [
+    { label: 'will', value: skill(c, 'will').value },
+    { label: 'SPI', value: getSPI(c) },
+    { label: 'affliction', value: -getAfflictionPenalty(c, 'will') },
+  ]
+}
 export function getWill(c: Character) {
-  return skill(c, 'will').value + getSPI(c) - getAfflictionPenalty(c, 'will')
+  return sumTerms(getWillTerms(c))
 }
 
+export function getPersuasionTerms(c: Character): Term[] {
+  return [
+    { label: 'charisma', value: getCharisma(c) },
+    { label: 'persuasion', value: skill(c, 'persuasion').value },
+    { label: 'affliction', value: -getAfflictionPenalty(c, 'persuasion') },
+  ]
+}
 export function getPersuasion(c: Character) {
-  return getCharisma(c) + skill(c, 'persuasion').value - getAfflictionPenalty(c, 'persuasion')
+  return sumTerms(getPersuasionTerms(c))
 }
 
+export function getDeceptionTerms(c: Character): Term[] {
+  return [
+    { label: 'charisma', value: getCharisma(c) },
+    { label: 'deception', value: skill(c, 'deception').value },
+    { label: 'affliction', value: -getAfflictionPenalty(c, 'deception') },
+  ]
+}
 export function getDeception(c: Character) {
-  return getCharisma(c) + skill(c, 'deception').value - getAfflictionPenalty(c, 'deception')
+  return sumTerms(getDeceptionTerms(c))
 }
 
-export function getInsight(c: Character) {
-  return getCharisma(c) + skill(c, 'insight').value - getAfflictionPenalty(c, 'insight')
+export function getInsightTerms(c: Character): Term[] {
+  return [
+    { label: 'charisma', value: getCharisma(c) },
+    { label: 'insight', value: skill(c, 'insight').value },
+    { label: 'affliction', value: -getAfflictionPenalty(c, 'insight') },
+  ]
 }
+export function getInsight(c: Character) {
+  return sumTerms(getInsightTerms(c))
+}
+
+const magicTerms =
+  (school: string) =>
+  (c: Character): Term[] =>
+    [
+      { label: 'sorcery', value: getSorcery(c) },
+      { label: school, value: skill(c, school as keyof Skills).value },
+      { label: 'affliction', value: -getAfflictionPenalty(c, school as keyof Skills) },
+    ]
 
 const magic =
   (school: string) =>
   (c: Character) =>
-    getSorcery(c) +
-    skill(c, school as keyof Skills).value -
-    getAfflictionPenalty(c, school as keyof Skills)
+    sumTerms(magicTerms(school)(c))
 
 export const getCombustion = magic('combustion')
 export const getEletromag = magic('eletromag')
@@ -166,3 +268,28 @@ export const getEntropy = magic('entropy')
 export const getBiomancy = magic('biomancy')
 export const getTelepathy = magic('telepathy')
 export const getAnimancy = magic('animancy')
+
+// Breakdown registry paralleling `skillLenses`. Keyed by the real skill keys
+// (the 19 in SkillsSchema); magic-school getters above are not `keyof Skills`
+// and are intentionally omitted.
+export const skillTermGetters: Record<keyof Skills, (c: Character) => Term[]> = {
+  strike: getStrikeTerms,
+  accuracy: getAccuracyTerms,
+  defend: getDefendTerms,
+  reflex: getReflexTerms,
+  grapple: getGrappleTerms,
+  cunning: getCunningTerms,
+  SD: getSDTerms,
+  balance: getBalanceTerms,
+  climb: getClimbTerms,
+  swim: getSwimTerms,
+  detection: getDetectionTerms,
+  stealth: getStealthTerms,
+  prestidigitation: getPrestidigitationTerms,
+  health: getHealthTerms,
+  explore: getExploreTerms,
+  will: getWillTerms,
+  persuasion: getPersuasionTerms,
+  deception: getDeceptionTerms,
+  insight: getInsightTerms,
+}
