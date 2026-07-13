@@ -1,17 +1,11 @@
 import { Character, Skills } from '../../types'
 import { getSM, skill } from './helpers'
 import { getAfflictionPenalty, getAfflictions } from './afflictions'
-import { getAGI, getMelee, getRanged, getAwareness, getSorcery, getSTR, getCharisma, getSPI, getDEX, getCON } from './characteristics'
+import { getAGI, getMelee, getRanged, getAwareness, getSTR, getCharisma, getSPI, getDEX, getCON } from './characteristics'
+import { Term, sumTerms } from './terms'
 
-
-// ---- read-side projection for breakdowns ----
-// Each skill getter is derived from its `*Terms` array via `sumTerms`, so the
-// displayed value and the per-term tooltip breakdown can never drift. `Term`
-// is a read projection (not persisted/ingested), so it lives here rather than
-// in types.ts.
-export type Term = { label: string; value: number }
-
-export const sumTerms = (terms: Term[]): number => terms.reduce((s, t) => s + t.value, 0)
+export { sumTerms }
+export type { Term }
 
 export function getStrikeTerms(c: Character): Term[] {
   return [
@@ -247,31 +241,7 @@ export function getInsight(c: Character) {
   return sumTerms(getInsightTerms(c))
 }
 
-const magicTerms =
-  (school: string) =>
-  (c: Character): Term[] =>
-    [
-      { label: 'sorcery', value: getSorcery(c) },
-      { label: school, value: skill(c, school as keyof Skills).value },
-      { label: 'affliction', value: -getAfflictionPenalty(c, school as keyof Skills) },
-    ]
 
-const magic =
-  (school: string) =>
-  (c: Character) =>
-    sumTerms(magicTerms(school)(c))
-
-export const getCombustion = magic('combustion')
-export const getEletromag = magic('eletromag')
-export const getRadiation = magic('radiation')
-export const getEntropy = magic('entropy')
-export const getBiomancy = magic('biomancy')
-export const getTelepathy = magic('telepathy')
-export const getAnimancy = magic('animancy')
-
-// Breakdown registry paralleling `skillLenses`. Keyed by the real skill keys
-// (the 19 in SkillsSchema); magic-school getters above are not `keyof Skills`
-// and are intentionally omitted.
 export const skillTermGetters: Record<keyof Skills, (c: Character) => Term[]> = {
   strike: getStrikeTerms,
   accuracy: getAccuracyTerms,

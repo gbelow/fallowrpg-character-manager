@@ -3,6 +3,13 @@
 import { ReactNode } from 'react'
 import { Term } from '../domain/character/lenses'
 
+// True when an affliction-sourced term is actively reducing the value.
+// Used to color-code skills that are currently penalized by afflictions.
+const AFFLICTION_LABELS = new Set(['affliction', 'immobile'])
+export function isAfflicted(terms: Term[]): boolean {
+  return terms.some((t) => AFFLICTION_LABELS.has(t.label) && t.value < 0)
+}
+
 // Hover tooltip showing the per-term breakdown of a derived skill value.
 // Tailwind-only, no JS state: the `group`/`group-hover:` pair toggles visibility.
 // Zero-value terms are hidden to keep the breakdown readable.

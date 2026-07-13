@@ -7,7 +7,7 @@ import { makeFullRoll } from './utils';
 import { useCombatStore } from '../stores/useCombatStore';
 import { AfflictionKey, Characteristics, Injuries, Movement, Resources, Skills } from '../domain/types';
 import { useSkillLens } from '../hooks/useSkillLens';
-import { SkillTooltip } from './SkillTooltip';
+import { SkillTooltip, isAfflicted } from './SkillTooltip';
 import { useMovementLens } from '../hooks/useMovementLens';
 import { useCharacteristicLens } from '../hooks/useCharacteristicLens';
 import { useInjuryLens } from '../hooks/useinjuryLens';
@@ -262,24 +262,27 @@ function SimpleResource({rssName}: {rssName: keyof Resources}){
 
 
 function SimpleCharacteristic({propName}: {propName: keyof Characteristics}){
-  const [value] = useCharacteristicLens(propName)
+  const [value, , terms] = useCharacteristicLens(propName)
   const [name] = useTrainableNameLens(propName)
   return(
-    <div className='flex flex-col border rounded text-center p-1 w-10 md:w-16 overflow-hidden text-xs' >
-      <span>{name.slice(0,10)}</span>
-      <span>{value}</span>
-    </div>
+    <SkillTooltip terms={terms} total={value}>
+      <div className='flex flex-col border rounded text-center p-1 w-10 md:w-16 overflow-hidden text-xs' >
+        <span>{name.slice(0,10)}</span>
+        <span>{value}</span>
+      </div>
+    </SkillTooltip>
   )
 }
 
 function SimpleSkill({skillId, rollSkill}: {skillId: keyof Skills, rollSkill?: (name:string, value:number)=> void}){
   const [value, , terms] = useSkillLens(skillId)
   const [name] = useTrainableNameLens(skillId)
+  const afflicted = isAfflicted(terms)
   return(
     <SkillTooltip terms={terms} total={value}>
-      <div className='flex flex-col border rounded text-center p-1 w-10 md:w-16 overflow-hidden text-xs' onClick={() => rollSkill ? rollSkill(name, value) : null}>
+      <div className={`flex flex-col border rounded text-center p-1 w-10 md:w-16 overflow-hidden text-xs ${afflicted ? 'border-red-500' : ''}`} onClick={() => rollSkill ? rollSkill(name, value) : null}>
         <span>{name.slice(0,10)}</span>
-        <span>{value}</span>
+        <span className={afflicted ? 'text-red-400' : ''}>{value}</span>
       </div>
     </SkillTooltip>
   )

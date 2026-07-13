@@ -1,5 +1,5 @@
 import { Character, Characteristics, Lens, Movement, Senses, Skills, Trainable, Trainables } from "../../types";
-import { getAGI, getAwareness, getCharisma, getCON, getConviction1, getConviction2, getDevotion, getDEX, getINT, getMelee, getRanged, getSorcery, getSPI, getSTA, getSTR } from "./characteristics";
+import { getAGI, getAwareness, getCharisma, getCON, getConviction1, getConviction2, getDevotion, getDEX, getINT, getMelee, getRanged, getSorcery, getSPI, getSTA, getSTR, characteristicTermGetters } from "./characteristics";
 import { makeInvertingLens, makeTrainableValueLens } from "./factories";
 import { getAlchemy, getAnimancy, getBiomancy, getDivine, getMiracle } from "./magic";
 import { getSize, getTGH } from "./misc";
@@ -17,7 +17,7 @@ import {
   skillTermGetters, Term, sumTerms,
 } from "./skills";
 
-export { skillTermGetters, sumTerms }
+export { skillTermGetters, characteristicTermGetters, sumTerms }
 export type { Term }
 
 export const skillLenses: Record<keyof Skills, Lens<Character, number>> = {
