@@ -1,21 +1,24 @@
 import { characteristicLenses, characteristicTermGetters, Term } from "../domain/character/lenses";
-import { Characteristics } from "../domain/types";
-import { useActiveCharacter } from "./useActiveCharacter";
+import { Character, Characteristics } from "../domain/types";
+import { useAppStore } from "../stores/useAppStore";
+import { readActiveCharacter, useActiveCharacterSelector, useActiveCharacterUpdate } from "./useActiveCharacterSelector";
 
 export function useCharacteristicLens(characteristicName: keyof Characteristics) {
   const lens = characteristicLenses[characteristicName];
-  const { character, update } = useActiveCharacter();
+  const update = useActiveCharacterUpdate();
+  const tab = useAppStore((s) => s.selectedGameTab);
 
-  // Selector optimization: Only re-renders if the Lens output changes,
-  // regardless of which store triggered the update.
-  const value = character ? lens.get(character) : 0;
+  // Select the derived value INSIDE the store selector so re-renders are gated
+  // on the computed output (Object.is), not the whole-character reference.
+  const value = useActiveCharacterSelector((c: Character) => lens.get(c)) ?? 0;
 
-  // Per-term breakdown for the tooltip (only derived characteristics like
-  // STR/AGI/STA have one). `?.` guards characteristics without a term getter.
-  const terms: Term[] = character ? characteristicTermGetters[characteristicName]?.(character) ?? [] : [];
+  // Per-term breakdown (only derived characteristics like STR/AGI/STA have one).
+  // Derived non-reactively — see useSkillLens for why term arrays can't go
+  // through the store selector. Gated on `value`.
+  const active = readActiveCharacter(tab);
+  const terms: Term[] = active ? (characteristicTermGetters[characteristicName]?.(active) ?? []) : [];
 
   const setValue = (newValue: number) => {
-
     update((c) => lens.set(c, newValue));
   };
 

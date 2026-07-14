@@ -1,13 +1,14 @@
 import { makeTrainableNameLens } from "../domain/character/lenses/factories";
 import { Character, Trainables } from "../domain/types";
-import { useActiveCharacter } from "./useActiveCharacter";
+import { useActiveCharacterSelector, useActiveCharacterUpdate } from "./useActiveCharacterSelector";
 
 export function useTrainableNameLens(trainableName: keyof Trainables) {
   const lens = makeTrainableNameLens<Character>(trainableName);
-  const { character, update } = useActiveCharacter();
+  const update = useActiveCharacterUpdate();
 
-  const value = character ? lens.get(character) : '';
-  // console.log(character, trainableName, value)
+  // Select the string inside the store selector so re-renders are gated on the
+  // value, not the whole-character reference.
+  const value = useActiveCharacterSelector((c: Character) => lens.get(c)) ?? '';
 
   const setValue = (newValue: string) => {
     update((c) => lens.set(c, newValue));

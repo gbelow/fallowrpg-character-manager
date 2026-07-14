@@ -14,12 +14,12 @@ import { Armor, BaseCharacter, Character, Weapon, WeaponSchema } from './domain/
 import { useCharacterStore } from './stores/useCharacterStore';
 import { equipArmor, equipWeapon } from './domain/character/commands';
 import { useCombatStore } from './stores/useCombatStore';
-import { useActiveCharacter } from './hooks/useActiveCharacter';
+import { useActiveCharacterUpdate } from './hooks/useActiveCharacterSelector';
 import { BreakMe } from './components/BreakMe';
 
 
 export function ArmorSelector(){
-  const {update} = useActiveCharacter()
+  const update = useActiveCharacterUpdate()
 
   const handleEquipArmorClick = (armor: Armor) => {
     update( equipArmor(armor))    
@@ -40,7 +40,7 @@ export function ArmorSelector(){
 
 export function WeaponSelector(){
 
-  const {update} = useActiveCharacter()
+  const update = useActiveCharacterUpdate()
 
   const handleEquipWeaponClick = (weapon: Weapon) => {
     update( equipWeapon( weapon))

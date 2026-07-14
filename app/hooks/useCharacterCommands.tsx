@@ -1,4 +1,4 @@
-import { useActiveCharacter } from "./useActiveCharacter"
+import { useActiveCharacterUpdate } from "./useActiveCharacterSelector"
 import {
   actionSurge as doActionSurge,
   addAffliction,
@@ -11,7 +11,7 @@ import { AfflictionKey } from "../domain/types"
 
 export function useCharacterCommands() {
 
-  const { update } = useActiveCharacter()
+  const update = useActiveCharacterUpdate()
 
   const actionSurge = () => {
     update(doActionSurge)
@@ -25,13 +25,13 @@ export function useCharacterCommands() {
     update(restCharacter)
   }
 
-  const cureIL = (newIL: number) => {    
+  const cureIL = (newIL: number) => {
     update(heal(newIL))
   }
-  
+
   const updateSTA = (newSTA: number) => {
     update(bleed(newSTA))
   }
 
   return { actionSurge: actionSurge, putAffliction, rest, cureIL, updateSTA }
-} 
+}

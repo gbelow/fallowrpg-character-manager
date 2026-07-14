@@ -1,17 +1,18 @@
 import { toast } from "sonner"
 import { useAppStore } from "../stores/useAppStore"
-import { useActiveCharacter } from "./useActiveCharacter"
+import { readActiveCharacter } from "./useActiveCharacterSelector"
 import { saveCharacter } from "../actions"
 
 export function useGameCommands() {
 
-  const { character } = useActiveCharacter()
+  const tab = useAppStore((s) => s.selectedGameTab)
   const updatePlayerCharacterList = useAppStore(s => s.updatePlayerCharacterList)
 
   const savePlayerCharacter = async () => {
-    if(!character) return
+    const character = readActiveCharacter(tab)
+    if (!character) return
     const res = await saveCharacter(character)
-    if(!res.ok){ toast.error(res.error); return }
+    if (!res.ok) { toast.error(res.error); return }
     toast.success('Character saved.')
     updatePlayerCharacterList()
   }

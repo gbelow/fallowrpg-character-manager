@@ -1,7 +1,7 @@
 'use client'
 import { putGauntlets, putHelm } from '../domain/character/commands'
 import { makeCharacter } from '../domain/factories'
-import { useActiveCharacter } from '../hooks/useActiveCharacter'
+import { useActiveCharacterSelector, useActiveCharacterUpdate } from '../hooks/useActiveCharacterSelector'
 import { useArmorLens } from '../hooks/useArmorLens'
 import { useActiveCharacterDataLens } from '../hooks/useCharacterDataLens'
 
@@ -77,17 +77,19 @@ export function ArmorPanel(){
 }
 
 function ArmorAddons (){
-  const {character, update} = useActiveCharacter()
+  const update = useActiveCharacterUpdate()
+  const hasGauntlets = useActiveCharacterSelector((c) => !!c.hasGauntlets) ?? false
+  const hasHelm = useActiveCharacterSelector((c) => !!c.hasHelm) ?? false
 
   return(
     <div className='flex flex-row gap-2'>
         <div className='flex flex-col'>
           <label>Gauntlet</label>
-          <input type='checkbox' aria-label={'gaunt'} name={'gaunt'} checked={!!character?.hasGauntlets} onChange={() => update(putGauntlets)} />
+          <input type='checkbox' aria-label={'gaunt'} name={'gaunt'} checked={hasGauntlets} onChange={() => update(putGauntlets)} />
         </div>
         <div className='flex flex-col'>
           <label>Full Helm</label>
-          <input type='checkbox' aria-label={'helm'} name={'helm'} checked={!!character?.hasHelm} onChange={() => update(putHelm)} />
+          <input type='checkbox' aria-label={'helm'} name={'helm'} checked={hasHelm} onChange={() => update(putHelm)} />
         </div>
       </div>
   )

@@ -1,18 +1,16 @@
 import { miscLenses } from "../domain/character/lenses";
-import { useActiveCharacter } from "./useActiveCharacter";
+import { Character } from "../domain/types";
+import { useActiveCharacterSelector, useActiveCharacterUpdate } from "./useActiveCharacterSelector";
 
 export function useActiveCharacterDataLens(prop: 'size' | 'TGH') {
-  
-  const lens = miscLenses[prop]
+  const lens = miscLenses[prop];
+  const update = useActiveCharacterUpdate();
 
-  const { character, update } = useActiveCharacter();
-
-  // Selector optimization: Only re-renders if the Lens output changes,
-  // regardless of which store triggered the update.
-  const value = character ? lens.get(character) : 0;
+  // Select the derived value INSIDE the store selector so re-renders are gated
+  // on the computed output (Object.is), not the whole-character reference.
+  const value = useActiveCharacterSelector((c: Character) => lens.get(c)) ?? 0;
 
   const setValue = (newValue: number) => {
-    
     update((c) => lens.set(c, newValue));
   };
 

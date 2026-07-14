@@ -2,18 +2,21 @@ import { nextRound as passRound } from "../domain/combat/commands/nextRound"
 import { startTurn as beginTurn } from "../domain/combat/commands/startTurn"
 import { resetCombat as resetGame} from "../domain/combat/commands/resetCombat"
 import { useCombatStore } from "../stores/useCombatStore"
-import { useActiveCharacter } from "./useActiveCharacter"
+import { useAppStore } from "../stores/useAppStore"
 import { isCampaignCharacter } from "../domain/utils"
+import { readActiveCharacter } from "./useActiveCharacterSelector"
 
 export function useCombatCommands() {
 
-  const { character } = useActiveCharacter()
-
-  const { removeCharacter, updateCombatState } = useCombatStore()
+  const tab = useAppStore((s) => s.selectedGameTab)
+  // Select just the stable action refs — previously this destructured the whole
+  // combat store, subscribing to every combat change.
+  const removeCharacter = useCombatStore((s) => s.removeCharacter)
+  const updateCombatState = useCombatStore((s) => s.updateCombatState)
 
   const killCharacter = () => {
-    if(character && isCampaignCharacter(character)) removeCharacter(character?.id)
-    
+    const c = readActiveCharacter(tab)
+    if (c && isCampaignCharacter(c)) removeCharacter(c.id)
   }
 
   const startTurn = () => {
