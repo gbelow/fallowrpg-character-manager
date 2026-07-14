@@ -177,9 +177,9 @@ These mechanics ensure that small changes can have wide-reaching effects — exa
 ### Setup
 
 ```bash
-git clone https://github.com/gbelow/fallowrpg-character-manager.git
-cd fallowrpg-character-manager
-npm install
+git clone https://github.com/gbelow/udgs-runtime.git
+cd udgs-runtime
+pnpm install
 ```
 
 Create `.env`:
@@ -192,7 +192,7 @@ UPSTASH_REDIS_TOKEN=...
 Run locally:
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
 Open:
@@ -222,10 +222,8 @@ These tradeoffs were intentional.
 # Next steps:
 * Formalize logic into a standalone rules manifest to make rules portable
 * Creating a json-ld linking the rulebook to the rules
-* formalizing the boundaries discovered during development and adding tests.
 * Indexing redis database to allow transition from filesystem
 * Implementing various rules from the game, leveraging the rules engine and AI
-* Implementing a break-me tab to stress test the front-end
 
 ---
 

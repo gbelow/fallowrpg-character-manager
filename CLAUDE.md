@@ -13,10 +13,12 @@ pnpm dev      # dev server with Turbopack (localhost:3000)
 pnpm build    # production build with Turbopack
 pnpm start    # serve production build
 pnpm lint     # eslint
+pnpm test     # vitest (watch)
+pnpm test:run # vitest single run
 ```
 
 - Package manager is **pnpm** (`pnpm-lock.yaml`; the old `yarn.lock` is deleted). Node v20+.
-- There is **no test runner configured yet** — do not assume `pnpm test` exists. Adding tests around the domain layer is a stated next step.
+- Tests run on **Vitest** (`pnpm test` / `pnpm test:run`). Test files (`*.test.ts`) live alongside the domain code they exercise — lenses, commands, factories, and items.
 - Requires `.env` with `UPSTASH_REDIS_URL` and `UPSTASH_REDIS_TOKEN` (see `.env.example`) for Redis persistence.
 
 ## Architecture
