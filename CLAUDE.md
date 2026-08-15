@@ -67,4 +67,4 @@ Thin, declarative, Tailwind-only (no CSS files), React 19, `'use client'` where 
 
 ## Roadmap context
 
-`nextSteps.md` (feature ideas) and `README.md` (architecture rationale, tradeoffs, and the "how to change things safely" workflow) hold design intent.
+`nextSteps.md` (feature ideas) and `README.md` (architecture rationale, tradeoffs, and the "how to change things safely" workflow) hold design intent. `ui-design-patterns.md` contains the instructions for ui.

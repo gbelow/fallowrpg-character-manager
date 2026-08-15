@@ -117,5 +117,9 @@ export const CONVICTIONS = {
     id: 'hedonism',
     name: 'Hedonism',
   },
+  providentialism: {
+    id: 'providentialism',
+    name: 'Providencialism',
+  },
 }
 

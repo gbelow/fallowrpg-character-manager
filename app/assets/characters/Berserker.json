@@ -316,7 +316,45 @@
     "properties": "metallic",
     "notes": ""
   },
-  "weapons": {},
+  "weapons": {
+    "Greatsword": {
+      "name": "Greatsword",
+      "penalty": 0,
+      "scale": 3,
+      "attacks": [
+        {
+          "type": "melee",
+          "handed": "two",
+          "energy": 12,
+          "STRmod": 0,
+          "heavyMod": 1,
+          "SHP": 1.5,
+          "range": "long I",
+          "RES": 30,
+          "RESmod": 0,
+          "AP": 3,
+          "reload": 0,
+          "deflection": 0,
+          "properties": "sweep, DEF, heavy I-II, bladed"
+        },
+        {
+          "type": "melee",
+          "handed": "two",
+          "energy": 8,
+          "STRmod": 0,
+          "heavyMod": 0.5,
+          "SHP": 2,
+          "range": "long I",
+          "RES": 20,
+          "RESmod": 0,
+          "AP": 3,
+          "reload": 0,
+          "deflection": 0,
+          "properties": "piercing, heavy I, braced"
+        }
+      ]
+    }
+  },
   "containers": {},
   "abilities": [],
   "notes": ""

@@ -23,7 +23,7 @@ export function useWeaponLens() {
   // getCharacterWeapons returns the state-held weapons record ref, so Object.is
   // gates re-renders to actual weapons changes (equip/unequip produce a new ref).
   const weapons: Record<string, Weapon> =
-    useActiveCharacterSelector((c: Character) => (isCampaignCharacter(c) ? getCharacterWeapons(c) : null)) ?? EMPTY_WEAPONS;
+    useActiveCharacterSelector((c: Character) => getCharacterWeapons(c)) ?? EMPTY_WEAPONS;
 
   const equip = (newValue: Weapon) => {
     update(equipWeapon(newValue));
